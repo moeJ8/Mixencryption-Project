@@ -1,0 +1,15 @@
+# Blueprint: API on Render via Docker (Rahalatek-style).
+# Render builds this Dockerfile in the cloud — Docker Desktop is not required locally.
+# UI: deploy client/ on Vercel with VITE_API_URL pointing to this service URL.
+services:
+  - type: web
+    name: mixencryption-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Dashboard only (never commit): MONGO_URI, JWT_SECRET,
+      # CORS_ORIGINS=https://your-app.vercel.app

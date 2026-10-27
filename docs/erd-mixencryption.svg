@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <rect width="1200" height="900" fill="#ffffff"/>
+  <text x="600" y="30" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="20" font-weight="700" fill="#111827">Figure. Proposed logical data model of MixEncryption</text>
+  <text x="600" y="50" text-anchor="middle" font-family="Times New Roman, Times, serif" font-size="12" font-style="italic" fill="#4b5563">Three MongoDB collections are proposed for implementation. OAuth, RBAC, email tokens and RSA keys are fields on Users.</text>
+
+  <g>
+    <rect x="28" y="70" width="400" height="800" rx="4" fill="#ffffff" stroke="#1f2937" stroke-width="1.6"/>
+    <rect x="28" y="70" width="400" height="34" rx="4" fill="#1e3a5f"/>
+    <rect x="28" y="88" width="400" height="16" fill="#1e3a5f"/>
+    <text x="228" y="93" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Users</text>
+    <line x1="28" y1="104" x2="428" y2="104" stroke="#1f2937" stroke-width="1.2"/>
+
+    <text x="42" y="126" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">_id : ObjectId (PK)</text>
+    <text x="42" y="148" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">name : String</text>
+    <text x="42" y="170" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">username : String (UK)</text>
+    <text x="42" y="192" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">email : String (UK)</text>
+
+    <line x1="42" y1="204" x2="414" y2="204" stroke="#d1d5db"/>
+    <text x="42" y="224" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700" fill="#1e3a5f">Local login + Google OAuth</text>
+    <text x="42" y="246" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">authProvider : local | google</text>
+    <text x="42" y="268" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">googleId : String (UK, sparse)</text>
+    <text x="42" y="290" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">passwordHash : String (local only)</text>
+    <text x="42" y="312" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">isEmailVerified : Boolean</text>
+    <text x="42" y="334" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">verificationTokenHash : String</text>
+    <text x="42" y="356" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">verificationTokenExpires : Date</text>
+    <text x="42" y="378" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">resetPasswordTokenHash : String</text>
+    <text x="42" y="400" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">resetPasswordExpires : Date</text>
+
+    <line x1="42" y1="412" x2="414" y2="412" stroke="#d1d5db"/>
+    <text x="42" y="432" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700" fill="#1e3a5f">RBAC</text>
+    <text x="42" y="454" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">role : user | admin</text>
+
+    <line x1="42" y1="466" x2="414" y2="466" stroke="#d1d5db"/>
+    <text x="42" y="486" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700" fill="#1e3a5f">MixEncryption keys</text>
+    <text x="42" y="508" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">publicKeyPem : String</text>
+    <text x="42" y="530" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">wrappedPrivateKey : String</text>
+    <text x="42" y="552" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">wrapIv : String</text>
+    <text x="42" y="574" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">kdfSalt : String</text>
+    <text x="42" y="596" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">kdfIterations : Number</text>
+
+    <line x1="42" y1="608" x2="414" y2="608" stroke="#d1d5db"/>
+    <text x="42" y="628" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">lastLoginAt : Date</text>
+    <text x="42" y="650" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">createdAt : Date</text>
+    <text x="42" y="672" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">updatedAt : Date</text>
+
+    <text x="42" y="710" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">No Roles, Sessions, Guests, or OAuthAccounts</text>
+    <text x="42" y="728" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">collections. Google id and role live here.</text>
+    <text x="42" y="752" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">Google users have no passwordHash; they still</text>
+    <text x="42" y="770" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">set a vault passphrase to wrap the RSA key.</text>
+    <text x="42" y="794" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">Email/reset tokens are stored hashed, not raw.</text>
+    <text x="42" y="818" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">Private key never stored in PEM plaintext.</text>
+    <text x="42" y="842" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">Guests are unauthenticated; no User row.</text>
+  </g>
+
+  <g>
+    <rect x="780" y="70" width="390" height="400" rx="4" fill="#ffffff" stroke="#1f2937" stroke-width="1.6"/>
+    <rect x="780" y="70" width="390" height="34" rx="4" fill="#1e3a5f"/>
+    <rect x="780" y="88" width="390" height="16" fill="#1e3a5f"/>
+    <text x="975" y="93" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Payloads (envelope Omega)</text>
+    <line x1="780" y1="104" x2="1170" y2="104" stroke="#1f2937" stroke-width="1.2"/>
+    <text x="794" y="128" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">_id : ObjectId (PK)</text>
+    <text x="794" y="152" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">ownerId : ObjectId (FK to Users)</text>
+    <line x1="794" y1="164" x2="1156" y2="164" stroke="#d1d5db"/>
+    <text x="794" y="186" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700" fill="#1e3a5f">Hybrid envelope (no plaintext)</text>
+    <text x="794" y="210" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">ciphertext (Ed) : String</text>
+    <text x="794" y="234" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">iv : String</text>
+    <text x="794" y="258" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">authTag (Ta) : String</text>
+    <text x="794" y="282" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">wrappedKey (Wk) : String</text>
+    <text x="794" y="306" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">aad : String</text>
+    <text x="794" y="330" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">createdAt : Date</text>
+    <rect x="800" y="346" width="350" height="108" rx="3" fill="#f3f6fb" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="812" y="368" font-family="Calibri, Arial, sans-serif" font-size="12" font-weight="700" fill="#1e3a5f">metadata (embedded, not a collection)</text>
+    <text x="812" y="390" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">fileName : String</text>
+    <text x="812" y="410" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">mimeType : String</text>
+    <text x="812" y="430" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">originalSize : Number</text>
+    <text x="812" y="448" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">compressedSize : Number</text>
+  </g>
+
+  <g>
+    <rect x="780" y="510" width="390" height="300" rx="4" fill="#ffffff" stroke="#1f2937" stroke-width="1.6"/>
+    <rect x="780" y="510" width="390" height="34" rx="4" fill="#1e3a5f"/>
+    <rect x="780" y="528" width="390" height="16" fill="#1e3a5f"/>
+    <text x="975" y="533" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="16" font-weight="700" fill="#ffffff">AuditLogs</text>
+    <line x1="780" y1="544" x2="1170" y2="544" stroke="#1f2937" stroke-width="1.2"/>
+    <text x="794" y="568" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">_id : ObjectId (PK)</text>
+    <text x="794" y="592" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">userId : ObjectId (FK, optional)</text>
+    <text x="794" y="616" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">action : String</text>
+    <text x="794" y="640" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">ipAddress : String</text>
+    <text x="794" y="664" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">userAgent : String</text>
+    <text x="794" y="688" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">status : SUCCESS | FAILURE</text>
+    <text x="794" y="712" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">details : String</text>
+    <text x="794" y="736" font-family="Consolas, Courier New, monospace" font-size="12" fill="#111827">timestamp : Date</text>
+    <text x="794" y="768" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">Insert-only. No update/delete API.</text>
+    <text x="794" y="786" font-family="Calibri, Arial, sans-serif" font-size="11" font-style="italic" fill="#6b7280">Also stores benchmark summary rows if needed.</text>
+  </g>
+
+  <line x1="428" y1="200" x2="780" y2="200" stroke="#111827" stroke-width="1.6"/>
+  <line x1="436" y1="190" x2="436" y2="210" stroke="#111827" stroke-width="1.6"/>
+  <line x1="444" y1="190" x2="444" y2="210" stroke="#111827" stroke-width="1.6"/>
+  <line x1="762" y1="200" x2="780" y2="186" stroke="#111827" stroke-width="1.6"/>
+  <line x1="762" y1="200" x2="780" y2="200" stroke="#111827" stroke-width="1.6"/>
+  <line x1="762" y1="200" x2="780" y2="214" stroke="#111827" stroke-width="1.6"/>
+  <text x="604" y="188" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="12" fill="#111827">owns (1 : N)</text>
+  <text x="604" y="220" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="11" fill="#4b5563">ownerId</text>
+
+  <path d="M428 560 H580 V660 H780" fill="none" stroke="#111827" stroke-width="1.6"/>
+  <line x1="436" y1="550" x2="436" y2="570" stroke="#111827" stroke-width="1.6"/>
+  <line x1="444" y1="550" x2="444" y2="570" stroke="#111827" stroke-width="1.6"/>
+  <line x1="762" y1="660" x2="780" y2="646" stroke="#111827" stroke-width="1.6"/>
+  <line x1="762" y1="660" x2="780" y2="660" stroke="#111827" stroke-width="1.6"/>
+  <line x1="762" y1="660" x2="780" y2="674" stroke="#111827" stroke-width="1.6"/>
+  <text x="604" y="644" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="12" fill="#111827">performs (1 : N, optional)</text>
+  <text x="604" y="676" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-size="11" fill="#4b5563">userId</text>
+</svg>
