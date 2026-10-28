@@ -24,3 +24,9 @@ export const api = axios.create({
 export function getApiBaseUrl() {
   return resolveApiBaseUrl();
 }
+
+/** OAuth must hit the API host in production (Vercel has no /api proxy). */
+export function getGoogleAuthStartUrl() {
+  const base = resolveApiBaseUrl();
+  return base ? `${base}/api/auth/google` : '/api/auth/google';
+}

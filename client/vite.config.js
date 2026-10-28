@@ -3,7 +3,14 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  if (mode === 'production' && !process.env.VITE_API_URL?.trim()) {
+    console.warn(
+      '[MixEncryption] VITE_API_URL is unset. Production builds need it (Render API origin, no trailing slash).',
+    );
+  }
+
+  return {
   plugins: [react(), tailwindcss()],
   server: {
     port: 5173,
@@ -14,4 +21,5 @@ export default defineConfig({
       },
     },
   },
+  };
 })

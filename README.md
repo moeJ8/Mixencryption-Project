@@ -130,11 +130,21 @@ In development, the UI can call `/api/*` on port 5173; Vite proxies those reques
 
 - `MONGO_URI`
 - `JWT_SECRET`
-- `CORS_ORIGINS` (Vercel URL; comma-separated for preview URLs if needed)
+- `CORS_ORIGINS` (Vercel production URL; add preview URLs comma-separated if you test previews)
+- `CLIENT_APP_URL` (same as primary Vercel URL, for email links and OAuth redirects after login)
 - `NODE_ENV=production` (also in `render.yaml`)
 - SMTP variables for production mail (see `server/.env.example`)
 - Optional: `GOOGLE_*`, `CLOUDINARY_*` (same names as in `server/.env.example`)
+- `GOOGLE_CALLBACK_URL` optional on Render: defaults to `RENDER_EXTERNAL_URL` + `/api/auth/google/callback`
 - `PORT` (set by Render)
+
+**Vercel (client):**
+
+- Root directory `client`
+- `VITE_API_URL` = Render service URL (no trailing slash)
+- `client/vercel.json` rewrites SPA routes to `index.html`
+
+**Google Cloud Console:** authorized redirect URI must match the callback URL above (Render API host, not Vercel).
 
 Connect the GitHub repo on Render via Blueprint (`render.yaml`) or a Web Service with Docker, Dockerfile `./Dockerfile`, context `.`.
 

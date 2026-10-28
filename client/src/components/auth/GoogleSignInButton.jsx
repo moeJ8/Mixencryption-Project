@@ -1,3 +1,4 @@
+import { getGoogleAuthStartUrl } from '../../utils/api';
 import Button from '../common/Button';
 
 function GoogleLogo({ className = 'size-5 shrink-0' }) {
@@ -32,7 +33,7 @@ export default function GoogleSignInButton({ disabled = false, className = '' })
       disabled={disabled}
       className={className}
       onClick={() => {
-        window.location.assign('/api/auth/google');
+        window.location.assign(getGoogleAuthStartUrl());
       }}
     >
       <GoogleLogo />

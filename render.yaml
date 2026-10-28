@@ -8,8 +8,17 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
-      # Dashboard only (never commit): MONGO_URI, JWT_SECRET,
-      # CORS_ORIGINS=https://your-app.vercel.app
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: CLIENT_APP_URL
+        sync: false
+      # Optional: SMTP_*, GOOGLE_*, CLOUDINARY_* (see server/.env.example)
+      # GOOGLE_CALLBACK_URL defaults to RENDER_EXTERNAL_URL + /api/auth/google/callback

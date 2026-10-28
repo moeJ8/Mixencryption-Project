@@ -30,6 +30,15 @@ const allowedOrigins = getAllowedOrigins();
 
 if (isProduction) {
   app.set('trust proxy', 1);
+
+  const hasPublicOrigin = allowedOrigins.some(
+    (origin) => !/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin),
+  );
+  if (!hasPublicOrigin) {
+    console.warn(
+      'Production CORS: set CORS_ORIGINS to your Vercel URL (comma-separated). Current allowed origins look local-only.',
+    );
+  }
 }
 
 app.use(helmet());
