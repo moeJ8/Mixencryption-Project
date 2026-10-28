@@ -13,7 +13,9 @@ const {
   emailOnlySchema,
   resetPasswordSchema,
   verifyEmailSchema,
+  resendVerificationSchema,
 } = require('../validators/authSchemas');
+const { buildUserLookupQuery } = require('../utils/resolveAuthIdentifier');
 
 const BCRYPT_ROUNDS = 12;
 
@@ -51,8 +53,8 @@ async function verifyEmail(req, res, next) {
 async function resendVerification(req, res, next) {
   const ip = getClientIp(req);
   try {
-    const { email } = emailOnlySchema.parse(req.body);
-    const user = await User.findOne({ email });
+    const { identifier } = resendVerificationSchema.parse(req.body);
+    const user = await User.findOne(buildUserLookupQuery(identifier));
 
     if (!user || user.isEmailVerified) {
       return res.json({

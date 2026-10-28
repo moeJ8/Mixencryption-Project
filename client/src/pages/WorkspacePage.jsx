@@ -1,4 +1,5 @@
 import Card from '../components/common/Card';
+import Button from '../components/common/Button';
 import UpcomingFeatureBanner from '../components/shared/UpcomingFeatureBanner';
 import PageHeader from '../components/shared/PageHeader';
 
@@ -29,20 +30,12 @@ export default function WorkspacePage() {
             className="w-full cursor-not-allowed resize-none rounded-lg border border-input-border bg-input px-3 py-2 text-sm text-muted-foreground"
           />
           <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <button
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-lg border border-border bg-surface px-4 py-2 text-sm text-subtle-foreground"
-            >
+            <Button type="button" variant="secondary" disabled>
               Upload file
-            </button>
-            <button
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-lg bg-primary/50 px-4 py-2 text-sm text-primary-foreground/80"
-            >
+            </Button>
+            <Button type="button" disabled>
               Encrypt
-            </button>
+            </Button>
           </div>
         </Card>
         <Card title="Pipeline status">

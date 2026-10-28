@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /*
   Fallback tokens (Slate Console dark). Runtime applyTheme overwrites on :root.
@@ -6,7 +6,8 @@
 :root {
   --color-background: #020617;
   --color-surface: #0f172a;
-  --color-card: #0f172a;
+  --color-muted-surface: #0c1222;
+  --color-card: #111827;
   --color-header: #020617;
   --color-footer: #020617;
   --color-border: #1e293b;
@@ -21,19 +22,37 @@
   --color-primary-foreground: #ffffff;
   --color-accent: #22d3ee;
   --color-accent-hover: #67e8f9;
+  --color-success: #2dd4bf;
+  --color-success-soft: rgba(6, 78, 59, 0.35);
+  --color-success-foreground: #99f6e4;
+  --color-warning: #fbbf24;
+  --color-warning-soft: rgba(120, 53, 15, 0.35);
+  --color-warning-foreground: #fde68a;
   --color-danger: #f87171;
   --color-danger-soft: rgba(127, 29, 29, 0.35);
   --color-danger-foreground: #fecaca;
   --color-link: #22d3ee;
   --color-link-hover: #67e8f9;
+  --shadow-elev-card:
+    0 1px 2px color-mix(in srgb, var(--color-foreground) 5%, transparent),
+    0 10px 28px color-mix(in srgb, var(--color-foreground) 7%, transparent);
+  --shadow-elev-flyout: 0 8px 32px
+    color-mix(in srgb, var(--color-foreground) 12%, transparent);
+}
+
+html:not(.dark) {
+  --shadow-elev-card:
+    0 1px 2px color-mix(in srgb, var(--color-foreground) 10%, transparent),
+    0 6px 18px color-mix(in srgb, var(--color-foreground) 8%, transparent);
 }
 
 @theme inline {
-  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
 
   --color-background: var(--color-background);
   --color-surface: var(--color-surface);
+  --color-muted-surface: var(--color-muted-surface);
   --color-card: var(--color-card);
   --color-header: var(--color-header);
   --color-footer: var(--color-footer);
@@ -49,11 +68,20 @@
   --color-primary-foreground: var(--color-primary-foreground);
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
+  --color-success: var(--color-success);
+  --color-success-soft: var(--color-success-soft);
+  --color-success-foreground: var(--color-success-foreground);
+  --color-warning: var(--color-warning);
+  --color-warning-soft: var(--color-warning-soft);
+  --color-warning-foreground: var(--color-warning-foreground);
   --color-danger: var(--color-danger);
   --color-danger-soft: var(--color-danger-soft);
   --color-danger-foreground: var(--color-danger-foreground);
   --color-link: var(--color-link);
   --color-link-hover: var(--color-link-hover);
+
+  --shadow-card: var(--shadow-elev-card);
+  --shadow-flyout: var(--shadow-elev-flyout);
 }
 
 html,
@@ -91,6 +119,30 @@ body {
   pointer-events: auto;
 }
 
+.modal-backdrop {
+  background-color: color-mix(in srgb, var(--color-background) 78%, transparent);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.24s ease-out;
+}
+
+.modal-backdrop-open {
+  opacity: 1;
+}
+
+.modal-panel {
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition:
+    opacity 0.24s ease-out,
+    transform 0.24s ease-out;
+}
+
+.modal-panel-open {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dropdown-flyout {
     transition: none;
@@ -117,6 +169,53 @@ body {
     opacity: 1;
     transform: none;
   }
+
+  .nav-slide-indicator {
+    transition: none !important;
+  }
+
+  .modal-backdrop,
+  .modal-panel {
+    transition: none !important;
+  }
+
+  .modal-backdrop-open,
+  .modal-panel-open {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Header nav slide indicator (desktop) */
+.nav-slide-indicator {
+  transition-property: transform, width, opacity;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Password fields: custom reveal toggle only (no browser default eye) */
+.password-field-input::-ms-reveal,
+.password-field-input::-ms-clear {
+  display: none;
+}
+
+.password-field-input::-webkit-textfield-decoration-container {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.password-field-input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.password-field-input::-webkit-password-toggle-button {
+  display: none;
+}
+
+/* Mobile drawer links */
+.nav-mobile-link {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Mobile hamburger menu */
@@ -169,6 +268,15 @@ body {
 .mobile-nav-panel-open .mobile-nav-link-item:nth-child(6) {
   animation-delay: 0.25s;
 }
+.mobile-nav-panel-open .mobile-nav-link-item:nth-child(7) {
+  animation-delay: 0.29s;
+}
+.mobile-nav-panel-open .mobile-nav-link-item:nth-child(8) {
+  animation-delay: 0.33s;
+}
+.mobile-nav-panel-open .mobile-nav-link-item:nth-child(9) {
+  animation-delay: 0.37s;
+}
 
 @keyframes mobile-nav-link-in {
   from {
@@ -179,4 +287,41 @@ body {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+/* Themed scrollbars (ScrollArea, tables) */
+.me-scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(
+      in srgb,
+      var(--color-primary) 55%,
+      var(--color-border)
+    )
+    var(--color-surface);
+}
+
+.me-scroll-area::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+.me-scroll-area::-webkit-scrollbar-track {
+  margin: 4px;
+  background: var(--color-background);
+  border-radius: 999px;
+}
+
+.me-scroll-area::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-border) 80%, var(--color-primary));
+  border: 2px solid var(--color-background);
+  border-radius: 999px;
+}
+
+.me-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+.me-scroll-area:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: -2px;
 }

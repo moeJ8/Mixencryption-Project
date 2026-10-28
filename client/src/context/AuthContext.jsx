@@ -72,6 +72,17 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+/**
+ * @returns {{
+ *   user: object | null,
+ *   loading: boolean,
+ *   isAuthenticated: boolean,
+ *   login: (credentials: object) => Promise<object>,
+ *   register: (payload: object) => Promise<object>,
+ *   logout: () => Promise<void>,
+ *   refreshUser: () => Promise<object | null>,
+ * }}
+ */
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) {

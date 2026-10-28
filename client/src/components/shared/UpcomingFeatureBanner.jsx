@@ -1,8 +1,11 @@
-export default function UpcomingFeatureBanner({ children }) {
+import Alert from '../common/Alert';
+
+export default function UpcomingFeatureBanner({ children, variant = 'info' }) {
+  const alertVariant = variant === 'warn' ? 'warning' : 'info';
+
   return (
-    <div className="mb-6 rounded-lg border border-border bg-surface px-4 py-3">
-      <p className="text-sm font-medium text-foreground">Upcoming feature</p>
-      <p className="mt-1 text-sm text-muted-foreground">{children}</p>
-    </div>
+    <Alert variant={alertVariant} title="Upcoming feature" className="mb-6">
+      <p className="text-sm leading-relaxed text-muted-foreground">{children}</p>
+    </Alert>
   );
 }

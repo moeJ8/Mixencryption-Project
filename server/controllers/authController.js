@@ -8,6 +8,7 @@ const {
   signAuthToken,
 } = require('../utils/authCookie');
 const { registerSchema, loginSchema } = require('../validators/authSchemas');
+const { buildUserLookupQuery } = require('../utils/resolveAuthIdentifier');
 const { issueEmailVerification } = require('../services/verificationService');
 
 const BCRYPT_ROUNDS = 12;
@@ -68,13 +69,15 @@ async function login(req, res, next) {
   try {
     const body = loginSchema.parse(req.body);
 
-    const user = await User.findOne({ email: body.email }).select('+passwordHash');
+    const user = await User.findOne(buildUserLookupQuery(body.identifier)).select(
+      '+passwordHash',
+    );
     if (!user) {
       await writeAuditLog({
         action: 'LOGIN_FAILURE',
         ipAddress: ip,
         status: 'FAILURE',
-        details: 'unknown_email',
+        details: 'unknown_account',
       });
       return res.status(401).json({ message: GENERIC_AUTH_MESSAGE });
     }

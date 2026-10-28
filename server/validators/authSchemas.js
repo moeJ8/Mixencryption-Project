@@ -1,4 +1,16 @@
 const { z } = require('zod');
+const {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_REQUIREMENTS_MESSAGE,
+  passwordMeetsPolicy,
+} = require('../utils/passwordPolicy');
+
+const passwordSchema = z
+  .string()
+  .min(PASSWORD_MIN_LENGTH, PASSWORD_REQUIREMENTS_MESSAGE)
+  .max(PASSWORD_MAX_LENGTH, 'Password is too long.')
+  .refine(passwordMeetsPolicy, PASSWORD_REQUIREMENTS_MESSAGE);
 
 const usernameSchema = z
   .string()
@@ -12,15 +24,16 @@ const registerSchema = z.object({
   name: z.string().trim().min(1, 'Name is required.').max(120),
   username: usernameSchema,
   email: z.string().trim().toLowerCase().email('A valid email is required.'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters.')
-    .max(128, 'Password is too long.'),
+  password: passwordSchema,
 });
 
 const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().min(1, 'Email is required.'),
+  identifier: z.string().trim().min(1, 'Email or username is required.'),
   password: z.string().min(1, 'Password is required.'),
+});
+
+const resendVerificationSchema = z.object({
+  identifier: z.string().trim().min(1, 'Email or username is required.'),
 });
 
 const emailOnlySchema = z.object({
@@ -33,15 +46,13 @@ const verifyEmailSchema = z.object({
 
 const resetPasswordSchema = z.object({
   token: z.string().min(1, 'Reset token is required.'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters.')
-    .max(128, 'Password is too long.'),
+  password: passwordSchema,
 });
 
 module.exports = {
   registerSchema,
   loginSchema,
+  resendVerificationSchema,
   emailOnlySchema,
   verifyEmailSchema,
   resetPasswordSchema,

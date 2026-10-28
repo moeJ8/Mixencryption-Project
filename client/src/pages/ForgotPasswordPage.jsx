@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import FieldGroup from '../components/common/FieldGroup';
@@ -10,18 +11,22 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [emailInvalid, setEmailInvalid] = useState(false);
   const [status, setStatus] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError('');
+    setEmailInvalid(false);
     setStatus('');
     setSubmitting(true);
     try {
       const data = await requestPasswordReset(email);
       setStatus(data.message);
     } catch (err) {
-      setError(err.response?.data?.message || 'Request failed. Try again.');
+      const msg = err.response?.data?.message || 'Request failed. Try again.';
+      setError(msg);
+      setEmailInvalid(true);
     } finally {
       setSubmitting(false);
     }
@@ -35,9 +40,7 @@ export default function ForgotPasswordPage() {
       <form className="space-y-4" onSubmit={handleSubmit} noValidate>
         <FormError message={error} />
         {status ? (
-          <p className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground">
-            {status}
-          </p>
+          <Alert variant="success">{status}</Alert>
         ) : null}
         <FieldGroup
           id="email"
@@ -46,9 +49,14 @@ export default function ForgotPasswordPage() {
           autoComplete="email"
           required
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          invalid={emailInvalid}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setEmailInvalid(false);
+            setError('');
+          }}
         />
-        <Button type="submit" className="w-full" disabled={submitting}>
+        <Button type="submit" fullWidth disabled={submitting}>
           {submitting ? 'Sending…' : 'Send reset link'}
         </Button>
       </form>

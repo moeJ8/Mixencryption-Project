@@ -1,60 +1,120 @@
-import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, Shield, X } from 'lucide-react';
-import Button from '../common/Button';
-import ThemeToggle from './ThemeToggle';
-import UserMenu from './UserMenu';
-import { mobileNavLinkClass, navLinkClass } from './navStyles';
-import { MOBILE_NAV_ANIMATION_MS, useAnimatedOpen } from '../../hooks/useAnimatedOpen';
-import { useAuth } from '../../context/AuthContext';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, Shield, X } from "lucide-react";
+import Button from "../common/Button";
+import ThemeToggle from "./ThemeToggle";
+import UserMenu from "./UserMenu";
+import NavSlideIndicator from "./NavSlideIndicator";
+import { mobileNavLinkClass, navLinkClass } from "./navStyles";
+import {
+  MOBILE_NAV_ANIMATION_MS,
+  useAnimatedOpen,
+} from "../../hooks/useAnimatedOpen";
+import { useAuth } from "../../context/AuthContext";
 
-function linkClassName(onNavigate, extra = '') {
+function linkClassName(onNavigate, extra = "") {
   return ({ isActive }) => {
-    const base = onNavigate ? mobileNavLinkClass({ isActive }) : navLinkClass({ isActive });
+    const base = onNavigate
+      ? mobileNavLinkClass({ isActive })
+      : navLinkClass({ isActive });
     return extra ? `${base} ${extra}` : base;
   };
 }
 
-function NavLinks({ onNavigate, className = '' }) {
+function NavLinks({ onNavigate, className = "" }) {
   const { user, isAuthenticated } = useAuth();
-  const itemExtra = onNavigate ? 'mobile-nav-link-item' : '';
+  const itemExtra = onNavigate ? "mobile-nav-link-item" : "";
+  const primaryNav = onNavigate ? {} : { "data-nav-primary": "" };
 
   return (
     <div className={className}>
-      <NavLink to="/" className={linkClassName(onNavigate, itemExtra)} end onClick={onNavigate}>
+      <NavLink
+        {...primaryNav}
+        to="/"
+        className={linkClassName(onNavigate, itemExtra)}
+        end
+        onClick={onNavigate}
+      >
         Home
+      </NavLink>
+      <NavLink
+        {...primaryNav}
+        to="/lab"
+        className={linkClassName(onNavigate, itemExtra)}
+        onClick={onNavigate}
+      >
+        Crypto lab
+      </NavLink>
+      <NavLink
+        {...primaryNav}
+        data-nav-match="prefix"
+        to="/docs"
+        end={false}
+        className={linkClassName(onNavigate, itemExtra)}
+        onClick={onNavigate}
+      >
+        Docs
       </NavLink>
       {isAuthenticated ? (
         <>
-          <NavLink to="/workspace" className={linkClassName(onNavigate, itemExtra)} onClick={onNavigate}>
+          <NavLink
+            {...primaryNav}
+            to="/workspace"
+            className={linkClassName(onNavigate, itemExtra)}
+            onClick={onNavigate}
+          >
             Workspace
           </NavLink>
-          <NavLink to="/vault" className={linkClassName(onNavigate, itemExtra)} onClick={onNavigate}>
+          <NavLink
+            {...primaryNav}
+            to="/vault"
+            className={linkClassName(onNavigate, itemExtra)}
+            onClick={onNavigate}
+          >
             Vault
           </NavLink>
-          <NavLink to="/benchmarks" className={linkClassName(onNavigate, itemExtra)} onClick={onNavigate}>
+          <NavLink
+            {...primaryNav}
+            to="/benchmarks"
+            className={linkClassName(onNavigate, itemExtra)}
+            onClick={onNavigate}
+          >
             Benchmarks
           </NavLink>
-          {user?.role === 'admin' ? (
-            <NavLink to="/dashboard" className={linkClassName(onNavigate, itemExtra)} onClick={onNavigate}>
+          {user?.role === "admin" ? (
+            <NavLink
+              {...primaryNav}
+              to="/dashboard"
+              className={linkClassName(onNavigate, itemExtra)}
+              onClick={onNavigate}
+            >
               Dashboard
             </NavLink>
           ) : null}
         </>
       ) : (
         <>
-          <NavLink to="/login" className={linkClassName(onNavigate, itemExtra)} onClick={onNavigate}>
+          <NavLink
+            {...primaryNav}
+            to="/login"
+            className={linkClassName(onNavigate, itemExtra)}
+            onClick={onNavigate}
+          >
             Sign in
           </NavLink>
           {onNavigate ? (
-            <Link to="/register" onClick={onNavigate} className="mobile-nav-link-item block pt-1">
-              <Button type="button" className="h-10 w-full">
+            <Link
+              to="/register"
+              onClick={onNavigate}
+              className="mobile-nav-link-item block pt-1"
+            >
+              <Button type="button" fullWidth className="h-10">
                 Create account
               </Button>
             </Link>
           ) : (
-            <Link to="/register" className="inline-flex h-9 items-center">
-              <Button type="button" className="h-9 px-3 py-0 text-sm">
+            <Link to="/register" className="inline-flex h-9 cursor-pointer items-center">
+              <Button type="button" size="sm">
                 Create account
               </Button>
             </Link>
@@ -69,20 +129,78 @@ export default function Navbar() {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mobileMenuToggleRef = useRef(null);
   const mobileMenu = useAnimatedOpen(mobileOpen, MOBILE_NAV_ANIMATION_MS);
 
-  useEffect(() => {
+  const closeMobileMenu = useCallback(() => {
+    const panel = document.getElementById("mobile-main-nav");
+    const active = document.activeElement;
+    if (
+      panel &&
+      active instanceof Node &&
+      panel.contains(active) &&
+      mobileMenuToggleRef.current
+    ) {
+      mobileMenuToggleRef.current.focus({ preventScroll: true });
+    }
     setMobileOpen(false);
-  }, [location.pathname]);
+  }, []);
+
+  useEffect(() => {
+    closeMobileMenu();
+  }, [location.pathname, closeMobileMenu]);
 
   useEffect(() => {
     if (!mobileOpen) {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
       return;
     }
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
+
+    const onPointerDown = (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+
+      const panel = document.getElementById("mobile-main-nav");
+      if (panel?.contains(target)) return;
+      if (mobileMenuToggleRef.current?.contains(target)) return;
+
+      closeMobileMenu();
+    };
+
+    const onScroll = () => closeMobileMenu();
+
+    const onWheel = (event) => {
+      const panel = document.getElementById("mobile-main-nav");
+      if (panel?.contains(event.target)) return;
+      closeMobileMenu();
+    };
+
+    const onTouchMove = (event) => {
+      const panel = document.getElementById("mobile-main-nav");
+      if (panel?.contains(event.target)) return;
+      closeMobileMenu();
+    };
+
+    document.addEventListener("pointerdown", onPointerDown, true);
+    window.addEventListener("scroll", onScroll, { capture: true, passive: true });
+    document.addEventListener("scroll", onScroll, { capture: true, passive: true });
+    window.addEventListener("wheel", onWheel, { capture: true, passive: true });
+    window.addEventListener("touchmove", onTouchMove, { capture: true, passive: true });
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown, true);
+      window.removeEventListener("scroll", onScroll, true);
+      document.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("wheel", onWheel, true);
+      window.removeEventListener("touchmove", onTouchMove, true);
     };
   }, [mobileOpen]);
 
@@ -100,8 +218,10 @@ export default function Navbar() {
           <span className="truncate sm:max-w-none">MixEncryption</span>
         </Link>
 
-        <nav className="hidden items-center lg:flex" aria-label="Main">
-          <NavLinks className="flex flex-wrap items-center gap-1 lg:gap-1.5" />
+        <nav className="hidden h-14 items-center lg:flex" aria-label="Main">
+          <NavSlideIndicator className="flex flex-wrap items-center gap-0.5 lg:gap-1">
+            <NavLinks className="contents" />
+          </NavSlideIndicator>
           {isAuthenticated ? (
             <div
               className="relative z-50 ml-1 flex shrink-0 items-center gap-2 border-l border-border pl-3"
@@ -120,20 +240,27 @@ export default function Navbar() {
         <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
           {isAuthenticated ? <UserMenu /> : null}
           <ThemeToggle />
-          <button
+          <Button
+            ref={mobileMenuToggleRef}
             type="button"
-            className="inline-flex size-9 items-center justify-center rounded-lg border border-border bg-input text-muted-foreground transition-colors duration-200 hover:bg-surface hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            id="mobile-menu-toggle"
+            variant="chrome"
+            size="icon"
+            active={mobileOpen}
             aria-expanded={mobileOpen}
             aria-controls="mobile-main-nav"
             onClick={() => setMobileOpen((value) => !value)}
+            className="focus-visible:ring-offset-header lg:hidden"
           >
             {mobileOpen ? (
               <X className="size-5" aria-hidden />
             ) : (
               <Menu className="size-5" aria-hidden />
             )}
-            <span className="sr-only">{mobileOpen ? 'Close menu' : 'Open menu'}</span>
-          </button>
+            <span className="sr-only">
+              {mobileOpen ? "Close menu" : "Open menu"}
+            </span>
+          </Button>
         </div>
       </div>
 
@@ -142,22 +269,22 @@ export default function Navbar() {
           <button
             type="button"
             className={`mobile-nav-backdrop fixed inset-0 top-14 z-30 bg-background/80 backdrop-blur-[2px] lg:hidden ${
-              mobileMenu.isShown ? 'mobile-nav-backdrop-open' : ''
+              mobileMenu.isShown ? "mobile-nav-backdrop-open" : ""
             }`}
             aria-label="Close menu"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           />
           <nav
             id="mobile-main-nav"
-            className={`mobile-nav-panel relative z-40 border-t border-border bg-header px-3 py-3 shadow-lg shadow-black/20 lg:hidden ${
-              mobileMenu.isShown ? 'mobile-nav-panel-open' : ''
+            className={`mobile-nav-panel relative z-40 border-t border-border bg-header px-3 py-3 shadow-flyout lg:hidden ${
+              mobileMenu.isShown ? "mobile-nav-panel-open" : ""
             }`}
             aria-label="Main mobile"
-            aria-hidden={!mobileOpen}
+            inert={!mobileOpen}
           >
             <NavLinks
-              className="flex flex-col gap-1"
-              onNavigate={() => setMobileOpen(false)}
+              className="flex flex-col divide-y divide-border overflow-hidden rounded-lg border border-border"
+              onNavigate={closeMobileMenu}
             />
           </nav>
         </>

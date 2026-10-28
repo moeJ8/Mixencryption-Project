@@ -1,11 +1,15 @@
-import { Check, ChevronDown, Palette } from 'lucide-react';
-import { useEffect, useId, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { listPresets, resolveActivePreset } from '../../theme/index.js';
-import { selectThemeState, selectThemePreset } from '../../redux/themeSlice.js';
-import { useAnimatedOpen } from '../../hooks/useAnimatedOpen';
-import AnimatedDropdown from './AnimatedDropdown';
-import { headerFlyoutPanelClass, navChromeButtonClass } from './navStyles';
+import { Check, ChevronDown, Moon, Palette, Sun } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "../common/Button";
+import { listPresets, resolveActivePreset } from "../../theme/index.js";
+import { selectThemeState, selectThemePreset } from "../../redux/themeSlice.js";
+import { useAnimatedOpen } from "../../hooks/useAnimatedOpen";
+import AnimatedDropdown from "./AnimatedDropdown";
+import { headerFlyoutPanelClass } from "./navStyles";
+
+const MODE_TAB_ACTIVE = "font-semibold text-accent";
+const MODE_TAB_IDLE = "text-muted-foreground hover:text-foreground";
 
 function PresetSwatch({ preset }) {
   const { background, primary, accent, border } = preset.colors;
@@ -21,25 +25,25 @@ function PresetSwatch({ preset }) {
 
 function PresetOption({ preset, selected, onSelect }) {
   return (
-    <button
+    <Button
       type="button"
       role="option"
+      variant="menu"
+      selected={selected}
       aria-selected={selected}
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
         onSelect(preset.id);
       }}
-      className={`flex w-full cursor-pointer items-center gap-3 rounded-lg px-2 py-2 text-left text-sm transition-colors duration-200 ${
-        selected
-          ? 'bg-surface text-accent'
-          : 'text-muted-foreground hover:bg-surface hover:text-accent'
-      }`}
+      className="gap-3 px-2 py-2 text-left"
     >
       <PresetSwatch preset={preset} />
       <span className="flex-1 font-medium">{preset.label}</span>
-      {selected ? <Check className="size-4 shrink-0 text-primary" aria-hidden /> : null}
-    </button>
+      {selected ? (
+        <Check className="size-4 shrink-0 text-primary" aria-hidden />
+      ) : null}
+    </Button>
   );
 }
 
@@ -49,16 +53,20 @@ export default function ThemeToggle() {
   const { darkMode } = theme;
   const activePreset = resolveActivePreset(theme);
   const menuId = useId();
+  const presetListId = `${menuId}-presets`;
   const rootRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [panelTab, setPanelTab] = useState(darkMode ? 'dark' : 'light');
+  const [panelTab, setPanelTab] = useState(darkMode ? "dark" : "light");
   const flyout = useAnimatedOpen(open);
 
-  useEffect(() => {
-    if (open) {
-      setPanelTab(darkMode ? 'dark' : 'light');
-    }
-  }, [open]);
+  function toggleOpen() {
+    setOpen((wasOpen) => {
+      if (!wasOpen) {
+        setPanelTab(darkMode ? "dark" : "light");
+      }
+      return !wasOpen;
+    });
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -68,23 +76,26 @@ export default function ThemeToggle() {
       }
     }
     function onKeyDown(event) {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         setOpen(false);
       }
     }
-    document.addEventListener('click', onDocumentClick, true);
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener("click", onDocumentClick, true);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener('click', onDocumentClick, true);
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("click", onDocumentClick, true);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
 
-  const lightPresets = listPresets('light');
-  const darkPresets = listPresets('dark');
-  const visiblePresets = panelTab === 'dark' ? darkPresets : lightPresets;
+  const lightPresets = listPresets("light");
+  const darkPresets = listPresets("dark");
+  const visiblePresets = panelTab === "dark" ? darkPresets : lightPresets;
   const activeTabMatchesMode =
-    (panelTab === 'dark' && darkMode) || (panelTab === 'light' && !darkMode);
+    (panelTab === "dark" && darkMode) || (panelTab === "light" && !darkMode);
+
+  const tabSlideTransform =
+    panelTab === "dark" ? "translateX(100%)" : "translateX(0)";
 
   function isPresetActive(presetId) {
     return activeTabMatchesMode && activePreset?.id === presetId;
@@ -98,55 +109,75 @@ export default function ThemeToggle() {
   return (
     <div
       ref={rootRef}
-      className={`relative shrink-0 ${open || flyout.shouldRender ? 'z-[60]' : ''}`}
+      className={`relative shrink-0 ${open || flyout.shouldRender ? "z-60" : ""}`}
     >
-      <button
+      <Button
         type="button"
+        variant="chrome"
+        size="md"
+        active={open}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-controls={menuId}
+        aria-controls={presetListId}
         onClick={(event) => {
           event.stopPropagation();
-          setOpen((value) => !value);
+          toggleOpen();
         }}
-        className={`group gap-2 px-2.5 sm:max-w-[9.5rem] sm:px-3 ${navChromeButtonClass} ${
-          open ? 'border-primary/60 bg-surface text-accent' : ''
-        }`}
+        className="group gap-2 px-2.5 focus-visible:ring-offset-background sm:max-w-36 sm:px-3"
       >
         <Palette
           className={`size-4 shrink-0 text-muted-foreground transition-all duration-200 group-hover:rotate-12 group-hover:text-accent ${
-            open ? 'rotate-12 text-accent' : ''
+            open ? "rotate-12 text-accent" : ""
           }`}
           aria-hidden
         />
-        <span className="hidden max-w-[6.5rem] truncate text-sm font-medium sm:inline">
-          {activePreset?.label ?? 'Theme'}
+        <span className="hidden max-w-28 truncate text-sm font-medium sm:inline">
+          {activePreset?.label ?? "Theme"}
         </span>
         <ChevronDown
           className={`size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:text-accent ${
-            open ? 'rotate-180 text-accent' : ''
+            open ? "rotate-180 text-accent" : ""
           }`}
           aria-hidden
         />
-      </button>
+      </Button>
 
       <AnimatedDropdown
         shouldRender={flyout.shouldRender}
         isShown={flyout.isShown}
         id={menuId}
-        role="listbox"
+        role="group"
         aria-label="Theme"
         className={`${headerFlyoutPanelClass} p-2`}
         onClick={(event) => event.stopPropagation()}
       >
+        <div className="mb-2 overflow-hidden rounded-lg border border-border bg-muted-surface">
           <div
             role="tablist"
             aria-label="Theme mode"
-            className="mb-2 flex rounded-lg border border-border bg-surface p-0.5"
+            className="relative grid grid-cols-2 border-b border-border"
           >
-            {['light', 'dark'].map((mode) => {
+            <span
+              aria-hidden
+              className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-1/2 rounded-full bg-accent transition-transform duration-200 ease-out motion-reduce:transition-none"
+              style={{ transform: tabSlideTransform }}
+            />
+            {[
+              {
+                mode: "light",
+                label: "Light",
+                Icon: Sun,
+                iconClass: "text-warning",
+              },
+              {
+                mode: "dark",
+                label: "Dark",
+                Icon: Moon,
+                iconClass: "text-primary",
+              },
+            ].map(({ mode, label, Icon, iconClass }) => {
               const isActive = panelTab === mode;
-              const label = mode === 'light' ? 'Light' : 'Dark';
+              const iconTone = isActive ? iconClass : "text-muted-foreground";
               return (
                 <button
                   key={mode}
@@ -157,28 +188,36 @@ export default function ThemeToggle() {
                     event.stopPropagation();
                     setPanelTab(mode);
                   }}
-                  className={`flex-1 cursor-pointer rounded-md px-2 py-1.5 text-xs font-medium transition-all duration-200 ${
-                    isActive
-                      ? 'bg-card text-accent shadow-sm'
-                      : 'text-muted-foreground hover:bg-input hover:text-accent'
+                  className={`relative z-1 flex items-center justify-center gap-1.5 px-2 py-2.5 text-xs font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus sm:text-sm ${
+                    isActive ? MODE_TAB_ACTIVE : MODE_TAB_IDLE
                   }`}
                 >
-                  {label}
+                  <Icon
+                    className={`size-3.5 shrink-0 sm:size-4 ${iconTone}`}
+                    aria-hidden
+                  />
+                  <span>{label}</span>
                 </button>
               );
             })}
           </div>
+        </div>
 
-          <div className="flex flex-col gap-0.5">
-            {visiblePresets.map((preset) => (
-              <PresetOption
-                key={preset.id}
-                preset={preset}
-                selected={isPresetActive(preset.id)}
-                onSelect={handleSelect}
-              />
-            ))}
-          </div>
+        <div
+          id={presetListId}
+          role="listbox"
+          aria-label="Theme presets"
+          className="flex flex-col gap-0.5"
+        >
+          {visiblePresets.map((preset) => (
+            <PresetOption
+              key={preset.id}
+              preset={preset}
+              selected={isPresetActive(preset.id)}
+              onSelect={handleSelect}
+            />
+          ))}
+        </div>
       </AnimatedDropdown>
     </div>
   );

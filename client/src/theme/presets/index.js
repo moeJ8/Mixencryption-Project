@@ -1,26 +1,44 @@
 import frost from './light/frost.js';
 import paper from './light/paper.js';
+import horizon from './light/horizon.js';
+import arcticTeal from './light/arctic-teal.js';
 import slateConsole from './dark/slate-console.js';
 import carbon from './dark/carbon.js';
+import obsidian from './dark/obsidian.js';
+import velvetPlum from './dark/velvet-plum.js';
 import { REQUIRED_COLOR_KEYS } from '../tokens.js';
 
 export const THEME_PRESETS = {
   light: {
+    [horizon.id]: horizon,
     [frost.id]: frost,
     [paper.id]: paper,
+    [arcticTeal.id]: arcticTeal,
   },
   dark: {
     [slateConsole.id]: slateConsole,
     [carbon.id]: carbon,
+    [obsidian.id]: obsidian,
+    [velvetPlum.id]: velvetPlum,
   },
 };
 
-export const DEFAULT_LIGHT_THEME_ID = frost.id;
+export const DEFAULT_LIGHT_THEME_ID = horizon.id;
 export const DEFAULT_DARK_THEME_ID = slateConsole.id;
+
+const LEGACY_PRESET_IDS = {
+  light: {
+    daylight: horizon.id,
+  },
+  dark: {
+    'midnight-violet': velvetPlum.id,
+  },
+};
 
 export function normalizePresetId(mode, id) {
   if (!id) return null;
-  return id;
+  const legacy = LEGACY_PRESET_IDS[mode]?.[id];
+  return legacy || id;
 }
 
 export function listPresets(mode) {

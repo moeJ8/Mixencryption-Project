@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Spinner from '../components/common/Spinner';
@@ -42,21 +43,14 @@ export default function VerifyEmailPage() {
         </div>
       ) : null}
       {phase === 'missing' ? (
-        <p className="text-sm text-muted-foreground">
-          This page needs a verification token from your email link.
-        </p>
+        <Alert variant="info">This page needs a verification token from your email link.</Alert>
       ) : null}
       {(phase === 'success' || phase === 'error') && message ? (
-        <p
-          className={`text-sm ${phase === 'success' ? 'text-foreground' : 'text-danger'}`}
-          role={phase === 'error' ? 'alert' : undefined}
-        >
-          {message}
-        </p>
+        <Alert variant={phase === 'success' ? 'success' : 'failure'}>{message}</Alert>
       ) : null}
       <div className="mt-6">
         <Link to="/login">
-          <Button type="button" className="w-full">Go to sign in</Button>
+          <Button type="button" fullWidth>Go to sign in</Button>
         </Link>
       </div>
     </Card>

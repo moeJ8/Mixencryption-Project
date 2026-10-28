@@ -1,4 +1,5 @@
 import { api } from '../utils/api';
+import { ACTIVITY_PAGE_SIZE } from '../constants/pagination';
 
 export async function registerUser(payload) {
   const { data } = await api.post('/api/auth/register', payload);
@@ -10,8 +11,8 @@ export async function verifyEmail(token) {
   return data;
 }
 
-export async function resendVerificationEmail(email) {
-  const { data } = await api.post('/api/auth/resend-verification', { email });
+export async function resendVerificationEmail(identifier) {
+  const { data } = await api.post('/api/auth/resend-verification', { identifier });
   return data;
 }
 
@@ -37,4 +38,9 @@ export async function logoutUser() {
 export async function fetchCurrentUser() {
   const { data } = await api.get('/api/auth/me');
   return data.user;
+}
+
+export async function fetchMyActivity(page = 1) {
+  const { data } = await api.get('/api/auth/activity', { params: { page, limit: ACTIVITY_PAGE_SIZE } });
+  return data;
 }

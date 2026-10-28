@@ -58,7 +58,9 @@ Tampering with ciphertext, IV, or tag must fail GCM verification. The UI shows a
 | Keys | Generate RSA pair in browser; store public key and wrapped private key on server; unlock on login |
 | Workspace | Encrypt text or files; upload envelope to API |
 | Vault | List and decrypt own payloads only |
-| Benchmarks | Latency, size overhead, throughput on fixed sizes |
+| Benchmarks | Latency, size overhead, throughput on fixed sizes (hybrid pipeline) |
+| Crypto lab | Public symmetric primitive comparison; not used for vault |
+| Documentation | Public project write-up on `/docs`; content lives in DocumentationPage |
 | Admin | User list and audit log (no access to others' plaintext) |
 
 **MongoDB collections:** `Users` (credentials, key material), `Payloads` (envelopes, `ownerId`), `AuditLogs` (append-only via API policy).
@@ -73,7 +75,7 @@ Tampering with ciphertext, IV, or tag must fail GCM verification. The UI shows a
 | Email/password auth, JWT cookie, roles | Payload CRUD, owner checks |
 | Email verification, resend, forgot/reset password | Web Crypto pipeline in `client/src/utils/crypto/` |
 | User and AuditLog models; auth audit events | Real workspace encrypt / vault decrypt |
-| Admin and placeholder Workspace, Vault, Benchmarks pages | Bit-flip demo, benchmarks charts, full admin APIs |
+| Admin and placeholder Workspace, Vault, Benchmarks, Crypto lab, Docs pages | Bit-flip demo, benchmarks charts, lab live runs, docs page copy, full admin APIs |
 
 Sign-in is allowed while email is unverified; stricter `requireEmailVerified` applies when crypto routes ship.
 

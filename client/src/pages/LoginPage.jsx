@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import FieldGroup from '../components/common/FieldGroup';
@@ -10,22 +11,24 @@ import { resendVerificationEmail } from '../services/authService';
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [fieldsInvalid, setFieldsInvalid] = useState(false);
   const [needsVerification, setNeedsVerification] = useState(false);
-  const [resendStatus, setResendStatus] = useState('');
+  const [resendFeedback, setResendFeedback] = useState(null);
   const [resending, setResending] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError('');
+    setFieldsInvalid(false);
     setNeedsVerification(false);
-    setResendStatus('');
+    setResendFeedback(null);
     setSubmitting(true);
     try {
-      await login({ email, password });
+      await login({ identifier, password });
       navigate('/', { replace: true });
     } catch (err) {
       const code = err.response?.data?.code;
@@ -33,6 +36,7 @@ export default function LoginPage() {
         setNeedsVerification(true);
       }
       setError(err.response?.data?.message || 'Sign in failed. Try again.');
+      setFieldsInvalid(true);
     } finally {
       setSubmitting(false);
     }
@@ -41,18 +45,23 @@ export default function LoginPage() {
   return (
     <Card title="Sign in">
       <p className="mb-6 text-sm text-muted-foreground">
-        Use your email and password. The session is stored in an HttpOnly cookie.
+        Use your email or username and password.
       </p>
       <form className="space-y-4" onSubmit={handleSubmit} noValidate>
         <FormError message={error} />
         <FieldGroup
-          id="email"
-          label="Email"
-          type="email"
-          autoComplete="email"
+          id="login-identifier"
+          label="Email or username"
+          type="text"
+          autoComplete="username"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={identifier}
+          invalid={fieldsInvalid}
+          onChange={(e) => {
+            setIdentifier(e.target.value);
+            setFieldsInvalid(false);
+            setError('');
+          }}
         />
         <FieldGroup
           id="password"
@@ -61,7 +70,12 @@ export default function LoginPage() {
           autoComplete="current-password"
           required
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          invalid={fieldsInvalid}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setFieldsInvalid(false);
+            setError('');
+          }}
         />
         <p className="text-right text-xs">
           <Link to="/forgot-password" className="text-link hover:text-link-hover">
@@ -69,28 +83,30 @@ export default function LoginPage() {
           </Link>
         </p>
         {needsVerification ? (
-          <div className="rounded-lg border border-border bg-surface p-3 text-sm">
-            <p className="text-muted-foreground">
-              Check your inbox for the verification link, or resend it below.
-            </p>
-            {resendStatus ? (
-              <p className="mt-2 text-foreground">{resendStatus}</p>
+          <Alert variant="warning" title="Email not verified">
+            <p>Check your inbox for the verification link, or resend it below.</p>
+            {resendFeedback ? (
+              <Alert variant={resendFeedback.variant} className="mt-2">
+                {resendFeedback.message}
+              </Alert>
             ) : null}
             <Button
               type="button"
               variant="secondary"
-              className="mt-3 w-full"
-              disabled={resending || !email}
+              className="mt-3"
+              fullWidth
+              disabled={resending || !identifier.trim()}
               onClick={async () => {
                 setResending(true);
-                setResendStatus('');
+                setResendFeedback(null);
                 try {
-                  const data = await resendVerificationEmail(email);
-                  setResendStatus(data.message);
+                  const data = await resendVerificationEmail(identifier.trim());
+                  setResendFeedback({ variant: 'success', message: data.message });
                 } catch (resendErr) {
-                  setResendStatus(
-                    resendErr.response?.data?.message || 'Could not resend email.',
-                  );
+                  setResendFeedback({
+                    variant: 'failure',
+                    message: resendErr.response?.data?.message || 'Could not resend email.',
+                  });
                 } finally {
                   setResending(false);
                 }
@@ -98,9 +114,9 @@ export default function LoginPage() {
             >
               {resending ? 'Sending…' : 'Resend verification email'}
             </Button>
-          </div>
+          </Alert>
         ) : null}
-        <Button type="submit" className="w-full" disabled={submitting}>
+        <Button type="submit" fullWidth disabled={submitting}>
           {submitting ? 'Signing in…' : 'Sign in'}
         </Button>
       </form>

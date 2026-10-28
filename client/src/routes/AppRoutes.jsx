@@ -1,6 +1,7 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
 import AuthLayout from '../components/layout/AuthLayout';
+import DocumentationLayout from '../components/layout/DocumentationLayout';
 import GuestRoute from '../components/routing/GuestRoute';
 import ProtectedRoute from '../components/routing/ProtectedRoute';
 import LandingPage from '../pages/LandingPage';
@@ -14,6 +15,8 @@ import ProfilePage from '../pages/ProfilePage';
 import WorkspacePage from '../pages/WorkspacePage';
 import VaultPage from '../pages/VaultPage';
 import BenchmarksPage from '../pages/BenchmarksPage';
+import CryptoLabPage from '../pages/CryptoLabPage';
+import DocSectionPage from '../pages/docs/DocSectionPage';
 import AdminPage from '../pages/AdminPage';
 import AdminRoute from '../components/routing/AdminRoute';
 
@@ -22,6 +25,11 @@ export default function AppRoutes() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route index element={<LandingPage />} />
+        <Route path="lab" element={<CryptoLabPage />} />
+        <Route path="docs" element={<DocumentationLayout />}>
+          <Route index element={<Navigate to="overview" replace />} />
+          <Route path=":sectionSlug" element={<DocSectionPage />} />
+        </Route>
         <Route
           path="profile"
           element={

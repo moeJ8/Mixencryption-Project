@@ -1,48 +1,65 @@
 import { LogOut, User } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../common/Button';
 import { useAuth } from '../../context/AuthContext';
 import { getUserAvatarUrl } from '../../utils/userAvatar';
 import { useAnimatedOpen } from '../../hooks/useAnimatedOpen';
 import AnimatedDropdown from './AnimatedDropdown';
 import { headerFlyoutPanelClass, navMenuItemClass } from './navStyles';
 
+/** @typedef {{ id?: string, name: string, email: string, username?: string }} AuthUser */
+
 export default function UserMenu() {
-  const { user, logout } = useAuth();
+  const auth = useAuth();
   const menuId = useId();
+  /** @type {import('react').RefObject<HTMLDivElement | null>} */
   const rootRef = useRef(null);
   const [open, setOpen] = useState(false);
   const flyout = useAnimatedOpen(open);
 
+  const user = /** @type {AuthUser | null} */ (auth.user);
+  const logout = auth.logout;
+
   const avatarUrl = getUserAvatarUrl(user);
 
   useEffect(() => {
-    if (!open) return;
-    function onPointerDown(event) {
-      if (!rootRef.current?.contains(event.target)) {
+    if (!open) {
+      return undefined;
+    }
+
+    /** @param {MouseEvent} event */
+    function onDocumentClick(event) {
+      const root = rootRef.current;
+      if (root && event.target instanceof Node && !root.contains(event.target)) {
         setOpen(false);
       }
     }
+
+    /** @param {KeyboardEvent} event */
     function onKeyDown(event) {
       if (event.key === 'Escape') {
         setOpen(false);
       }
     }
-    document.addEventListener('click', onPointerDown, true);
+
+    document.addEventListener('click', onDocumentClick, true);
     document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.removeEventListener('click', onPointerDown, true);
+      document.removeEventListener('click', onDocumentClick, true);
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   return (
     <div
       ref={rootRef}
       className={`relative shrink-0 transition-transform duration-200 ${
-        open || flyout.shouldRender ? 'z-[60]' : ''
+        open || flyout.shouldRender ? 'z-60' : ''
       }`}
     >
       <button
@@ -65,7 +82,7 @@ export default function UserMenu() {
           height={32}
           referrerPolicy="no-referrer"
         />
-        <span className="sr-only">Account menu for {user.name}</span>
+        <span className="sr-only">{`Account menu for ${user.name}`}</span>
       </button>
 
       <AnimatedDropdown
@@ -76,33 +93,34 @@ export default function UserMenu() {
         className={`${headerFlyoutPanelClass} w-52 py-1 max-sm:w-auto`}
         onClick={(event) => event.stopPropagation()}
       >
-          <div className="border-b border-border px-3 py-2">
-            <p className="truncate text-sm font-medium text-foreground">{user.name}</p>
-            <p className="truncate text-xs text-subtle-foreground">{user.email}</p>
-          </div>
-          <div className="p-1">
-            <Link
-              to="/profile"
-              role="menuitem"
-              onClick={() => setOpen(false)}
-              className={navMenuItemClass}
-            >
-              <User className="size-4 shrink-0" aria-hidden />
-              Profile
-            </Link>
-            <button
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setOpen(false);
-                logout();
-              }}
-              className={navMenuItemClass}
-            >
-              <LogOut className="size-4 shrink-0" aria-hidden />
-              Sign out
-            </button>
-          </div>
+        <div className="border-b border-border px-3 py-2">
+          <p className="truncate text-sm font-medium text-foreground">{user.name}</p>
+          <p className="truncate text-xs text-subtle-foreground">{user.email}</p>
+        </div>
+        <div className="p-1">
+          <Link
+            to="/profile"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+            className={navMenuItemClass}
+          >
+            <User className="size-4 shrink-0" aria-hidden />
+            Profile
+          </Link>
+          <Button
+            type="button"
+            role="menuitem"
+            variant="menu"
+            className="gap-2"
+            onClick={() => {
+              setOpen(false);
+              logout();
+            }}
+          >
+            <LogOut className="size-4 shrink-0" aria-hidden />
+            Sign out
+          </Button>
+        </div>
       </AnimatedDropdown>
     </div>
   );

@@ -249,7 +249,7 @@ Admin is **not** a global decrypt oracle.
 
 ### 5.1 Guest (no account, no cookie)
 
-Sees landing page, project explanation, pipeline diagram, and optional static benchmark charts. Can open Sign in / Register. **Cannot** encrypt, decrypt, or call `/api/payloads` or `/api/keys`. Guests are **not** documents in `Users`.
+Sees landing page, project explanation, pipeline diagram, and optional static benchmark charts. Can open **Crypto lab**, **Documentation** (`/docs`, no account required), Sign in / Register. **Cannot** encrypt, decrypt, or call `/api/payloads` or `/api/keys`. Guests are **not** documents in `Users`.
 
 ### 5.2 User (`role: 'user'`)
 
@@ -413,8 +413,8 @@ mixencryption/
 │   │   ├── assets/
 │   │   ├── components/
 │   │   ├── context/           # AuthContext: user + in-memory private CryptoKey
-│   │   ├── pages/             # Landing, Login, Register, Workspace, Vault, Benchmarks, Admin
-│   │   ├── utils/crypto/      # compress, aesGcm, rsaOaep, kdf, envelope
+│   │   ├── pages/             # Landing, Login, …, CryptoLab, Documentation, Admin
+│   │   ├── utils/crypto/      # compress, aesGcm, rsaOaep, kdf, envelope; labBenchmarks, labPrimitives
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   └── package.json
@@ -461,8 +461,51 @@ Dark Tailwind shell.
 2. **Sign in / Register** — real auth.  
 3. **Workspace** — text or drag-and-drop file, compress toggle, live steps, final \(\Omega\).  
 4. **Vault** — envelope list, decrypt, bit-flip button.  
-5. **Benchmarks** — Recharts for \(T_{\mathrm{total}}\) split, \(R_{size}\), MB/s.  
-6. **Admin** — users + audit table.
+5. **Benchmarks** — Recharts for \(T_{\mathrm{total}}\) split, \(R_{size}\), MB/s on the **hybrid pipeline** (compress, AES-GCM, RSA wrap).  
+6. **Crypto lab** — symmetric primitive comparison table; see §10.1.  
+7. **Documentation** — project write-up outline; see §10.2.  
+8. **Admin** — users + audit table.
+
+### 10.1 Crypto lab (primitive benchmarks)
+
+**Purpose:** Compare AEAD and legacy symmetric modes on throughput, without letting users pick arbitrary ciphers for the vault.
+
+| Concern | Crypto lab | Workspace / Vault |
+|---|---|---|
+| Goal | Compare **symmetric** primitives on fixed random payloads | Store user data as hybrid envelope \(\Omega\) |
+| Algorithms | AES-GCM, ChaCha20-Poly1305, AES-CBC (labeled non-AEAD), plus **reference** rows for AES-CCM and 3DES when Web Crypto does not expose them | **Locked:** AES-256-GCM bulk + RSA-2048-OAEP wrap only |
+| Persistence | None; no `POST /api/payloads` | Envelopes in MongoDB |
+| Auth | Public route `/lab` (nav: Crypto lab) | Protected |
+
+**Method (Week 4 implementation):**
+
+1. User selects payload size (1 KB … 5 MB, same ladder as Benchmarks).  
+2. **Run comparison** generates random bytes, warm-up, then median time over N encrypt+decrypt rounds per primitive.  
+3. Table columns: algorithm, execution time (s), throughput (MB/s), source (`Live (Web Crypto)` vs `Reference (documented)`).  
+4. Optional Recharts bar chart for live rows only.  
+5. UI banner: lab results are not vault encryption settings.
+
+**Code layout (target):**
+
+- `client/src/pages/CryptoLabPage.jsx` — UI (placeholder in Phase I).  
+- `client/src/utils/crypto/labBenchmarks.js` — orchestration and statistics.  
+- `client/src/utils/crypto/labPrimitives.js` — per-algorithm round-trip helpers with feature detection for ChaCha20-Poly1305.
+
+**Report:** One evaluation subsection for symmetric primitive comparison, separate from hybrid \(T_{\mathrm{total}}\) on the Benchmarks page.
+
+### 10.2 Documentation page
+
+**Purpose:** Single in-app place for the finished project narrative, user guide, API notes, deployment, evaluation summary, and changelog.
+
+| Concern | Documentation page | PROJECT.md |
+|---|---|---|
+| Audience | Report helpers, demo walkthrough, visitors | Locked spec and implementation plan |
+| Auth | Public routes `/docs/:sectionSlug` (nav: Docs); sidebar + one URL per section | Not served in the UI |
+| Content | `DocumentationLayout`, `DocSectionPage`, `content/documentationSections.js` | Root `PROJECT.md` (developer spec) |
+
+**Phase I:** numbered outline cards with “pending” status. **Final:** replace placeholders with full section copy in the same React page (or split into section components under `components/docs/` if it grows).
+
+**Sections:** Overview, Architecture, Cryptography, Authentication, User guide, API reference, Deployment, Evaluation and benchmarks, Threat model and limitations, Changelog.
 
 ---
 
@@ -479,7 +522,7 @@ Build **in this order**. Do not start Google OAuth. Do not add a server decrypt 
 3. Models: User, Payload, AuditLog (include key-wrap fields even if unused yet).  
 4. Auth routes: register, login, logout, `/me`. bcrypt + JWT cookie + `requireAuth` + `requireRole('admin')`.  
 5. Pages wired to auth; Workspace/Vault may still show placeholder envelopes.  
-6. Screenshot: landing, login, register, workspace, vault, benchmarks, admin.  
+6. Screenshot: landing, login, register, workspace, vault, benchmarks, crypto lab, docs, admin.  
 7. Draw the 3-collection diagram (Section 6) for the Phase I report.
 
 ### Week 2 — Key ceremony + owner-only blobs
@@ -502,8 +545,9 @@ Build **in this order**. Do not start Google OAuth. Do not add a server decrypt 
 
 1. Benchmark 1 KB, 10 KB, 100 KB, 500 KB, 1 MB, 5 MB, with and without compression.  
 2. Fill Benchmarks charts from real timings.  
-3. Rate-limit `/api/auth`, hide stack traces, README.  
-4. Phase II report: threat model, pipeline laws, ERD, tables of \(T_{\mathrm{total}}\) and \(R_{size}\), limitations (no PFS, compression length leakage, password is the root secret).
+3. Implement Crypto lab (`/lab`): live Web Crypto benchmarks where supported; reference timings for CCM/3DES when unsupported; Recharts optional.  
+4. Rate-limit `/api/auth`, hide stack traces, README.  
+5. Phase II report: threat model, pipeline laws, ERD, tables of \(T_{\mathrm{total}}\) and \(R_{size}\), primitive lab subsection, limitations (no PFS, compression length leakage, password is the root secret).
 
 ---
 

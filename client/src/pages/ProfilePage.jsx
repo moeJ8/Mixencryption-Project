@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import Alert from '../components/common/Alert';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
+import AuditLogTable from '../components/shared/AuditLogTable';
 import PageHeader from '../components/shared/PageHeader';
 import { useAuth } from '../context/AuthContext';
-import { resendVerificationEmail } from '../services/authService';
+import { useServerPagination } from '../hooks/useServerPagination';
+import { resendVerificationEmail, fetchMyActivity } from '../services/authService';
 import { getUserAvatarUrl } from '../utils/userAvatar';
 
 function formatDate(value) {
-  if (!value) return '—';
+  if (!value) return 'N/A';
   try {
     return new Date(value).toLocaleDateString(undefined, {
       year: 'numeric',
@@ -15,7 +18,7 @@ function formatDate(value) {
       day: 'numeric',
     });
   } catch {
-    return '—';
+    return 'N/A';
   }
 }
 
@@ -36,18 +39,24 @@ function VerificationBadge({ verified }) {
 
 export default function ProfilePage() {
   const { user } = useAuth();
-  const [resendStatus, setResendStatus] = useState('');
+  const [resendFeedback, setResendFeedback] = useState(null);
   const [resending, setResending] = useState(false);
+  const activity = useServerPagination(fetchMyActivity);
 
   async function handleResend() {
     if (!user?.email) return;
     setResending(true);
-    setResendStatus('');
+    setResendFeedback(null);
     try {
       const data = await resendVerificationEmail(user.email);
-      setResendStatus(data.message);
+      setResendFeedback({ variant: 'success', message: data.message });
+      activity.invalidate();
+      activity.goToPage(activity.page);
     } catch (err) {
-      setResendStatus(err.response?.data?.message || 'Could not send email.');
+      setResendFeedback({
+        variant: 'failure',
+        message: err.response?.data?.message || 'Could not send email.',
+      });
     } finally {
       setResending(false);
     }
@@ -57,7 +66,7 @@ export default function ProfilePage() {
     <>
       <PageHeader
         title="Profile"
-        description="Account details from your MixEncryption session."
+        description="Account details and your recent security activity."
       />
       <div className="grid gap-6 md:grid-cols-[minmax(0,16rem)_1fr]">
         <Card className="flex flex-col items-center text-center">
@@ -87,15 +96,12 @@ export default function ProfilePage() {
 
         <Card title="Account information">
           {!user?.isEmailVerified ? (
-            <div className="mb-6 rounded-lg border border-danger/40 bg-danger-soft px-4 py-3">
-              <p className="text-sm font-medium text-danger-foreground">
-                Your email is not verified
-              </p>
-              <p className="mt-1 text-sm text-danger-foreground/90">
-                Open the link we sent to {user?.email}, or resend it below.
-              </p>
-              {resendStatus ? (
-                <p className="mt-2 text-sm text-foreground">{resendStatus}</p>
+            <Alert variant="warning" title="Your email is not verified" className="mb-6">
+              <p>Open the link we sent to {user?.email}, or resend it below.</p>
+              {resendFeedback ? (
+                <Alert variant={resendFeedback.variant} className="mt-2">
+                  {resendFeedback.message}
+                </Alert>
               ) : null}
               <Button
                 type="button"
@@ -106,7 +112,7 @@ export default function ProfilePage() {
               >
                 {resending ? 'Sending…' : 'Resend verification email'}
               </Button>
-            </div>
+            </Alert>
           ) : null}
 
           <dl className="space-y-3 text-sm">
@@ -145,6 +151,25 @@ export default function ProfilePage() {
           </dl>
         </Card>
       </div>
+
+      <Card title="Your activity" className="mt-6">
+        <p className="mb-4 text-sm text-muted-foreground">
+          Sign-in, account, and security events tied to your account. Failed sign-in attempts on
+          other accounts are not shown here.
+        </p>
+        <AuditLogTable
+          items={activity.items}
+          loading={activity.loading && activity.items.length === 0}
+          error={activity.error}
+          emptyMessage="No activity recorded for your account yet."
+          page={activity.page}
+          totalPages={activity.totalPages}
+          onPageChange={activity.goToPage}
+          onPrefetchPage={activity.prefetchPage}
+          prefetchingPages={activity.prefetchingPages}
+          switching={activity.switching}
+        />
+      </Card>
     </>
   );
 }

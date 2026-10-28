@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import FormError from '../components/common/FormError';
@@ -44,9 +45,9 @@ export default function CheckEmailPage() {
       </p>
       <FormError message={error} />
       {status ? (
-        <p className="mb-4 rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground">
+        <Alert variant="success" className="mb-4">
           {status}
-        </p>
+        </Alert>
       ) : null}
       <div className="flex flex-col gap-3">
         {email ? (

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import FieldGroup from '../components/common/FieldGroup';
 import FormError from '../components/common/FormError';
 import { resetPassword } from '../services/authService';
+import { mapAuthFieldErrors } from '../utils/formFieldErrors';
+import { PASSWORD_HINT, validatePassword } from '../utils/passwordPolicy';
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -12,6 +15,7 @@ export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [done, setDone] = useState(false);
 
   async function handleSubmit(event) {
@@ -21,12 +25,21 @@ export default function ResetPasswordPage() {
       return;
     }
     setError('');
+    const passwordCheck = validatePassword(password);
+    if (!passwordCheck.ok) {
+      setPasswordError(passwordCheck.message);
+      return;
+    }
+    setPasswordError('');
     setSubmitting(true);
     try {
       await resetPassword({ token, password });
       setDone(true);
     } catch (err) {
-      setError(err.response?.data?.message || 'Could not reset password.');
+      const msg = err.response?.data?.message;
+      const { formError, fieldErrors: mapped } = mapAuthFieldErrors(msg);
+      setPasswordError(mapped.password || '');
+      setError(formError || (mapped.password ? '' : msg || 'Could not reset password.'));
     } finally {
       setSubmitting(false);
     }
@@ -50,9 +63,7 @@ export default function ResetPasswordPage() {
   return (
     <Card title="Reset password">
       {done ? (
-        <p className="text-sm text-foreground">
-          Password updated. You can sign in with your new password.
-        </p>
+        <Alert variant="success">Password updated. You can sign in with your new password.</Alert>
       ) : (
         <form className="space-y-4" onSubmit={handleSubmit} noValidate>
           <FormError message={error} />
@@ -64,10 +75,16 @@ export default function ResetPasswordPage() {
             required
             minLength={8}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            error={passwordError}
+            helperText={PASSWORD_HINT}
+            helperVisible="focus-or-error"
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordError('');
+              setError('');
+            }}
           />
-          <p className="text-xs text-subtle-foreground">At least 8 characters.</p>
-          <Button type="submit" className="w-full" disabled={submitting}>
+          <Button type="submit" fullWidth disabled={submitting}>
             {submitting ? 'Saving…' : 'Update password'}
           </Button>
         </form>

@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const { getAllowedOrigins } = require('./config/corsOrigins');
 const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 function requireEnv(name) {
@@ -47,6 +48,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use(errorHandler);
 
