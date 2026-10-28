@@ -10,6 +10,7 @@ import AdminEditUserModal from '../components/admin/AdminEditUserModal';
 import AuditLogTable from '../components/shared/AuditLogTable';
 import PageHeader from '../components/shared/PageHeader';
 import { useAuth } from '../context/AuthContext';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { useServerPagination } from '../hooks/useServerPagination';
 import { fetchAdminUser, fetchAdminUserActivity, removeAdminUserAvatar, uploadAdminUserAvatar } from '../services/adminService';
 import { resendVerificationEmail, fetchMyActivity } from '../services/authService';
@@ -77,6 +78,10 @@ export default function ProfilePage() {
   const isOwnProfile = !routeUserId || routeUserId === sessionUser?.id;
   const isAdminView = Boolean(routeUserId && !isOwnProfile && sessionUser?.role === 'admin');
   const canManagePhoto = isOwnProfile || isAdminView;
+
+  const profileDocumentTitle =
+    isAdminView && viewedUser?.username ? `@${viewedUser.username}` : 'Profile';
+  useDocumentTitle(profileDocumentTitle);
 
   const activityFetch = useCallback(
     (page) => {

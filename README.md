@@ -142,6 +142,7 @@ In development, the UI can call `/api/*` on port 5173; Vite proxies those reques
 
 - Root directory `client`
 - `VITE_API_URL` = Render service URL (no trailing slash)
+- `VITE_APP_URL` = Vercel site URL (no trailing slash, for Open Graph and canonical links)
 - `client/vercel.json` rewrites SPA routes to `index.html`
 
 **Google Cloud Console:** authorized redirect URI must match the callback URL above (Render API host, not Vercel).
