@@ -47,6 +47,12 @@ function variantClasses(variant, { active, selected }) {
         "border border-transparent bg-danger text-primary-foreground",
         "hover:opacity-90 active:opacity-95",
       );
+    case "dangerOutline":
+      return joinClasses(
+        "border border-danger/45 bg-surface text-danger",
+        "hover:border-danger/60 hover:bg-danger-soft hover:text-danger-foreground",
+        "active:bg-danger-soft",
+      );
     case "chrome":
       return joinClasses(
         "border border-border bg-input text-foreground",
@@ -73,7 +79,7 @@ function variantClasses(variant, { active, selected }) {
 }
 
 /**
- * @param {'primary'|'secondary'|'ghost'|'danger'|'chrome'|'menu'|'tab'} [variant]
+ * @param {'primary'|'secondary'|'ghost'|'danger'|'dangerOutline'|'chrome'|'menu'|'tab'} [variant]
  * @param {'sm'|'md'|'lg'|'icon'|'iconSm'} [size]
  * @param {'default'|'pill'|'circle'} [shape]
  */
@@ -101,6 +107,8 @@ export default forwardRef(function Button(
         ? "iconSm"
         : "icon"
       : size;
+  const spinnerSize =
+    resolvedSize === "iconSm" || size === "sm" ? "xs" : "sm";
 
   return (
     <button
@@ -120,7 +128,7 @@ export default forwardRef(function Button(
     >
       {loading ? (
         <>
-          <Spinner className="size-4 shrink-0" />
+          <Spinner size={spinnerSize} variant="current" className="shrink-0" />
           <span>{children}</span>
         </>
       ) : (

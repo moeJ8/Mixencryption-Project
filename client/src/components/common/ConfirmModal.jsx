@@ -24,7 +24,7 @@ export default function ConfirmModal({
       title={title}
       maxWidthClass="max-w-md"
       footer={
-        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <div className="modal-footer-actions">
           <Button type="button" variant="secondary" onClick={onClose} disabled={loading}>
             {cancelLabel}
           </Button>

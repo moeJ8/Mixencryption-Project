@@ -8,8 +8,10 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const { getAllowedOrigins } = require('./config/corsOrigins');
+const { isCloudinaryConfigured } = require('./config/cloudinary');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 function requireEnv(name) {
@@ -44,11 +46,16 @@ app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, service: 'mixencryption-api' });
+  res.json({
+    ok: true,
+    service: 'mixencryption-api',
+    cloudinary: isCloudinaryConfigured(),
+  });
 });
 
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/users/me', profileRoutes);
 
 app.use(errorHandler);
 

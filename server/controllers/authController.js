@@ -82,6 +82,17 @@ async function login(req, res, next) {
       return res.status(401).json({ message: GENERIC_AUTH_MESSAGE });
     }
 
+    if (user.authProvider === 'google' || !user.passwordHash) {
+      await writeAuditLog({
+        userId: user._id,
+        action: 'LOGIN_FAILURE',
+        ipAddress: ip,
+        status: 'FAILURE',
+        details: 'password_on_google_account',
+      });
+      return res.status(401).json({ message: 'Sign in with Google for this account.' });
+    }
+
     const passwordOk = await bcrypt.compare(body.password, user.passwordHash);
     if (!passwordOk) {
       await writeAuditLog({

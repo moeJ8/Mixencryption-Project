@@ -1,31 +1,26 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import FieldGroup from '../components/common/FieldGroup';
-import FormError from '../components/common/FormError';
 import { requestPasswordReset } from '../services/authService';
+import { toastError, toastSuccess } from '../theme/toast';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
   const [emailInvalid, setEmailInvalid] = useState(false);
-  const [status, setStatus] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setError('');
     setEmailInvalid(false);
-    setStatus('');
     setSubmitting(true);
     try {
       const data = await requestPasswordReset(email);
-      setStatus(data.message);
+      toastSuccess(data.message);
     } catch (err) {
       const msg = err.response?.data?.message || 'Request failed. Try again.';
-      setError(msg);
+      toastError(msg);
       setEmailInvalid(true);
     } finally {
       setSubmitting(false);
@@ -38,10 +33,6 @@ export default function ForgotPasswordPage() {
         Enter your account email. If it exists, we will send a reset link (expires in 1 hour).
       </p>
       <form className="space-y-4" onSubmit={handleSubmit} noValidate>
-        <FormError message={error} />
-        {status ? (
-          <Alert variant="success">{status}</Alert>
-        ) : null}
         <FieldGroup
           id="email"
           label="Email"
@@ -53,7 +44,6 @@ export default function ForgotPasswordPage() {
           onChange={(e) => {
             setEmail(e.target.value);
             setEmailInvalid(false);
-            setError('');
           }}
         />
         <Button type="submit" fullWidth disabled={submitting}>

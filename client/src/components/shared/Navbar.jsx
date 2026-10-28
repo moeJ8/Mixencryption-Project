@@ -45,16 +45,6 @@ function NavLinks({ onNavigate, className = "" }) {
       >
         Crypto lab
       </NavLink>
-      <NavLink
-        {...primaryNav}
-        data-nav-match="prefix"
-        to="/docs"
-        end={false}
-        className={linkClassName(onNavigate, itemExtra)}
-        onClick={onNavigate}
-      >
-        Docs
-      </NavLink>
       {isAuthenticated ? (
         <>
           <NavLink
@@ -81,6 +71,20 @@ function NavLinks({ onNavigate, className = "" }) {
           >
             Benchmarks
           </NavLink>
+        </>
+      ) : null}
+      <NavLink
+        {...primaryNav}
+        data-nav-match="prefix"
+        to="/docs"
+        end={false}
+        className={linkClassName(onNavigate, itemExtra)}
+        onClick={onNavigate}
+      >
+        Docs
+      </NavLink>
+      {isAuthenticated ? (
+        <>
           {user?.role === "admin" ? (
             <NavLink
               {...primaryNav}

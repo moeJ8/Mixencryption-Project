@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { MOBILE_NAV_ANIMATION_MS, useAnimatedOpen } from '../../hooks/useAnimatedOpen';
+import { useModalAnimatedOpen } from '../../hooks/useAnimatedOpen';
 import ScrollArea from './ScrollArea';
 
 /**
@@ -27,7 +27,7 @@ export default function Modal({
   labelledById = 'modal-title',
   scrollAriaLabel = 'Dialog content',
 }) {
-  const anim = useAnimatedOpen(open, MOBILE_NAV_ANIMATION_MS);
+  const anim = useModalAnimatedOpen(open);
   const onCloseRef = useRef(onClose);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function Modal({
 
   return createPortal(
     <div
-      className={`modal-backdrop fixed inset-0 z-100 flex items-center justify-center p-4 ${backdropClass}`}
+      className={`modal-backdrop fixed inset-0 z-100 flex items-end justify-center p-0 sm:items-center sm:p-4 ${backdropClass}`}
       onClick={onClose}
       role="presentation"
     >
@@ -73,7 +73,7 @@ export default function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledById}
-        className={`modal-panel flex max-h-[min(90vh,640px)] w-full flex-col rounded-xl border border-border bg-card shadow-flyout ${maxWidthClass} ${panelClass}`}
+        className={`modal-panel flex max-h-[min(92dvh,640px)] w-full flex-col rounded-t-xl border border-border border-b-0 bg-card shadow-flyout sm:max-h-[min(90vh,640px)] sm:rounded-xl sm:border-b ${maxWidthClass} ${panelClass}`}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border px-4 py-3 sm:px-6 sm:py-4">
@@ -111,7 +111,7 @@ export default function Modal({
         {footer ? (
           <div
             data-modal-footer
-            className="shrink-0 border-t border-border px-4 py-3 sm:px-6 sm:py-4"
+            className="shrink-0 border-t border-border px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-4 sm:pb-4"
           >
             {footer}
           </div>

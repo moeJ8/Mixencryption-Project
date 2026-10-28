@@ -5,6 +5,7 @@ import {
   logoutUser,
   registerUser,
 } from '../services/authService';
+import { toastError, toastSuccess } from '../theme/toast';
 
 const AuthContext = createContext(null);
 
@@ -40,6 +41,7 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (credentials) => {
     const loggedIn = await loginUser(credentials);
     setUser(loggedIn);
+    toastSuccess('Signed in.');
     return loggedIn;
   }, []);
 
@@ -51,6 +53,10 @@ export function AuthProvider({ children }) {
   const logout = useCallback(async () => {
     try {
       await logoutUser();
+      toastSuccess('Signed out.');
+    } catch (err) {
+      toastError('Could not sign out. Try again.');
+      throw err;
     } finally {
       setUser(null);
     }

@@ -4,7 +4,7 @@ const usernameSchema = z
   .string()
   .trim()
   .toLowerCase()
-  .min(3, 'Username must be at least 3 characters.')
+  .min(4, 'Username must be at least 4 characters.')
   .max(32, 'Username must be at most 32 characters.')
   .regex(/^[a-z0-9._-]+$/, 'Username may only use letters, numbers, dots, underscores, and hyphens.');
 

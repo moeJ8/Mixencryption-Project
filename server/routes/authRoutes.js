@@ -2,6 +2,7 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const authController = require('../controllers/authController');
 const authEmailController = require('../controllers/authEmailController');
+const googleAuthController = require('../controllers/googleAuthController');
 const activityController = require('../controllers/activityController');
 const { verifyToken } = require('../middleware/auth');
 
@@ -14,6 +15,10 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
   message: { message: 'Too many attempts. Try again later.' },
 });
+
+router.get('/providers', googleAuthController.getAuthProviders);
+router.get('/google', googleAuthController.startGoogleAuth);
+router.get('/google/callback', googleAuthController.googleAuthCallback);
 
 router.post('/register', authLimiter, authController.register);
 router.post('/login', authLimiter, authController.login);

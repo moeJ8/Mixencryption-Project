@@ -1,18 +1,18 @@
-import { useId, useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import Button from './Button';
-import Input from './Input';
-import Label from './Label';
+import { useId, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import Button from "./Button";
+import Input from "./Input";
+import Label from "./Label";
 
 export default function FieldGroup({
   id,
   label,
-  type = 'text',
+  type = "text",
   required,
   error,
   invalid = false,
   helperText,
-  helperVisible = 'always',
+  helperVisible = "always",
   ...inputProps
 }) {
   const [focused, setFocused] = useState(false);
@@ -23,28 +23,33 @@ export default function FieldGroup({
   const errorId = error ? `${fieldId}-error` : undefined;
   const helperId = helperText ? `${fieldId}-helper` : undefined;
   const showInvalid = Boolean(error) || invalid;
-  const isPassword = type === 'password';
+  const isPassword = type === "password";
 
   const showHelper =
     Boolean(helperText) &&
-    (helperVisible === 'always' ||
-      (helperVisible === 'focus-or-error' && (focused || showInvalid)));
+    !error &&
+    (helperVisible === "always" ||
+      (helperVisible === "focus-or-error" && focused && !showInvalid));
 
   const describedBy =
-    [error && errorId, showHelper && helperId].filter(Boolean).join(' ') || undefined;
+    [error && errorId, showHelper && helperId].filter(Boolean).join(" ") ||
+    undefined;
 
-  const inputType = isPassword && passwordVisible ? 'text' : type;
+  const inputType = isPassword && passwordVisible ? "text" : type;
   const { className: inputClassName, ...restInputProps } = inputProps;
-  const mergedInputClass = [isPassword ? 'password-field-input pr-10' : '', inputClassName]
+  const mergedInputClass = [
+    isPassword ? "password-field-input pr-10" : "",
+    inputClassName,
+  ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   return (
     <div>
       <Label htmlFor={fieldId} required={required}>
         {label}
       </Label>
-      <div className={isPassword ? 'relative' : undefined}>
+      <div className={isPassword ? "relative" : undefined}>
         <Input
           id={fieldId}
           type={inputType}
@@ -68,7 +73,7 @@ export default function FieldGroup({
             variant="ghost"
             size="iconSm"
             className="absolute right-0.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label={passwordVisible ? 'Hide password' : 'Show password'}
+            aria-label={passwordVisible ? "Hide password" : "Show password"}
             aria-pressed={passwordVisible}
             onClick={() => setPasswordVisible((value) => !value)}
           >
@@ -86,7 +91,11 @@ export default function FieldGroup({
         </p>
       ) : null}
       {error ? (
-        <p id={errorId} className="mt-1 text-xs text-danger-foreground" role="alert">
+        <p
+          id={errorId}
+          className="mt-1 text-xs text-danger-foreground"
+          role="alert"
+        >
           {error}
         </p>
       ) : null}

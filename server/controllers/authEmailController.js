@@ -97,6 +97,10 @@ async function forgotPassword(req, res, next) {
       return res.json(PASSWORD_RESET_GENERIC);
     }
 
+    if (user.authProvider === 'google') {
+      return res.json(PASSWORD_RESET_GENERIC);
+    }
+
     try {
       await issuePasswordReset(user);
       await writeAuditLog({

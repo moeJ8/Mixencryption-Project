@@ -1,8 +1,11 @@
 const User = require('../models/User');
+const { isCloudinaryConfigured } = require('../config/cloudinary');
 const {
   listAuditLogsForAdmin,
+  listAuditLogsForUser,
   writeAuditLog,
 } = require('../services/auditLogService');
+const { deleteUserAvatar, uploadUserAvatar } = require('../services/cloudinaryAvatarService');
 const getClientIp = require('../utils/getClientIp');
 const { parsePagination } = require('../utils/parsePagination');
 const { updateUserSchema } = require('../validators/adminSchemas');
@@ -22,10 +25,12 @@ async function listUsers(req, res, next) {
 
     const [users, total] = await Promise.all([
       User.find()
-        .sort({ createdAt: -1 })
+        .sort({ role: 1, createdAt: -1 })
         .skip(skip)
         .limit(limit)
-        .select('name username email role isEmailVerified createdAt publicKeyPem')
+        .select(
+          'name username email role isEmailVerified createdAt publicKeyPem profileImageUrl',
+        )
         .lean(),
       User.countDocuments(),
     ]);
@@ -38,6 +43,7 @@ async function listUsers(req, res, next) {
       role: user.role,
       isEmailVerified: user.isEmailVerified,
       hasCryptoKeys: Boolean(user.publicKeyPem),
+      profileImageUrl: user.profileImageUrl || null,
       createdAt: user.createdAt,
     }));
 
@@ -56,6 +62,31 @@ async function listUsers(req, res, next) {
 async function listAuditLogs(req, res, next) {
   try {
     const result = await listAuditLogsForAdmin(req.query);
+    return res.json(result);
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function getUser(req, res, next) {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    return res.json({ user: user.toSafeJSON() });
+  } catch (err) {
+    return next(err);
+  }
+}
+
+async function listUserActivity(req, res, next) {
+  try {
+    const exists = await User.exists({ _id: req.params.id });
+    if (!exists) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    const result = await listAuditLogsForUser(req.params.id, req.query);
     return res.json(result);
   } catch (err) {
     return next(err);
@@ -150,9 +181,85 @@ async function deleteUser(req, res, next) {
   }
 }
 
+async function uploadUserAvatarHandler(req, res, next) {
+  const ip = getClientIp(req);
+  try {
+    if (!isCloudinaryConfigured()) {
+      return res.status(503).json({ message: 'Profile photo upload is not configured.' });
+    }
+
+    const user = await User.findById(req.params.id).select('+profileImagePublicId');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    if (user.profileImagePublicId) {
+      await deleteUserAvatar(user.profileImagePublicId);
+    }
+
+    const result = await uploadUserAvatar(user._id.toString(), req.file.buffer);
+    user.profileImageUrl = result.secure_url;
+    user.profileImagePublicId = result.public_id;
+    await user.save();
+
+    await writeAuditLog({
+      userId: user._id,
+      action: 'PROFILE_AVATAR_UPDATED',
+      ipAddress: ip,
+      status: 'SUCCESS',
+      details: `byAdmin=${req.user.username}`,
+    });
+
+    return res.json({
+      message: 'Profile photo updated.',
+      user: user.toSafeJSON(),
+    });
+  } catch (err) {
+    console.error('Admin avatar upload failed:', err.message);
+    return next(err);
+  }
+}
+
+async function removeUserAvatarHandler(req, res, next) {
+  const ip = getClientIp(req);
+  try {
+    const user = await User.findById(req.params.id).select('+profileImagePublicId');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    if (user.profileImagePublicId) {
+      await deleteUserAvatar(user.profileImagePublicId);
+    }
+
+    user.profileImageUrl = null;
+    user.profileImagePublicId = null;
+    await user.save();
+
+    await writeAuditLog({
+      userId: user._id,
+      action: 'PROFILE_AVATAR_REMOVED',
+      ipAddress: ip,
+      status: 'SUCCESS',
+      details: `byAdmin=${req.user.username}`,
+    });
+
+    return res.json({
+      message: 'Profile photo removed.',
+      user: user.toSafeJSON(),
+    });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 module.exports = {
   listUsers,
   listAuditLogs,
+  getUser,
+  listUserActivity,
   updateUser,
   deleteUser,
+  uploadUserAvatar: uploadUserAvatarHandler,
+  removeUserAvatar: removeUserAvatarHandler,
 };

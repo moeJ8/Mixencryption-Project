@@ -54,30 +54,34 @@ Tampering with ciphertext, IV, or tag must fail GCM verification. The UI shows a
 
 | Area | Purpose |
 |------|---------|
-| Auth | Register, login, logout, profile; email verification and password reset via SMTP |
+| Auth | Register, login, logout, optional Google OAuth, profile and avatars; email verification and password reset |
 | Keys | Generate RSA pair in browser; store public key and wrapped private key on server; unlock on login |
 | Workspace | Encrypt text or files; upload envelope to API |
 | Vault | List and decrypt own payloads only |
 | Benchmarks | Latency, size overhead, throughput on fixed sizes (hybrid pipeline) |
 | Crypto lab | Public symmetric primitive comparison; not used for vault |
-| Documentation | Public project write-up on `/docs`; content lives in DocumentationPage |
-| Admin | User list and audit log (no access to others' plaintext) |
+| Documentation | In-app guide and API reference at `/docs` |
+| Admin | User directory, profiles, audit log; no access to others' plaintext or vault decrypt |
 
-**MongoDB collections:** `Users` (credentials, key material), `Payloads` (envelopes, `ownerId`), `AuditLogs` (append-only via API policy).
+**MongoDB collections:** `Users`, `AuditLogs`. `Payloads` (envelopes) is defined in the spec and not in the database yet.
 
 ---
 
 ## Implementation status (this repo)
 
-| Done | Planned (see PROJECT.md §11) |
-|------|------------------------------|
-| Client UI shell, themes, routing, landing | RSA key ceremony, `POST/GET /api/keys` |
-| Email/password auth, JWT cookie, roles | Payload CRUD, owner checks |
-| Email verification, resend, forgot/reset password | Web Crypto pipeline in `client/src/utils/crypto/` |
-| User and AuditLog models; auth audit events | Real workspace encrypt / vault decrypt |
-| Admin and placeholder Workspace, Vault, Benchmarks, Crypto lab, Docs pages | Bit-flip demo, benchmarks charts, lab live runs, docs page copy, full admin APIs |
+| Shipped | Not yet |
+|---------|---------|
+| React UI, themes, routing, landing, toasts | RSA key ceremony, `POST/GET /api/keys` |
+| Email/password auth, HttpOnly JWT, bcrypt, RBAC | Payload model and `/api/payloads` |
+| Email verify, resend, forgot/reset password | Web Crypto hybrid pipeline in the client |
+| Optional Google OAuth when `GOOGLE_*` env is set | Workspace and Vault encrypt/decrypt |
+| Profile, activity log, Cloudinary avatars when configured | Benchmarks and Crypto lab (live runs) |
+| Admin: users, edit/delete, user profiles, avatar admin, audit | GCM tamper demo, envelope storage |
+| `/docs` sections (architecture, auth, API, deployment, etc.) | `requireEmailVerified` on crypto routes |
 
-Sign-in is allowed while email is unverified; stricter `requireEmailVerified` applies when crypto routes ship.
+Sign-in works before email verification. Encryption-related API routes will require a verified inbox when they are added.
+
+User-facing detail is in the app under **Documentation** (`/docs`). Spec and report material stays in [PROJECT.md](./PROJECT.md).
 
 ---
 
@@ -85,7 +89,8 @@ Sign-in is allowed while email is unverified; stricter `requireEmailVerified` ap
 
 - Node 24+
 - MongoDB reachable from the API (local or Atlas URI in `server/.env`)
-- SMTP settings in `server/.env` if you test verification or password reset mail (see `server/.env.example`)
+- SMTP in `server/.env` for real verification and reset mail, or leave unset and use links from the API log in development (see `server/.env.example`)
+- Optional: `GOOGLE_*` for OAuth, `CLOUDINARY_*` for profile photos
 
 ## Run locally
 
@@ -128,6 +133,7 @@ In development, the UI can call `/api/*` on port 5173; Vite proxies those reques
 - `CORS_ORIGINS` (Vercel URL; comma-separated for preview URLs if needed)
 - `NODE_ENV=production` (also in `render.yaml`)
 - SMTP variables for production mail (see `server/.env.example`)
+- Optional: `GOOGLE_*`, `CLOUDINARY_*` (same names as in `server/.env.example`)
 - `PORT` (set by Render)
 
 Connect the GitHub repo on Render via Blueprint (`render.yaml`) or a Web Service with Docker, Dockerfile `./Dockerfile`, context `.`.

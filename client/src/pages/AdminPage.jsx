@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Pencil, Trash2 } from 'lucide-react';
 import Button from '../components/common/Button';
 import Alert from '../components/common/Alert';
@@ -22,6 +23,8 @@ import AuditLogTable from '../components/shared/AuditLogTable';
 import { useAuth } from '../context/AuthContext';
 import { useServerPagination } from '../hooks/useServerPagination';
 import { deleteAdminUser, fetchAdminAudit, fetchAdminUsers } from '../services/adminService';
+import { toastError, toastSuccess } from '../theme/toast';
+import { getUserAvatarUrl } from '../utils/userAvatar';
 
 function VerifiedBadge({ verified }) {
   return verified ? (
@@ -61,10 +64,13 @@ export default function AdminPage() {
     setActionError('');
     try {
       await deleteAdminUser(deleteUser.id);
+      toastSuccess('User deleted.');
       setDeleteUser(null);
       refreshTables();
     } catch (err) {
-      setActionError(err.response?.data?.message || 'Could not delete user.');
+      const message = err.response?.data?.message || 'Could not delete user.';
+      setActionError(message);
+      toastError(message);
     } finally {
       setDeleting(false);
     }
@@ -115,6 +121,7 @@ export default function AdminPage() {
                 <TableRow className="hover:bg-transparent">
                   <TableHead>Name</TableHead>
                   <TableHead>Username</TableHead>
+                  <TableHead>Email</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Verified</TableHead>
                   <TableHead align="right" className="w-[1%] whitespace-nowrap">
@@ -124,14 +131,36 @@ export default function AdminPage() {
               </TableHeader>
               <TableBody>
                 {users.items.length === 0 ? (
-                  <TableEmpty colSpan={5}>No users yet.</TableEmpty>
+                  <TableEmpty colSpan={6}>No users yet.</TableEmpty>
                 ) : (
                   users.items.map((user) => {
                     const isSelf = user.id === currentUser?.id;
                     return (
                       <TableRow key={user.id}>
-                        <TableCell>{user.name}</TableCell>
-                        <TableCell tone="mono">@{user.username}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <img
+                              src={getUserAvatarUrl(user)}
+                              alt=""
+                              className="size-8 shrink-0 rounded-full border border-border object-cover"
+                              width={32}
+                              height={32}
+                              referrerPolicy="no-referrer"
+                            />
+                            <span>{user.name}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell tone="mono">
+                          <Link
+                            to={`/profile/${user.id}`}
+                            className="text-link hover:text-link-hover hover:underline"
+                          >
+                            @{user.username}
+                          </Link>
+                        </TableCell>
+                        <TableCell className="max-w-48 truncate" title={user.email}>
+                          {user.email}
+                        </TableCell>
                         <TableCell className="capitalize">{user.role}</TableCell>
                         <TableCell>
                           <VerifiedBadge verified={user.isEmailVerified} />

@@ -1,6 +1,7 @@
 import { Github } from 'lucide-react';
 
 const GITHUB_REPO = 'https://github.com/moeJ8/Mixencryption-Project';
+const USKUDAR_UNIVERSITY_URL = 'https://uskudar.edu.tr/en';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -11,14 +12,22 @@ export default function Footer() {
         <p className="text-sm font-semibold text-foreground">MixEncryption</p>
 
         <div className="flex items-center gap-2.5 md:max-w-md">
-          <img
-            src="/uskudar-universitesi-logo.png"
-            alt="Üsküdar University"
-            className="h-8 w-auto shrink-0 object-contain"
-            width={80}
-            height={32}
-            loading="lazy"
-          />
+          <a
+            href={USKUDAR_UNIVERSITY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus"
+            aria-label="Üsküdar University website"
+          >
+            <img
+              src="/uskudar-universitesi-logo.png"
+              alt=""
+              className="h-8 w-auto object-contain"
+              width={80}
+              height={32}
+              loading="lazy"
+            />
+          </a>
           <p className="text-[11px] leading-snug text-subtle-foreground">
             Introduction to Cryptography (CYS533). Üsküdar University, Institute of Science.
           </p>

@@ -31,7 +31,7 @@ export default function AppRoutes() {
           <Route path=":sectionSlug" element={<DocSectionPage />} />
         </Route>
         <Route
-          path="profile"
+          path="profile/:userId?"
           element={
             <ProtectedRoute>
               <ProfilePage />

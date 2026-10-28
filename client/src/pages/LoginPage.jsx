@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import FieldGroup from '../components/common/FieldGroup';
-import FormError from '../components/common/FormError';
+import GoogleSignInButton from '../components/auth/GoogleSignInButton';
 import { useAuth } from '../context/AuthContext';
 import { resendVerificationEmail } from '../services/authService';
+import { toastAlert, toastError, toastSuccess } from '../theme/toast';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -14,28 +14,27 @@ export default function LoginPage() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
   const [fieldsInvalid, setFieldsInvalid] = useState(false);
   const [needsVerification, setNeedsVerification] = useState(false);
-  const [resendFeedback, setResendFeedback] = useState(null);
   const [resending, setResending] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setError('');
     setFieldsInvalid(false);
     setNeedsVerification(false);
-    setResendFeedback(null);
     setSubmitting(true);
     try {
       await login({ identifier, password });
       navigate('/', { replace: true });
     } catch (err) {
       const code = err.response?.data?.code;
+      const message = err.response?.data?.message || 'Sign in failed. Try again.';
       if (code === 'EMAIL_NOT_VERIFIED') {
         setNeedsVerification(true);
+        toastAlert('Verify your email before signing in.');
+      } else {
+        toastError(message);
       }
-      setError(err.response?.data?.message || 'Sign in failed. Try again.');
       setFieldsInvalid(true);
     } finally {
       setSubmitting(false);
@@ -48,7 +47,6 @@ export default function LoginPage() {
         Use your email or username and password.
       </p>
       <form className="space-y-4" onSubmit={handleSubmit} noValidate>
-        <FormError message={error} />
         <FieldGroup
           id="login-identifier"
           label="Email or username"
@@ -60,7 +58,7 @@ export default function LoginPage() {
           onChange={(e) => {
             setIdentifier(e.target.value);
             setFieldsInvalid(false);
-            setError('');
+            setNeedsVerification(false);
           }}
         />
         <FieldGroup
@@ -74,7 +72,7 @@ export default function LoginPage() {
           onChange={(e) => {
             setPassword(e.target.value);
             setFieldsInvalid(false);
-            setError('');
+            setNeedsVerification(false);
           }}
         />
         <p className="text-right text-xs">
@@ -83,13 +81,8 @@ export default function LoginPage() {
           </Link>
         </p>
         {needsVerification ? (
-          <Alert variant="warning" title="Email not verified">
+          <div className="rounded-lg border border-border bg-muted-surface p-4 text-sm text-muted-foreground">
             <p>Check your inbox for the verification link, or resend it below.</p>
-            {resendFeedback ? (
-              <Alert variant={resendFeedback.variant} className="mt-2">
-                {resendFeedback.message}
-              </Alert>
-            ) : null}
             <Button
               type="button"
               variant="secondary"
@@ -98,15 +91,13 @@ export default function LoginPage() {
               disabled={resending || !identifier.trim()}
               onClick={async () => {
                 setResending(true);
-                setResendFeedback(null);
                 try {
                   const data = await resendVerificationEmail(identifier.trim());
-                  setResendFeedback({ variant: 'success', message: data.message });
+                  toastSuccess(data.message);
                 } catch (resendErr) {
-                  setResendFeedback({
-                    variant: 'failure',
-                    message: resendErr.response?.data?.message || 'Could not resend email.',
-                  });
+                  toastError(
+                    resendErr.response?.data?.message || 'Could not resend email.',
+                  );
                 } finally {
                   setResending(false);
                 }
@@ -114,11 +105,17 @@ export default function LoginPage() {
             >
               {resending ? 'Sending…' : 'Resend verification email'}
             </Button>
-          </Alert>
+          </div>
         ) : null}
         <Button type="submit" fullWidth disabled={submitting}>
           {submitting ? 'Signing in…' : 'Sign in'}
         </Button>
+        <div className="flex items-center gap-3 py-1">
+          <span className="h-px flex-1 bg-border" aria-hidden />
+          <span className="text-xs text-muted-foreground">or</span>
+          <span className="h-px flex-1 bg-border" aria-hidden />
+        </div>
+        <GoogleSignInButton disabled={submitting} />
       </form>
       <p className="mt-6 text-center text-sm text-subtle-foreground">
         No account?{' '}

@@ -1,4 +1,5 @@
 import { tokenToCssVar } from './tokens.js';
+import { applyToastDesign } from './toast/applyToastDesign.js';
 import {
   DEFAULT_DARK_THEME_ID,
   DEFAULT_LIGHT_THEME_ID,
@@ -40,6 +41,8 @@ export function applyActiveTheme({
   if (preset) {
     applyPresetColors(preset, root);
   }
+
+  applyToastDesign(root);
 
   return preset;
 }

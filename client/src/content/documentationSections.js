@@ -1,64 +1,55 @@
-/** Slugs and placeholders for /docs/:sectionSlug. Add body copy in DocSectionPage or per-section components later. */
+/** Navigation and summaries for /docs/:sectionSlug */
+
 export const DOC_SECTIONS = [
   {
     slug: 'overview',
     title: 'Overview',
-    description: 'What MixEncryption is and what problem it solves.',
-    topics: ['Project goal', 'Hybrid encryption in one paragraph', 'Stack summary'],
+    description: 'What MixEncryption is and how the pieces fit together.',
   },
   {
     slug: 'architecture',
     title: 'Architecture',
-    description: 'How the browser, API, and database fit together.',
-    topics: ['Browser vs server responsibilities', 'Data flow diagram', 'MongoDB collections'],
+    description: 'Browser, API, database, and data flow.',
   },
   {
     slug: 'cryptography',
     title: 'Cryptography',
-    description: 'Algorithms and the hybrid envelope.',
-    topics: ['AES-256-GCM and RSA-OAEP roles', 'Envelope Ω fields', 'Key wrap and unlock flow'],
+    description: 'Hybrid encryption, algorithms, and envelopes.',
   },
   {
     slug: 'authentication',
     title: 'Authentication',
-    description: 'Accounts, sessions, and roles.',
-    topics: ['Registration and JWT session', 'Email verification', 'Password reset', 'Roles'],
+    description: 'Auth flow, verification tokens, guest access, session security, and roles.',
   },
   {
     slug: 'user-guide',
     title: 'User guide',
-    description: 'How to use Workspace, Vault, and admin tools.',
-    topics: ['Workspace encrypt steps', 'Vault decrypt steps', 'Integrity demo', 'Admin dashboard'],
+    description: 'Profile, Workspace, Vault, Benchmarks, and admin tools.',
   },
   {
     slug: 'api',
     title: 'API reference',
-    description: 'HTTP routes and behavior.',
-    topics: ['Auth endpoints', 'Keys and payloads (when implemented)', 'Errors and rate limits'],
+    description: 'HTTP routes for auth, profile, admin, and encryption.',
   },
   {
     slug: 'deployment',
     title: 'Deployment',
-    description: 'Local dev and production hosting.',
-    topics: ['Local setup', 'Vercel and Render', 'Environment variables'],
+    description: 'Hosting the web app, API, and database.',
   },
   {
     slug: 'evaluation',
     title: 'Evaluation',
-    description: 'Benchmarks and crypto lab results.',
-    topics: ['Hybrid pipeline timings', 'Crypto lab comparison', 'Measurement method'],
+    description: 'Benchmarks, Crypto lab, and integrity checks.',
   },
   {
     slug: 'threat-model',
     title: 'Threat model',
-    description: 'Who can read what, and known limits.',
-    topics: ['Adversary table', 'Honest limits', 'What the app does not claim'],
+    description: 'Trust boundaries and known limits.',
   },
   {
     slug: 'changelog',
     title: 'Changelog',
-    description: 'Shipped milestones and fixes.',
-    topics: ['Milestone releases', 'Notable fixes'],
+    description: 'Recent updates and what is next.',
   },
 ];
 

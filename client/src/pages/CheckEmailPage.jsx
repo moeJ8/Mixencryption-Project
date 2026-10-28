@@ -1,31 +1,26 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
-import FormError from '../components/common/FormError';
 import { resendVerificationEmail } from '../services/authService';
+import { toastAlert, toastError, toastSuccess } from '../theme/toast';
 
 export default function CheckEmailPage() {
   const location = useLocation();
   const email = location.state?.email || '';
-  const [status, setStatus] = useState('');
-  const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   async function handleResend() {
     if (!email) {
-      setError('Enter your email on the sign-in page and use resend from there.');
+      toastAlert('Use resend on the sign-in page if you did not arrive here from registration.');
       return;
     }
-    setError('');
-    setStatus('');
     setSubmitting(true);
     try {
       const data = await resendVerificationEmail(email);
-      setStatus(data.message);
+      toastSuccess(data.message);
     } catch (err) {
-      setError(err.response?.data?.message || 'Could not resend verification email.');
+      toastError(err.response?.data?.message || 'Could not resend verification email.');
     } finally {
       setSubmitting(false);
     }
@@ -43,12 +38,6 @@ export default function CheckEmailPage() {
         ) : null}
         . Open it to activate your account, then sign in.
       </p>
-      <FormError message={error} />
-      {status ? (
-        <Alert variant="success" className="mb-4">
-          {status}
-        </Alert>
-      ) : null}
       <div className="flex flex-col gap-3">
         {email ? (
           <Button type="button" variant="secondary" disabled={submitting} onClick={handleResend}>

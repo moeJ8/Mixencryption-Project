@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import Alert from '../components/common/Alert';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Spinner from '../components/common/Spinner';
 import { verifyEmail } from '../services/authService';
+import { toastError, toastSuccess } from '../theme/toast';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
@@ -21,11 +21,14 @@ export default function VerifyEmailPage() {
         if (!cancelled) {
           setMessage(data.message);
           setPhase('success');
+          toastSuccess(data.message);
         }
       } catch (err) {
         if (!cancelled) {
-          setMessage(err.response?.data?.message || 'Verification failed.');
+          const msg = err.response?.data?.message || 'Verification failed.';
+          setMessage(msg);
           setPhase('error');
+          toastError(msg);
         }
       }
     })();
@@ -43,14 +46,22 @@ export default function VerifyEmailPage() {
         </div>
       ) : null}
       {phase === 'missing' ? (
-        <Alert variant="info">This page needs a verification token from your email link.</Alert>
+        <p className="text-sm text-muted-foreground">
+          This page needs a verification token from your email link.
+        </p>
       ) : null}
       {(phase === 'success' || phase === 'error') && message ? (
-        <Alert variant={phase === 'success' ? 'success' : 'failure'}>{message}</Alert>
+        <p
+          className={`text-sm ${phase === 'success' ? 'text-muted-foreground' : 'text-danger-foreground'}`}
+        >
+          {message}
+        </p>
       ) : null}
       <div className="mt-6">
         <Link to="/login">
-          <Button type="button" fullWidth>Go to sign in</Button>
+          <Button type="button" fullWidth>
+            Go to sign in
+          </Button>
         </Link>
       </div>
     </Card>
