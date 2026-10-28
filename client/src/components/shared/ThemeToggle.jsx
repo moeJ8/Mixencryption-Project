@@ -36,13 +36,17 @@ function PresetOption({ preset, selected, onSelect }) {
         event.stopPropagation();
         onSelect(preset.id);
       }}
-      className="gap-3 px-2 py-2 text-left"
+      className="w-full gap-3 px-2 py-2 text-left"
     >
       <PresetSwatch preset={preset} />
-      <span className="flex-1 font-medium">{preset.label}</span>
-      {selected ? (
-        <Check className="size-4 shrink-0 text-primary" aria-hidden />
-      ) : null}
+      <span className="min-w-0 flex-1 truncate whitespace-nowrap text-left font-medium">
+        {preset.label}
+      </span>
+      <span className="inline-flex size-4 shrink-0 items-center justify-center">
+        {selected ? (
+          <Check className="size-4 text-primary" aria-hidden />
+        ) : null}
+      </span>
     </Button>
   );
 }
@@ -148,7 +152,7 @@ export default function ThemeToggle() {
         id={menuId}
         role="group"
         aria-label="Theme"
-        className={`${headerFlyoutPanelClass} p-2`}
+        className={`${headerFlyoutPanelClass} w-60 p-2 max-sm:w-auto`}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-2 overflow-hidden rounded-lg border border-border bg-muted-surface">
