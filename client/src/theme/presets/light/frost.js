@@ -1,0 +1,31 @@
+const frost = {
+  id: 'frost',
+  label: 'Frost',
+  mode: 'light',
+  colors: {
+    background: '#f8fafc',
+    surface: '#f1f5f9',
+    card: '#ffffff',
+    header: '#ffffff',
+    footer: '#f8fafc',
+    border: '#e2e8f0',
+    input: '#ffffff',
+    inputBorder: '#cbd5e1',
+    focusRing: '#0891b2',
+    foreground: '#0f172a',
+    mutedForeground: '#64748b',
+    subtleForeground: '#94a3b8',
+    primary: '#0e7490',
+    primaryHover: '#0891b2',
+    primaryForeground: '#ffffff',
+    accent: '#0e7490',
+    accentHover: '#0891b2',
+    danger: '#dc2626',
+    dangerSoft: '#fef2f2',
+    dangerForeground: '#991b1b',
+    link: '#0e7490',
+    linkHover: '#155e75',
+  },
+};
+
+export default frost;

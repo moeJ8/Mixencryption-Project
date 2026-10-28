@@ -262,6 +262,10 @@ Sees landing page, project explanation, pipeline diagram, and optional static be
 5. `POST /api/keys` with `{ publicKeyPem, wrappedPrivateKey, wrapIv, kdfSalt, kdfIterations }`.  
 6. Private key remains in React memory for this tab.
 
+**Email verification (session policy)**
+
+Registration sends a verification link (Nodemailer). You can sign in while unverified so Profile and the unverified badge work. Sensitive features (keys, payloads, vault) can later use `requireEmailVerified` middleware (`server/middleware/requireEmailVerified.js`).
+
 **Later login**
 
 1. Password verified → JWT cookie → `LOGIN`.  

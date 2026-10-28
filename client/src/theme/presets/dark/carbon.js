@@ -1,0 +1,31 @@
+const carbon = {
+  id: 'carbon',
+  label: 'Carbon',
+  mode: 'dark',
+  colors: {
+    background: '#0a0a0a',
+    surface: '#171717',
+    card: '#171717',
+    header: '#0a0a0a',
+    footer: '#0a0a0a',
+    border: '#262626',
+    input: '#0a0a0a',
+    inputBorder: '#404040',
+    focusRing: '#0ea5e9',
+    foreground: '#fafafa',
+    mutedForeground: '#a3a3a3',
+    subtleForeground: '#737373',
+    primary: '#0284c7',
+    primaryHover: '#0ea5e9',
+    primaryForeground: '#ffffff',
+    accent: '#38bdf8',
+    accentHover: '#7dd3fc',
+    danger: '#f87171',
+    dangerSoft: 'rgba(69, 10, 10, 0.4)',
+    dangerForeground: '#fecaca',
+    link: '#38bdf8',
+    linkHover: '#7dd3fc',
+  },
+};
+
+export default carbon;

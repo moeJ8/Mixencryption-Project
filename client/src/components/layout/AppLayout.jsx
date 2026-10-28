@@ -4,9 +4,9 @@ import Navbar from '../shared/Navbar';
 
 export default function AppLayout() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-3 py-6 sm:px-4 sm:py-10">
         <Outlet />
       </main>
       <Footer />

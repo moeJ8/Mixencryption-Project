@@ -23,6 +23,7 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+.cursor/
 
 # Local deploy metadata (optional)
 .vercel/

@@ -1,0 +1,31 @@
+const paper = {
+  id: 'paper',
+  label: 'Paper',
+  mode: 'light',
+  colors: {
+    background: '#fafaf9',
+    surface: '#f5f5f4',
+    card: '#ffffff',
+    header: '#ffffff',
+    footer: '#fafaf9',
+    border: '#e7e5e4',
+    input: '#ffffff',
+    inputBorder: '#d6d3d1',
+    focusRing: '#0369a1',
+    foreground: '#1c1917',
+    mutedForeground: '#57534e',
+    subtleForeground: '#78716c',
+    primary: '#0369a1',
+    primaryHover: '#0284c7',
+    primaryForeground: '#ffffff',
+    accent: '#0284c7',
+    accentHover: '#0ea5e9',
+    danger: '#b91c1c',
+    dangerSoft: '#fef2f2',
+    dangerForeground: '#7f1d1d',
+    link: '#0369a1',
+    linkHover: '#075985',
+  },
+};
+
+export default paper;
