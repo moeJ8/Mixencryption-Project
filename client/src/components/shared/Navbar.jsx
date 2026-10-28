@@ -11,6 +11,7 @@ import {
   useAnimatedOpen,
 } from "../../hooks/useAnimatedOpen";
 import { useAuth } from "../../context/AuthContext";
+import ApiStatusIndicator from "./ApiStatusIndicator";
 
 function linkClassName(onNavigate, extra = "") {
   return ({ isActive }) => {
@@ -211,16 +212,19 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-header/95 backdrop-blur-sm supports-[padding:max(0px)]:pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-4">
-        <Link
-          to="/"
-          className="group flex min-w-0 shrink items-center gap-2 rounded-lg py-1 pr-1 text-sm font-semibold text-foreground transition-colors duration-200 hover:text-accent sm:pr-2"
-        >
-          <Shield
-            className="size-5 shrink-0 text-primary transition-transform duration-200 group-hover:scale-110 group-hover:text-accent"
-            aria-hidden
-          />
-          <span className="truncate sm:max-w-none">MixEncryption</span>
-        </Link>
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <Link
+            to="/"
+            className="group flex min-w-0 shrink items-center gap-2 rounded-lg py-1 pr-1 text-sm font-semibold text-foreground transition-colors duration-200 hover:text-accent sm:pr-2"
+          >
+            <Shield
+              className="size-5 shrink-0 text-primary transition-transform duration-200 group-hover:scale-110 group-hover:text-accent"
+              aria-hidden
+            />
+            <span className="truncate sm:max-w-none">MixEncryption</span>
+          </Link>
+          <ApiStatusIndicator variant="pill" className="hidden min-w-0 md:flex" />
+        </div>
 
         <nav className="hidden h-14 items-center lg:flex" aria-label="Main">
           <NavSlideIndicator className="flex flex-wrap items-center gap-0.5 lg:gap-1">
@@ -242,6 +246,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
+          <ApiStatusIndicator variant="compact" className="md:hidden" />
           {isAuthenticated ? <UserMenu /> : null}
           <ThemeToggle />
           <Button
@@ -286,6 +291,7 @@ export default function Navbar() {
             aria-label="Main mobile"
             inert={!mobileOpen}
           >
+            <ApiStatusIndicator variant="menu" className="mb-3 md:hidden" />
             <NavLinks
               className="flex flex-col divide-y divide-border overflow-hidden rounded-lg border border-border"
               onNavigate={closeMobileMenu}

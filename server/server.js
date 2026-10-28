@@ -9,10 +9,13 @@ const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const { getAllowedOrigins } = require('./config/corsOrigins');
 const { isCloudinaryConfigured } = require('./config/cloudinary');
+const { getClientAppUrl } = require('./config/clientAppUrl');
+const { isGoogleOAuthEnabled } = require('./config/googleOAuth');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const errorHandler = require('./middleware/errorHandler');
+const { renderApiRootPage } = require('./utils/renderApiRootPage');
 
 function requireEnv(name) {
   if (!process.env[name]) {
@@ -53,6 +56,18 @@ app.use(
 );
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+app.get('/', (_req, res) => {
+  const html = renderApiRootPage({
+    clientAppUrl: getClientAppUrl(),
+    mongoReadyState: mongoose.connection.readyState,
+    cloudinary: isCloudinaryConfigured(),
+    googleOAuth: isGoogleOAuthEnabled(),
+    nodeEnv: process.env.NODE_ENV || 'development',
+  });
+  res.type('html').send(html);
+});
 
 app.get('/api/health', (_req, res) => {
   res.json({
