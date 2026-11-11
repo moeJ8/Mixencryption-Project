@@ -660,6 +660,20 @@ section.topic h2 {
 }
 .example-box.mini { margin-top: 10px; padding: 10px 12px; font-size: 0.9rem; }
 .example-title { color: var(--green); font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.def-panel {
+  margin-bottom: 20px;
+  padding: 16px 14px;
+  border-radius: 12px;
+  border: 2px solid #3d5a80;
+  background: rgba(94, 179, 255, 0.06);
+}
+.def-heading { color: var(--blue); font-weight: 800; font-size: 0.95rem; margin-bottom: 12px; letter-spacing: 0.03em; }
+.def-list { margin: 0; padding: 0; list-style: none; }
+.def-list dt { color: var(--orange); font-weight: 700; margin-top: 12px; font-size: 0.98rem; }
+.def-list dt:first-child { margin-top: 0; }
+.def-list dd { margin: 4px 0 0 0; padding: 0 0 0 12px; border-left: 3px solid var(--border); color: var(--muted); font-size: 0.95rem; }
+body.arabic .def-list dd { padding: 0 12px 0 0; border-left: none; border-right: 3px solid var(--border); }
+.subheading { color: var(--blue); font-weight: 700; font-size: 0.9rem; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.05em; }
 .explanation .expl-detail { margin-top: 10px; line-height: 1.55; }
 .compare-table {
   width: 100%;
@@ -766,16 +780,16 @@ body.arabic .nav-scroll { direction: rtl; }
     <span class="t ar">أمن الشبكات — دليل شامل للموضوعات</span>
   </h1>
   <p class="lead">
-    <span class="t en">Deep explanations with <strong>worked examples</strong>, <strong>figures</strong>, and 50 MCQs. Tap <strong>العربية</strong> in the top bar for Arabic.</span>
-    <span class="t ar">شرح موسّع مع <strong>أمثلة</strong> و<strong>أشكال</strong> و50 سؤالاً. اضغط <strong>العربية</strong> للعربية.</span>
+    <span class="t en">Each topic: <strong>definitions first</strong>, then figures and examples, then 50 MCQs. Tap <strong>العربية</strong> for Arabic.</span>
+    <span class="t ar">كل موضوع: <strong>تعريفات أولاً</strong> ثم أشكال وأمثلة ثم 50 سؤالاً. اضغط <strong>العربية</strong>.</span>
   </p>
   <div class="badges">
     <span class="t en">Confidentiality · Integrity · Availability</span>
     <span class="t ar">السرية · التكامل · التوفر</span>
     <span class="t en">Symmetric &amp; asymmetric crypto</span>
     <span class="t ar">تشفير متماثل وغير متماثل</span>
-    <span class="t en">Figures &amp; worked examples</span>
-    <span class="t ar">أشكال وأمثلة محسوبة</span>
+    <span class="t en">Definitions before examples</span>
+    <span class="t ar">تعريفات ثم أمثلة</span>
     <span class="t en">50 scenario MCQs</span>
     <span class="t ar">50 سؤال اختيار من متعدد</span>
   </div>
@@ -786,8 +800,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <section id="quiz">
 <div class="quiz-header">
   <h2><span class="t en">Practice: 50 Multiple-Choice Questions</span><span class="t ar">تدريب: 50 سؤال اختيار من متعدد</span></h2>
-  <p class="t en" style="color:var(--muted);margin:0;">Tap a button to reveal the correct answer and a short explanation.</p>
-  <p class="t ar" style="color:var(--muted);margin:0;">اضغط الزر لإظهار الإجابة الصحيحة وتفسير مختصر.</p>
+  <p class="t en" style="color:var(--muted);margin:0;">Review the blue <strong>Definitions</strong> panels above first. Then use these questions — each answer includes an example.</p>
+  <p class="t ar" style="color:var(--muted);margin:0;">راجع صناديق <strong>التعريفات</strong> الزرقاء أعلاه أولاً، ثم حل الأسئلة — كل إجابة مع مثال.</p>
 </div>
 {mcq_blocks}
 </section>
