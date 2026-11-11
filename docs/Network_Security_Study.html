@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Security — Study Guide & 50 MCQs</title>
+<style>
+:root {
+  --bg: #121826;
+  --card: #1a2234;
+  --card-inner: #151d2e;
+  --border: #2d3a52;
+  --blue: #5eb3ff;
+  --blue-btn: #2563eb;
+  --green: #6ee7a0;
+  --orange: #f4a261;
+  --text: #e8edf5;
+  --muted: #9aa8bc;
+  --pill: #243044;
+  --correct-bg: #0d3328;
+  --correct-border: #10b981;
+  --correct-text: #a7f3d0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  padding: 0 16px 48px;
+}
+body.arabic { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(18, 24, 38, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 12px 0;
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue-btn);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.nav-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 2px;
+  -webkit-overflow-scrolling: touch;
+}
+.nav-scroll a {
+  flex-shrink: 0;
+  text-decoration: none;
+  color: var(--blue);
+  background: var(--pill);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  border: 1px solid var(--border);
+}
+.nav-ar { display: none; }
+body.arabic .nav-en { display: none !important; }
+body.arabic .nav-ar { display: inline; }
+.container { max-width: 920px; margin: 0 auto; }
+.hero {
+  margin-top: 20px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px 20px;
+  border: 1px solid var(--border);
+}
+.meta {
+  color: var(--green);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.hero h1 {
+  color: var(--blue);
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  margin: 0 0 12px;
+  line-height: 1.25;
+}
+.hero .lead { color: var(--muted); margin-bottom: 16px; font-size: 1rem; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badges span {
+  background: var(--pill);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+section.topic { margin-top: 36px; }
+section.topic h2 {
+  color: var(--orange);
+  font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+  margin: 0 0 12px;
+  line-height: 1.35;
+}
+.card {
+  background: var(--card-inner);
+  border: 1px solid #3d5a80;
+  border-radius: 14px;
+  padding: 18px 16px;
+}
+.card p { margin: 0 0 12px; }
+.card p:last-child { margin-bottom: 0; }
+.card ul { margin: 8px 0 12px 1.1rem; padding: 0; color: var(--muted); }
+.card li { margin-bottom: 6px; }
+.card strong { color: #fff; }
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-top: 8px;
+}
+.compare-table th, .compare-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+}
+body.arabic .compare-table th, body.arabic .compare-table td { text-align: right; }
+.compare-table th { background: var(--pill); color: var(--blue); }
+.t.en, .t.ar { display: block; }
+body.arabic .t.en { display: none !important; }
+body:not(.arabic) .t.ar { display: none !important; }
+body.arabic { direction: rtl; }
+body.arabic .nav-scroll { direction: rtl; }
+.quiz-header {
+  margin-top: 48px;
+  text-align: center;
+  padding: 20px;
+  background: var(--card);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.quiz-header h2 { color: var(--blue); margin: 0 0 8px; }
+.question-card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-top: 20px;
+  border: 1px solid var(--border);
+}
+.q-title { font-weight: 600; margin-bottom: 14px; }
+.options { list-style: none; padding: 0; margin: 0 0 14px; }
+.options li {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.btn-toggle {
+  background: var(--blue);
+  color: #0f172a;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.explanation {
+  display: none;
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--correct-bg);
+  border: 1px solid var(--correct-border);
+  border-radius: 8px;
+  color: var(--correct-text);
+  font-size: 0.92rem;
+}
+.correct-label { font-weight: 700; color: #fff; margin-bottom: 6px; }
+@media (max-width: 480px) {
+  .hero { padding: 18px 14px; }
+  .card { padding: 14px 12px; }
+}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <button type="button" class="lang-btn" id="langToggle" aria-label="Toggle Arabic">
+    <span aria-hidden="true">🌐</span>
+    <span id="langLabel">العربية</span>
+  </button>
+  <nav class="nav-scroll" aria-label="Topics">
+    <a href="#goals" class="nav-en">Security Goals</a>
+    <a href="#goals" class="nav-ar">الأهداف الأمنية</a>
+    <a href="#attacks" class="nav-en">Attacks & Services</a>
+    <a href="#attacks" class="nav-ar">الهجمات والخدمات</a>
+    <a href="#crypto" class="nav-en">Encryption</a>
+    <a href="#crypto" class="nav-ar">التشفير</a>
+    <a href="#aes" class="nav-en">AES & Hashes</a>
+    <a href="#aes" class="nav-ar">AES والهاش</a>
+    <a href="#pki" class="nav-en">PKI & TLS</a>
+    <a href="#pki" class="nav-ar">PKI و TLS</a>
+    <a href="#ipv4" class="nav-en">IPv4 & Subnets</a>
+    <a href="#ipv4" class="nav-ar">IPv4 والشبكات</a>
+    <a href="#quiz" class="nav-en">50 MCQs</a>
+    <a href="#quiz" class="nav-ar">50 سؤال</a>
+  </nav>
+</div>
+
+<div class="container">
+<header class="hero">
+  <div class="meta t en">NETWORK SECURITY · EXAM PREP</div>
+  <div class="meta t ar">أمن الشبكات · مراجعة امتحان</div>
+  <h1>
+    <span class="t en">Network Security — Complete Topic Guide</span>
+    <span class="t ar">أمن الشبكات — دليل شامل للموضوعات</span>
+  </h1>
+  <p class="lead">
+    <span class="t en">Based on your professor's topic list: definitions, comparisons, and exam-style practice. Tap <strong>العربية</strong> in the top bar to read everything in Arabic.</span>
+    <span class="t ar">مبني على قائمة الدكتور: تعريفات، مقارنات، وتدريب بأسلوب الامتحان. اضغط الزر في الشريط العلوي للعودة إلى الإنجليزية.</span>
+  </p>
+  <div class="badges">
+    <span class="t en">Confidentiality · Integrity · Availability</span>
+    <span class="t ar">السرية · التكامل · التوفر</span>
+    <span class="t en">Symmetric &amp; asymmetric crypto</span>
+    <span class="t ar">تشفير متماثل وغير متماثل</span>
+    <span class="t en">50 scenario MCQs</span>
+    <span class="t ar">50 سؤال اختيار من متعدد</span>
+  </div>
+</header>
+
+<section class="topic" id="goals">
+<h2>
+  <span class="t en">1. Core security goals: confidentiality, integrity, availability, authenticity</span>
+  <span class="t ar">1. الأهداف الأمنية: السرية، التكامل، التوفر، الأصالة</span>
+</h2>
+<div class="card">
+  <p><span class="t en"><strong>Confidentiality</strong> keeps information secret from unauthorized parties. Mechanisms include encryption, access control, and steganography. Breaches include eavesdropping and stolen credentials.</span>
+  <span class="t ar"><strong>السرية</strong> تبقي المعلومات بعيدة عن غير المصرح لهم. تشمل الآليات التشفير والتحكم بالوصول والإخفاء. الانتهاكات تشمل التنصت وسرقة بيانات الدخول.</span></p>
+  <p><span class="t en"><strong>Integrity</strong> ensures data and systems are not altered without detection. Use hashes, MACs, and digital signatures. Attacks include tampering, malware that changes files, and MITM modification.</span>
+  <span class="t ar"><strong>التكامل</strong> يضمن عدم تغيير البيانات والأنظمة دون اكتشاف. استخدم الهاش و MAC والتوقيعات الرقمية. الهجمات تشمل التلاعب وبرمجيات تغيّر الملفات وتعديل رجل في الوسط.</span></p>
+  <p><span class="t en"><strong>Availability</strong> means authorized users can access services when needed. Protect with redundancy, filtering, and rate limits. DoS/DDoS and ransomware that locks systems target availability.</span>
+  <span class="t ar"><strong>التوفر</strong> يعني أن المستخدمين المصرح لهم يصلون للخدمات عند الحاجة. الحماية بالتكرار والفلترة وحدود المعدل. DoS/DDoS وبرمجيات الفدية تستهدف التوفر.</span></p>
+  <p><span class="t en"><strong>Authenticity</strong> (authentication) proves identity — who sent a message or who logged in. Passwords, MFA, certificates, and digital signatures support authenticity. Often paired with integrity (you trust both the sender and the content).</span>
+  <span class="t ar"><strong>الأصالة</strong> (المصادقة) تثبت الهوية — من أرسل الرسالة أو من سجّل الدخول. كلمات المرور والمصادقة متعددة العوامل والشهادات والتوقيعات تدعم الأصالة. غالباً تُقرن بالتكامل (تثق بالمرسل والمحتوى).</span></p>
+</div>
+</section>
+
+<section class="topic" id="attacks">
+<h2>
+  <span class="t en">2. Attacks vs security mechanisms vs security services</span>
+  <span class="t ar">2. الفرق بين الهجمات والآليات الأمنية والخدمات الأمنية</span>
+</h2>
+<div class="card">
+  <p><span class="t en"><strong>Security attack:</strong> Any action that compromises a security goal (read secret data, change data, block access, impersonate a user).</span>
+  <span class="t ar"><strong>هجوم أمني:</strong> أي فعل يخترق هدفاً أمنياً (قراءة سرية، تغيير بيانات، حجب وصول، انتحال مستخدم).</span></p>
+  <p><span class="t en"><strong>Security mechanism:</strong> A procedure or algorithm that enforces protection — encryption, hashing, digital signatures, access control lists, firewalls, nonces, MAC, TLS.</span>
+  <span class="t ar"><strong>آلية أمنية:</strong> إجراء أو خوارزمية تفرض الحماية — تشفير، هاش، توقيعات، قوائم تحكم، جدران نارية، NONCE، MAC، TLS.</span></p>
+  <p><span class="t en"><strong>Security service:</strong> The abstract benefit you want — confidentiality service, integrity service, authentication service, non-repudiation, access control. Mechanisms implement services.</span>
+  <span class="t ar"><strong>خدمة أمنية:</strong> المنفعة المجردة المطلوبة — سرية، تكامل، مصادقة، عدم إنكار، تحكم بالوصول. الآليات تحقق الخدمات.</span></p>
+  <table class="compare-table">
+    <tr><th><span class="t en">Passive attack</span><span class="t ar">هجوم سلبي</span></th><th><span class="t en">Active attack</span><span class="t ar">هجوم نشط</span></th></tr>
+    <tr>
+      <td><span class="t en">Eavesdrop, traffic analysis; no change to systems or bits in transit</span><span class="t ar">تنصت وتحليل حركة؛ دون تغيير الأنظمة أو البتات</span></td>
+      <td><span class="t en">Modify, delete, inject, replay, DoS, malware installation</span><span class="t ar">تعديل، حذف، حقن، إعادة تشغيل، حرمان خدمة، تثبيت برمجيات</span></td>
+    </tr>
+    <tr>
+      <td><span class="t en">Hard to detect (silent observation)</span><span class="t ar">صعب الكشف (مراقبة صامتة)</span></td>
+      <td><span class="t en">Often detectable via logs, IDS, integrity checks</span><span class="t ar">غالباً يُكتشف عبر السجلات و IDS وفحوص التكامل</span></td>
+    </tr>
+  </table>
+</div>
+</section>
+
+<section class="topic" id="crypto">
+<h2>
+  <span class="t en">3. Symmetric vs asymmetric encryption; public &amp; private keys</span>
+  <span class="t ar">3. التشفير المتماثل وغير المتماثل؛ المفتاح العام والخاص</span>
+</h2>
+<div class="card">
+  <p><span class="t en"><strong>Symmetric:</strong> One shared secret key K for encrypt and decrypt. Fast (AES). Challenge: secure key distribution.</span>
+  <span class="t ar"><strong>متماثل:</strong> مفتاح سري مشترك K للتشفير وفك التشفير. سريع (AES). التحدي: توزيع المفتاح بأمان.</span></p>
+  <p><span class="t en"><strong>Asymmetric (public-key):</strong> Key pair — <strong>public</strong> (publishable) and <strong>private</strong> (secret). Encrypt with recipient's public key; only their private key decrypts. Sign with sender's private key; anyone verifies with sender's public key.</span>
+  <span class="t ar"><strong>غير متماثل:</strong> زوج مفاتيح — <strong>عام</strong> (قابل للنشر) و <strong>خاص</strong> (سري). تشفّر بمفتاح المستلم العام؛ خاصه فقط يفك التشفير. توقّع بخاص المرسل؛ الجميع يتحقق بالعام.</span></p>
+  <p><span class="t en"><strong>Block cipher</strong> (AES): encrypts fixed-size blocks (128 bits for AES) with modes (CBC, GCM). <strong>Stream cipher</strong> generates keystream XORed with data bit/byte-by-byte (legacy RC4; ChaCha20 today).</span>
+  <span class="t ar"><strong>تشفير الكتلة</strong> (AES): يشفّر كتلاً ثابتة (128 بت لـ AES) بأوضاع (CBC، GCM). <strong>تشفير التيار</strong> يولّد تيار مفتاح يُعمل معه XOR بت/بايت تلو الآخر.</span></p>
+  <p><span class="t en"><strong>NONCE</strong> (number used once): unpredictable value used once per session/message to stop replay attacks and to derive unique IVs/keys in protocols.</span>
+  <span class="t ar"><strong>NONCE</strong> (رقم يُستخدم مرة واحدة): قيمة غير متوقعة تُستخدم مرة لكل جلسة/رسالة لمنع إعادة التشغيل ولاشتقاق IV/مفاتيح فريدة.</span></p>
+</div>
+</section>
+
+<section class="topic" id="aes">
+<h2>
+  <span class="t en">4. AES, TRNG, hash functions, SHA, concatenation, RSA signatures, tag types, MAC</span>
+  <span class="t ar">4. AES و TRNG ودوال الهاش و SHA والربط وتوقيع RSA وأنواع العلامات و MAC</span>
+</h2>
+<div class="card">
+  <p><span class="t en"><strong>AES key sizes:</strong> 128, 192, or 256 bits. <strong>Rounds:</strong> 10 (128-bit key), 12 (192-bit), 14 (256-bit). Each round: <strong>SubBytes</strong> (S-box), <strong>ShiftRows</strong>, <strong>MixColumns</strong> (skipped last round), <strong>AddRoundKey</strong> (XOR round key). Initial AddRoundKey before rounds.</span>
+  <span class="t ar"><strong>أطوال مفاتيح AES:</strong> 128 أو 192 أو 256 بت. <strong>الجولات:</strong> 10 أو 12 أو 14. كل جولة: SubBytes، ShiftRows، MixColumns (ما عدا الأخيرة)، AddRoundKey. جولة AddRoundKey أولية قبل الجولات.</span></p>
+  <p><span class="t en"><strong>TRNG</strong> (True Random Number Generator): entropy from physical noise — used for keys, salts, nonces when prediction must be impossible. <strong>PRNG</strong> is deterministic from a seed (use seed from TRNG when possible).</span>
+  <span class="t ar"><strong>TRNG</strong>: عشوائية من ضوضاء فيزيائية — لمفاتيح وملح و NONCE عندما يجب ألا يُتوقع. <strong>PRNG</strong> حتمي من بذرة (يفضل بذرة من TRNG).</span></p>
+  <p><span class="t en"><strong>Hash output:</strong> Fixed-length digest; one-way; preimage and collision resistance. Used for integrity, password storage (with salt), and building MACs/signatures.</span>
+  <span class="t ar"><strong>مخرج الهاش:</strong> ملخص بطول ثابت؛ اتجاه واحد؛ مقاومة أصلية وتصادم. للتكامل وتخزين كلمات المرور (مع ملح) وبناء MAC والتوقيعات.</span></p>
+  <p><span class="t en"><strong>Concatenation (∥):</strong> H(M ∥ N) hashes message M followed by N — order matters; protocols specify exact layout to avoid ambiguity attacks.</span>
+  <span class="t ar"><strong>الربط (∥):</strong> H(M ∥ N) يهشِّر M ثم N — الترتيب مهم؛ البروتوكولات تحدد التنسيق لتجنب هجمات الغموض.</span></p>
+  <p><span class="t en"><strong>SHA:</strong> SHA-1 (160-bit, weak), SHA-2 family (SHA-256 widely used), SHA-3 (sponge). Prefer SHA-256 or stronger today.</span>
+  <span class="t ar"><strong>SHA:</strong> SHA-1 (160 بت، ضعيف)، عائلة SHA-2 (SHA-256 شائع)، SHA-3. يفضل SHA-256 أو أقوى اليوم.</span></p>
+  <p><span class="t en"><strong>RSA digital signature:</strong> Hash message → sign digest with sender's <em>private</em> key → verifier decrypts with sender's <em>public</em> key and compares. Provides integrity, authenticity, non-repudiation.</span>
+  <span class="t ar"><strong>توقيع RSA:</strong> هاش الرسالة → وقع الملخص بالمفتاح <em>الخاص</em> → المتحقق يفك بالمفتاح <em>العام</em> ويقارن. يوفر تكامل وأصالة وعدم إنكار.</span></p>
+  <p><span class="t en"><strong>Tag types:</strong> (1) <strong>MAC tag</strong> (e.g., HMAC) — symmetric keyed tag; (2) <strong>AEAD authentication tag</strong> (e.g., GCM) — verifies ciphertext integrity; (3) <strong>Digital signature</strong> — asymmetric tag on a hash.</span>
+  <span class="t ar"><strong>أنواع العلامات:</strong> (1) علامة MAC (مثل HMAC) — متماثلة بمفتاح؛ (2) علامة AEAD (مثل GCM) لتكامل النص المشفر؛ (3) توقيع رقمي — علامة غير متماثلة على الهاش.</span></p>
+  <p><span class="t en"><strong>MAC</strong> (Message Authentication Code): Keyed function ensuring message integrity + authenticity between parties sharing K (HMAC-SHA256). Different from network MAC address.</span>
+  <span class="t ar"><strong>MAC</strong>: دالة بمفتاح تضمن تكامل الرسالة وأصالتها بين طرفين يتشاركان K (HMAC-SHA256). مختلف عن عنوان MAC للشبكة.</span></p>
+</div>
+</section>
+
+<section class="topic" id="pki">
+<h2>
+  <span class="t en">5. PKI, TLS, and SSH</span>
+  <span class="t ar">5. PKI و TLS و SSH</span>
+</h2>
+<div class="card">
+  <p><span class="t en"><strong>PKI (Public Key Infrastructure):</strong> System of CAs, certificates (X.509), certificate revocation, and trust stores that bind names to public keys. Enables verifying TLS servers and signing emails/code.</span>
+  <span class="t ar"><strong>PKI:</strong> نظام جهات مصدرة وشهادات (X.509) وإبطال ومخازن ثقة تربط الأسماء بالمفاتيح العامة. يمكّن التحقق من خوادم TLS وتوقيع البريد والبرمجيات.</span></p>
+  <p><span class="t en"><strong>TLS (Transport Layer Security):</strong> Protocol that provides confidentiality and integrity on a transport connection (usually TCP). Handshake negotiates cipher suite, authenticates server (client optional), derives session keys. TLS 1.2/1.3 — successor to SSL. Used by HTTPS.</span>
+  <span class="t ar"><strong>TLS:</strong> بروتوكول يوفر سرية وتكامل على اتصال نقل (غالباً TCP). المصافحة تتفاوض على التشفير وتصادق الخادم وتشتق مفاتيح الجلسة. TLS 1.2/1.3 — خلف SSL. يُستخدم في HTTPS.</span></p>
+  <p><span class="t en"><strong>SSH (Secure Shell):</strong> Encrypts remote login, command execution, and file copy (SCP/SFTP) over insecure networks. Replaces telnet/rsh. Server authentication via host keys; user auth via password or public key.</span>
+  <span class="t ar"><strong>SSH:</strong> يشفّر الدخول البعيد وتنفيذ الأوامر ونسخ الملفات (SCP/SFTP) عبر شبكات غير آمنة. يحل محل telnet. مصادقة الخادم بمفاتيح مضيف؛ المستخدم بكلمة مرور أو مفتاح عام.</span></p>
+</div>
+</section>
+
+<section class="topic" id="ipv4">
+<h2>
+  <span class="t en">6. IPv4 address, network address, and subnet mask</span>
+  <span class="t ar">6. عنوان IPv4 وعنوان الشبكة وقناع الشبكة</span>
+</h2>
+<div class="card">
+  <p><span class="t en">An <strong>IPv4 address</strong> is 32 bits, often written dotted-decimal (e.g., 192.168.10.45). A <strong>subnet mask</strong> (or prefix length /n) separates network bits from host bits. Example mask 255.255.255.0 = /24 → first 24 bits are network, last 8 are host.</span>
+  <span class="t ar"><strong>عنوان IPv4</strong> 32 بت، يُكتب عادةً عشرياً مقطّعاً. <strong>قناع الشبكة</strong> (أو البادئة /n) يفصل بتات الشبكة عن المضيف. مثال 255.255.255.0 = /24 → أول 24 بت شبكة، آخر 8 مضيف.</span></p>
+  <p><span class="t en"><strong>Network address</strong> = IP bitwise AND mask (host bits all 0). <strong>Broadcast</strong> = host bits all 1. Usable hosts ≈ 2<sup>host bits</sup> − 2 (classic LAN, excluding network/broadcast).</span>
+  <span class="t ar"><strong>عنوان الشبكة</strong> = IP مع AND للقناع (بتات المضيف أصفار). <strong>البث</strong> = بتات المضيف كلها 1. المضيفات القابلة للاستخدام ≈ 2<sup>بتات المضيف</sup> − 2.</span></p>
+  <p><span class="t en">Security link: correct subnetting limits broadcast domains and supports firewall rules (allow/deny by network segment).</span>
+  <span class="t ar">الربط الأمني: التجزئة الصحيحة تحد من نطاقات البث وتدعم قواعد الجدار الناري (سماح/منع حسب الشبكة).</span></p>
+</div>
+</section>
+
+<section id="quiz">
+<div class="quiz-header">
+  <h2><span class="t en">Practice: 50 Multiple-Choice Questions</span><span class="t ar">تدريب: 50 سؤال اختيار من متعدد</span></h2>
+  <p class="t en" style="color:var(--muted);margin:0;">Tap a button to reveal the correct answer and a short explanation.</p>
+  <p class="t ar" style="color:var(--muted);margin:0;">اضغط الزر لإظهار الإجابة الصحيحة وتفسير مختصر.</p>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">1. Which security goal ensures that only authorized parties can read sensitive data?</span><span class="t ar">1. أي هدف أمني يضمن أن الأطراف المصرح لها فقط يمكنها قراءة البيانات الحساسة؟</span></div>
+<ul class="options"><li><span class="t en">A) Confidentiality</span><span class="t ar">A) السرية</span></li><li><span class="t en">B) Availability</span><span class="t ar">B) التوفر</span></li><li><span class="t en">C) Integrity</span><span class="t ar">C) التكامل</span></li><li><span class="t en">D) Scalability</span><span class="t ar">D) قابلية التوسع</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q1')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q1" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Confidentiality</span><span class="t ar">الصحيح: A) السرية</span></div>
+<p><span class="t en">Confidentiality protects data from unauthorized disclosure (e.g., encryption).</span><span class="t ar">السرية تحمي البيانات من الكشف غير المصرح به (مثل التشفير).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">2. Availability primarily defends against which type of threat?</span><span class="t ar">2. التوفر يدافع بشكل أساسي ضد أي نوع من التهديدات؟</span></div>
+<ul class="options"><li><span class="t en">A) Eavesdropping on traffic</span><span class="t ar">A) التنصت على حركة المرور</span></li><li><span class="t en">B) Denial-of-service that blocks legitimate access</span><span class="t ar">B) حرمان الخدمة الذي يمنع الوصول الشرعي</span></li><li><span class="t en">C) Tampering with file contents</span><span class="t ar">C) التلاعب بمحتوى الملفات</span></li><li><span class="t en">D) Forging digital signatures</span><span class="t ar">D) تزوير التوقيعات الرقمية</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q2')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q2" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) Denial-of-service that blocks legitimate access</span><span class="t ar">الصحيح: B) حرمان الخدمة الذي يمنع الوصول الشرعي</span></div>
+<p><span class="t en">DoS/DDoS attacks target availability by making resources unreachable.</span><span class="t ar">هجمات DoS/DDoS تستهدف التوفر بجعل الموارد غير قابلة للوصول.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">3. Integrity means attackers cannot ___ data without detection.</span><span class="t ar">3. التكامل يعني أن المهاجمين لا يستطيعون ___ البيانات دون اكتشاف ذلك.</span></div>
+<ul class="options"><li><span class="t en">A) encrypt</span><span class="t ar">A) تشفير</span></li><li><span class="t en">B) modify</span><span class="t ar">B) تعديل</span></li><li><span class="t en">C) route</span><span class="t ar">C) توجيه</span></li><li><span class="t en">D) compress</span><span class="t ar">D) ضغط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q3')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q3" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) modify</span><span class="t ar">الصحيح: B) تعديل</span></div>
+<p><span class="t en">Integrity ensures data is not altered undetectably (hashes, MACs help).</span><span class="t ar">التكامل يضمن عدم تغيير البيانات دون اكتشاف (الهاش و MAC يساعدان).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">4. Authenticity confirms that a message or user is ___. </span><span class="t ar">4. الأصالة تؤكد أن الرسالة أو المستخدم ___</span></div>
+<ul class="options"><li><span class="t en">A) anonymous</span><span class="t ar">A) مجهول</span></li><li><span class="t en">B) who they claim to be</span><span class="t ar">B) من يدعون أنهم</span></li><li><span class="t en">C) always encrypted</span><span class="t ar">C) مشفّرون دائماً</span></li><li><span class="t en">D) using IPv6 only</span><span class="t ar">D) يستخدمون IPv6 فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q4')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q4" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) who they claim to be</span><span class="t ar">الصحيح: B) من يدعون أنهم</span></div>
+<p><span class="t en">Authentication binds identity to entities (passwords, certs, signatures).</span><span class="t ar">المصادقة تربط الهوية بالكيانات (كلمات المرور، الشهادات، التوقيعات).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">5. In IPv4, how many bits are in a host address field when using a /26 prefix?</span><span class="t ar">5. في IPv4، كم بت في حقل عنوان المضيف عند استخدام بادئة /26؟</span></div>
+<ul class="options"><li><span class="t en">A) 4</span><span class="t ar">A) 4</span></li><li><span class="t en">B) 6</span><span class="t ar">B) 6</span></li><li><span class="t en">C) 8</span><span class="t ar">C) 8</span></li><li><span class="t en">D) 10</span><span class="t ar">D) 10</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q5')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q5" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) 6</span><span class="t ar">الصحيح: B) 6</span></div>
+<p><span class="t en">/26 leaves 32−26 = 6 host bits (62 usable hosts with classic formula).</span><span class="t ar">/26 تترك 32−26 = 6 بتات للمضيف (62 مضيفاً قابلاً للاستخدام بالصيغة الكلاسيكية).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">6. The AND of an IP address with its subnet mask yields the ___.</span><span class="t ar">6. نتيجة AND لعنوان IP مع قناع الشبكة هي ___.</span></div>
+<ul class="options"><li><span class="t en">A) Broadcast address</span><span class="t ar">A) عنوان البث</span></li><li><span class="t en">B) Network address</span><span class="t ar">B) عنوان الشبكة</span></li><li><span class="t en">C) Default gateway only</span><span class="t ar">C) البوابة الافتراضية فقط</span></li><li><span class="t en">D) MAC address</span><span class="t ar">D) عنوان MAC</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q6')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q6" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) Network address</span><span class="t ar">الصحيح: B) عنوان الشبكة</span></div>
+<p><span class="t en">IP ∧ mask identifies the network portion (network ID).</span><span class="t ar">IP ∧ القناع يحدد جزء الشبكة (معرّف الشبكة).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">7. A nonce is typically used to ___.</span><span class="t ar">7. يُستخدم NONCE عادةً من أجل ___.</span></div>
+<ul class="options"><li><span class="t en">A) Replace a subnet mask</span><span class="t ar">A) استبدال قناع الشبكة</span></li><li><span class="t en">B) Prevent replay of an old protocol message</span><span class="t ar">B) منع إعادة تشغيل رسالة بروتوكول قديمة</span></li><li><span class="t en">C) Increase MTU size</span><span class="t ar">C) زيادة حجم MTU</span></li><li><span class="t en">D) Assign TLS cipher suites</span><span class="t ar">D) تعيين مجموعات تشفير TLS</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q7')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q7" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) Prevent replay of an old protocol message</span><span class="t ar">الصحيح: B) منع إعادة تشغيل رسالة بروتوكول قديمة</span></div>
+<p><span class="t en">Nonces are fresh one-time values tied to a session or request.</span><span class="t ar">NONCE قيم جديدة لمرة واحدة مرتبطة بجلسة أو طلب.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">8. A passive attack is characterized by ___.</span><span class="t ar">8. الهجوم السلبي يتميز بـ ___.</span></div>
+<ul class="options"><li><span class="t en">A) No modification of system resources or data in transit</span><span class="t ar">A) عدم تعديل موارد النظام أو البيانات أثناء النقل</span></li><li><span class="t en">B) Flooding a server with SYN packets</span><span class="t ar">B) إغراق الخادم بحزم SYN</span></li><li><span class="t en">C) Deleting log files</span><span class="t ar">C) حذف ملفات السجل</span></li><li><span class="t en">D) Injecting malware on disk</span><span class="t ar">D) حقن برمجيات خبيثة على القرص</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q8')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q8" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) No modification of system resources or data in transit</span><span class="t ar">الصحيح: A) عدم تعديل موارد النظام أو البيانات أثناء النقل</span></div>
+<p><span class="t en">Eavesdropping/traffic analysis are passive — observation without alteration.</span><span class="t ar">التنصت/تحليل الحركة سلبي — مراقبة دون تغيير.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">9. Which is an example of an active attack?</span><span class="t ar">9. أي مثال يمثل هجوماً نشطاً؟</span></div>
+<ul class="options"><li><span class="t en">A) Listening to Wi-Fi packets without sending</span><span class="t ar">A) الاستماع لحزم Wi-Fi دون إرسال</span></li><li><span class="t en">B) Reading ciphertext on a wire</span><span class="t ar">B) قراءة النص المشفر على السلك</span></li><li><span class="t en">C) Man-in-the-middle altering packets</span><span class="t ar">C) رجل في الوسط يعدّل الحزم</span></li><li><span class="t en">D) Counting packet sizes only</span><span class="t ar">D) عد أحجام الحزم فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q9')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q9" class="explanation">
+<div class="correct-label"><span class="t en">Correct: C) Man-in-the-middle altering packets</span><span class="t ar">الصحيح: C) رجل في الوسط يعدّل الحزم</span></div>
+<p><span class="t en">Active attacks change data or systems (MITM, spoofing, malware).</span><span class="t ar">الهجمات النشطة تغيّر البيانات أو الأنظمة (MITM، انتحال، برمجيات خبيثة).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">10. Security ___ are abstract goals (e.g., confidentiality); ___ are tools (e.g., encryption).</span><span class="t ar">10. ___ الأمن هي أهداف مجردة (مثل السرية)؛ ___ هي أدوات (مثل التشفير).</span></div>
+<ul class="options"><li><span class="t en">A) attacks; services</span><span class="t ar">A) هجمات؛ خدمات</span></li><li><span class="t en">B) services; mechanisms</span><span class="t ar">B) خدمات؛ آليات</span></li><li><span class="t en">C) mechanisms; attacks</span><span class="t ar">C) آليات؛ هجمات</span></li><li><span class="t en">D) protocols; attacks</span><span class="t ar">D) بروتوكولات؛ هجمات</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q10')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q10" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) services; mechanisms</span><span class="t ar">الصحيح: B) خدمات؛ آليات</span></div>
+<p><span class="t en">Services = what you want; mechanisms = how you achieve it; attacks threaten services.</span><span class="t ar">الخدمات = ما تريد؛ الآليات = كيف تحققه؛ الهجمات تهدد الخدمات.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">11. Symmetric encryption uses ___.</span><span class="t ar">11. التشفير المتماثل يستخدم ___.</span></div>
+<ul class="options"><li><span class="t en">A) One shared secret key for both directions</span><span class="t ar">A) مفتاح سري مشترك واحد للاتجاهين</span></li><li><span class="t en">B) Only public keys</span><span class="t ar">B) مفاتيح عامة فقط</span></li><li><span class="t en">C) No keys at all</span><span class="t ar">C) بدون مفاتيح</span></li><li><span class="t en">D) Different keys that cannot be related</span><span class="t ar">D) مفاتيح مختلفة لا يمكن ربطها</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q11')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q11" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) One shared secret key for both directions</span><span class="t ar">الصحيح: A) مفتاح سري مشترك واحد للاتجاهين</span></div>
+<p><span class="t en">Alice and Bob share K; fast for bulk data (AES).</span><span class="t ar">أليس وبوب يتشاركان K؛ سريع للبيانات الكبيرة (AES).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">12. Asymmetric encryption solves key distribution using ___.</span><span class="t ar">12. التشفير غير المتماثل يحل توزيع المفاتيح باستخدام ___.</span></div>
+<ul class="options"><li><span class="t en">A) Identical shared secrets only</span><span class="t ar">A) أسرار مشتركة متطابقة فقط</span></li><li><span class="t en">B) A public key for encrypt/verify and private key for decrypt/sign</span><span class="t ar">B) مفتاح عام للتشفير/التحقق ومفتاح خاص لفك التشفير/التوقيع</span></li><li><span class="t en">C) Subnet masks</span><span class="t ar">C) أقنعة الشبكة</span></li><li><span class="t en">D) Nonces only</span><span class="t ar">D) NONCE فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q12')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q12" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) A public key for encrypt/verify and private key for decrypt/sign</span><span class="t ar">الصحيح: B) مفتاح عام للتشفير/التحقق ومفتاح خاص لفك التشفير/التوقيع</span></div>
+<p><span class="t en">Public encrypts; only private holder decrypts (RSA, ECC).</span><span class="t ar">العام يشفّر؛ صاحب الخاص فقط يفك التشفير (RSA، ECC).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">13. You encrypt with ___ and decrypt with ___ in RSA messaging to Bob.</span><span class="t ar">13. تشفّر بـ ___ وتفك التشفير بـ ___ في رسائل RSA إلى بوب.</span></div>
+<ul class="options"><li><span class="t en">A) Bob's public; Bob's private</span><span class="t ar">A) عام بوب؛ خاص بوب</span></li><li><span class="t en">B) Bob's private; Bob's public</span><span class="t ar">B) خاص بوب؛ عام بوب</span></li><li><span class="t en">C) Alice's public; Alice's private</span><span class="t ar">C) عام أليس؛ خاص أليس</span></li><li><span class="t en">D) Shared symmetric only</span><span class="t ar">D) متماثل مشترك فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q13')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q13" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Bob's public; Bob's private</span><span class="t ar">الصحيح: A) عام بوب؛ خاص بوب</span></div>
+<p><span class="t en">Anyone uses Bob's public to encrypt; only Bob's private decrypts.</span><span class="t ar">الجميع يستخدم عام بوب للتشفير؛ خاص بوب فقط يفك التشفير.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">14. AES is a ___ cipher operating on fixed-size blocks.</span><span class="t ar">14. AES هو تشفير ___ يعمل على كتل بحجم ثابت.</span></div>
+<ul class="options"><li><span class="t en">A) stream</span><span class="t ar">A) تيار</span></li><li><span class="t en">B) block</span><span class="t ar">B) كتلة</span></li><li><span class="t en">C) hash</span><span class="t ar">C) هاش</span></li><li><span class="t en">D) MAC</span><span class="t ar">D) MAC</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q14')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q14" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) block</span><span class="t ar">الصحيح: B) كتلة</span></div>
+<p><span class="t en">AES block size is 128 bits regardless of key length.</span><span class="t ar">حجم كتلة AES 128 بت بغض النظر عن طول المفتاح.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">15. RC4-style algorithms are examples of ___ ciphers.</span><span class="t ar">15. خوارزميات بأسلوب RC4 أمثلة على تشفير ___.</span></div>
+<ul class="options"><li><span class="t en">A) block</span><span class="t ar">A) كتلة</span></li><li><span class="t en">B) stream</span><span class="t ar">B) تيار</span></li><li><span class="t en">C) public-key</span><span class="t ar">C) مفتاح عام</span></li><li><span class="t en">D) hash</span><span class="t ar">D) هاش</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q15')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q15" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) stream</span><span class="t ar">الصحيح: B) تيار</span></div>
+<p><span class="t en">Stream ciphers encrypt one bit/byte at a time with keystream.</span><span class="t ar">تشفير التيار يشفّر بت/بايت واحد في كل مرة بتيار مفتاح.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">16. Valid AES key lengths (in bits) include ___.</span><span class="t ar">16. أطوال مفاتيح AES الصالحة (بالبت) تشمل ___.</span></div>
+<ul class="options"><li><span class="t en">A) 64, 128</span><span class="t ar">A) 64، 128</span></li><li><span class="t en">B) 128, 192, 256</span><span class="t ar">B) 128، 192، 256</span></li><li><span class="t en">C) 256, 512</span><span class="t ar">C) 256، 512</span></li><li><span class="t en">D) 96, 160</span><span class="t ar">D) 96، 160</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q16')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q16" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) 128, 192, 256</span><span class="t ar">الصحيح: B) 128، 192، 256</span></div>
+<p><span class="t en">AES supports 128-, 192-, and 256-bit keys.</span><span class="t ar">AES يدعم مفاتيح 128 و 192 و 256 بت.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">17. How many AES rounds for a 256-bit key?</span><span class="t ar">17. كم جولة AES لمفتاح 256 بت؟</span></div>
+<ul class="options"><li><span class="t en">A) 10</span><span class="t ar">A) 10</span></li><li><span class="t en">B) 12</span><span class="t ar">B) 12</span></li><li><span class="t en">C) 14</span><span class="t ar">C) 14</span></li><li><span class="t en">D) 16</span><span class="t ar">D) 16</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q17')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q17" class="explanation">
+<div class="correct-label"><span class="t en">Correct: C) 14</span><span class="t ar">الصحيح: C) 14</span></div>
+<p><span class="t en">Rounds: 10 (128-bit key), 12 (192-bit), 14 (256-bit).</span><span class="t ar">الجولات: 10 (مفتاح 128)، 12 (192)، 14 (256).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">18. Which is NOT a standard AES round transformation (for full rounds)?</span><span class="t ar">18. أي التالي ليس تحويلاً قياسياً في جولة AES (للجولات الكاملة)?</span></div>
+<ul class="options"><li><span class="t en">A) SubBytes</span><span class="t ar">A) SubBytes</span></li><li><span class="t en">B) ShiftRows</span><span class="t ar">B) ShiftRows</span></li><li><span class="t en">C) MixColumns</span><span class="t ar">C) MixColumns</span></li><li><span class="t en">D) HammingCode</span><span class="t ar">D) HammingCode</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q18')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q18" class="explanation">
+<div class="correct-label"><span class="t en">Correct: D) HammingCode</span><span class="t ar">الصحيح: D) HammingCode</span></div>
+<p><span class="t en">AES uses SubBytes, ShiftRows, MixColumns, AddRoundKey each round.</span><span class="t ar">AES يستخدم SubBytes و ShiftRows و MixColumns و AddRoundKey كل جولة.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">19. A TRNG derives randomness from ___.</span><span class="t ar">19. TRNG يستمد العشوائية من ___.</span></div>
+<ul class="options"><li><span class="t en">A) Purely a mathematical formula with fixed seed</span><span class="t ar">A) صيغة رياضية بحسب معامل ثابت فقط</span></li><li><span class="t en">B) Physical entropy (noise, timing jitter)</span><span class="t ar">B) إنتروبيا فيزيائية (ضوضاء، اضطراب التوقيت)</span></li><li><span class="t en">C) IPv4 subnet calculations</span><span class="t ar">C) حسابات أقنعة IPv4</span></li><li><span class="t en">D) TLS handshake messages</span><span class="t ar">D) رسائل مصافحة TLS</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q19')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q19" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) Physical entropy (noise, timing jitter)</span><span class="t ar">الصحيح: B) إنتروبيا فيزيائية (ضوضاء، اضطراب التوقيت)</span></div>
+<p><span class="t en">True Random Number Generators sample unpredictable physical events.</span><span class="t ar">مولدات الأرقام العشوائية الحقيقية تعتمد أحداثاً فيزيائية غير متوقعة.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">20. A cryptographic hash function maps input of arbitrary length to ___.</span><span class="t ar">20. دالة الهاش التشفيرية تحوّل مدخلاً بطول غير محدود إلى ___.</span></div>
+<ul class="options"><li><span class="t en">A) Variable-length output</span><span class="t ar">A) مخرج بطول متغير</span></li><li><span class="t en">B) Fixed-length digest</span><span class="t ar">B) ملخص بطول ثابت</span></li><li><span class="t en">C) The same as the key</span><span class="t ar">C) نفس المفتاح</span></li><li><span class="t en">D) A public key</span><span class="t ar">D) مفتاح عام</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q20')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q20" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) Fixed-length digest</span><span class="t ar">الصحيح: B) ملخص بطول ثابت</span></div>
+<p><span class="t en">SHA-256 always outputs 256 bits regardless of input size.</span><span class="t ar">SHA-256 تخرج دائماً 256 بت بغض النظر عن حجم المدخل.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">21. Concatenation before hashing is written as H(m₁ ∥ m₂) meaning ___.</span><span class="t ar">21. الربط قبل الهاش يُكتب H(m₁ ∥ m₂) بمعنى ___.</span></div>
+<ul class="options"><li><span class="t en">A) Hash only the longer message</span><span class="t ar">A) هاش الرسالة الأطول فقط</span></li><li><span class="t en">B) Hash the juxtaposition of m₁ followed by m₂</span><span class="t ar">B) هاش وصل m₁ ثم m₂</span></li><li><span class="t en">C) Exclusive-or the messages</span><span class="t ar">C) XOR للرسالتين</span></li><li><span class="t en">D) Encrypt with two keys</span><span class="t ar">D) تشفير بمفتاحين</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q21')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q21" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) Hash the juxtaposition of m₁ followed by m₂</span><span class="t ar">الصحيح: B) هاش وصل m₁ ثم m₂</span></div>
+<p><span class="t en">∥ denotes string concatenation — order matters in protocols.</span><span class="t ar">∥ يعني ربط السلاسل — الترتيب مهم في البروتوكولات.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">22. SHA-1 produces a ___-bit digest (deprecated for security).</span><span class="t ar">22. SHA-1 ينتج ملخصاً بطول ___ بت (مهجور أمنياً).</span></div>
+<ul class="options"><li><span class="t en">A) 128</span><span class="t ar">A) 128</span></li><li><span class="t en">B) 160</span><span class="t ar">B) 160</span></li><li><span class="t en">C) 256</span><span class="t ar">C) 256</span></li><li><span class="t en">D) 512</span><span class="t ar">D) 512</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q22')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q22" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) 160</span><span class="t ar">الصحيح: B) 160</span></div>
+<p><span class="t en">SHA-256 outputs 256 bits; SHA-1 outputs 160 bits.</span><span class="t ar">SHA-256 تخرج 256 بت؛ SHA-1 تخرج 160 بت.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">23. In RSA signatures, the sender signs with ___ and verifiers use ___.</span><span class="t ar">23. في توقيع RSA، المرسل يوقّع بـ ___ والمتحققون يستخدمون ___.</span></div>
+<ul class="options"><li><span class="t en">A) Private key; sender's public key</span><span class="t ar">A) المفتاح الخاص؛ المفتاح العام للمرسل</span></li><li><span class="t en">B) Public key; private key</span><span class="t ar">B) المفتاح العام؛ المفتاح الخاص</span></li><li><span class="t en">C) Symmetric key twice</span><span class="t ar">C) مفتاح متماثل مرتين</span></li><li><span class="t en">D) Subnet mask; IP</span><span class="t ar">D) قناع الشبكة؛ IP</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q23')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q23" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Private key; sender's public key</span><span class="t ar">الصحيح: A) المفتاح الخاص؛ المفتاح العام للمرسل</span></div>
+<p><span class="t en">Sign = encrypt hash with private key; verify with matching public key.</span><span class="t ar">التوقيع = تشفير الهاش بالمفتاح الخاص؛ التحقق بالمفتاح العام المقابل.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">24. An authentication tag from AES-GCM is an example of a ___ tag.</span><span class="t ar">24. علامة المصادقة من AES-GCM مثال على علامة ___.</span></div>
+<ul class="options"><li><span class="t en">A) routing</span><span class="t ar">A) توجيه</span></li><li><span class="t en">B) integrity/authentication</span><span class="t ar">B) تكامل/مصادقة</span></li><li><span class="t en">C) ARP</span><span class="t ar">C) ARP</span></li><li><span class="t en">D) DNS</span><span class="t ar">D) DNS</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q24')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q24" class="explanation">
+<div class="correct-label"><span class="t en">Correct: B) integrity/authentication</span><span class="t ar">الصحيح: B) تكامل/مصادقة</span></div>
+<p><span class="t en">AEAD modes output ciphertext plus an authentication tag verifying integrity.</span><span class="t ar">أوضاع AEAD تخرج نصاً مشفراً مع علامة مصادقة تتحقق من التكامل.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">25. PKI primarily provides ___.</span><span class="t ar">25. PKI يوفر أساساً ___.</span></div>
+<ul class="options"><li><span class="t en">A) A framework to bind public keys to identities via certificates & CAs</span><span class="t ar">A) إطاراً لربط المفاتيح العامة بالهويات عبر الشهادات والجهات المصدرة</span></li><li><span class="t en">B) Physical cable encryption</span><span class="t ar">B) تشفير الكابلات الفيزيائية</span></li><li><span class="t en">C) Only symmetric keys</span><span class="t ar">C) مفاتيح متماثلة فقط</span></li><li><span class="t en">D) Wi-Fi channel selection</span><span class="t ar">D) اختيار قناة Wi-Fi</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q25')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q25" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) A framework to bind public keys to identities via certificates & CAs</span><span class="t ar">الصحيح: A) إطاراً لربط المفاتيح العامة بالهويات عبر الشهادات والجهات المصدرة</span></div>
+<p><span class="t en">Public Key Infrastructure manages trust chains (roots, intermediates).</span><span class="t ar">البنية التحتية للمفتاح العام تدير سلاسل الثقة (جذور، وسيطة).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">26. TLS sits mainly above ___ and below application protocols like HTTPS.</span><span class="t ar">26. TLS يقع أساساً فوق ___ وتحت بروتوكولات التطبيق مثل HTTPS.</span></div>
+<ul class="options"><li><span class="t en">A) TCP</span><span class="t ar">A) TCP</span></li><li><span class="t en">B) Ethernet only</span><span class="t ar">B) Ethernet فقط</span></li><li><span class="t en">C) ARP</span><span class="t ar">C) ARP</span></li><li><span class="t en">D) ICMP only</span><span class="t ar">D) ICMP فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q26')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q26" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) TCP</span><span class="t ar">الصحيح: A) TCP</span></div>
+<p><span class="t en">TLS typically runs over reliable transports (TCP); QUIC integrates differently.</span><span class="t ar">TLS يعمل عادةً فوق نقل موثوق (TCP); QUIC تكامل مختلف.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">27. A MAC provides ___.</span><span class="t ar">27. MAC يوفر ___.</span></div>
+<ul class="options"><li><span class="t en">A) Integrity and authenticity using a shared secret</span><span class="t ar">A) تكامل وأصالة باستخدام سر مشترك</span></li><li><span class="t en">B) Only confidentiality without keys</span><span class="t ar">B) سرية فقط بدون مفاتيح</span></li><li><span class="t en">C) Public bulletin boards</span><span class="t ar">C) لوحات إعلان عامة</span></li><li><span class="t en">D) IP address leasing</span><span class="t ar">D) تأجير عناوين IP</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q27')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q27" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Integrity and authenticity using a shared secret</span><span class="t ar">الصحيح: A) تكامل وأصالة باستخدام سر مشترك</span></div>
+<p><span class="t en">Message Authentication Code — HMAC-SHA256 is common.</span><span class="t ar">رمز مصادقة الرسالة — HMAC-SHA256 شائع.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">28. SSH is primarily used to ___.</span><span class="t ar">28. SSH يُستخدم أساساً من أجل ___.</span></div>
+<ul class="options"><li><span class="t en">A) Secure remote shell and tunneling over untrusted networks</span><span class="t ar">A) وصول طرفي آمن ونفق عبر شبكات غير موثوقة</span></li><li><span class="t en">B) Assign DHCP leases</span><span class="t ar">B) تعيين تأجير DHCP</span></li><li><span class="t en">C) Replace DNS entirely</span><span class="t ar">C) استبدال DNS بالكامل</span></li><li><span class="t en">D) Encode video streams</span><span class="t ar">D) ترميز تدفقات الفيديو</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q28')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q28" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Secure remote shell and tunneling over untrusted networks</span><span class="t ar">الصحيح: A) وصول طرفي آمن ونفق عبر شبكات غير موثوقة</span></div>
+<p><span class="t en">SSH encrypts terminal/file transfer (often port 22).</span><span class="t ar">SSH يشفّر الطرفية/نقل الملفات (غالباً المنفذ 22).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">29. Which attack threatens confidentiality most directly?</span><span class="t ar">29. أي هجوم يهدد السرية مباشرة أكثر؟</span></div>
+<ul class="options"><li><span class="t en">A) Traffic eavesdropping</span><span class="t ar">A) التنصت على الحركة</span></li><li><span class="t en">B) SYN flood</span><span class="t ar">B) فيض SYN</span></li><li><span class="t en">C) Power outage</span><span class="t ar">C) انقطاع التيار</span></li><li><span class="t en">D) Bitmap corruption on disk</span><span class="t ar">D) تلف البت ماب على القرص</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q29')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q29" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Traffic eavesdropping</span><span class="t ar">الصحيح: A) التنصت على الحركة</span></div>
+<p><span class="t en">Passive sniffing exposes plaintext or weakly protected data.</span><span class="t ar">الاستنشاق السلبي يكشف النص الصريح أو البيانات ضعيفة الحماية.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">30. Replay attacks are mitigated by using ___.</span><span class="t ar">30. هجمات إعادة التشغيل تُخفّف باستخدام ___.</span></div>
+<ul class="options"><li><span class="t en">A) nonces or timestamps in protocols</span><span class="t ar">A) NONCE أو طوابع زمنية في البروتوكولات</span></li><li><span class="t en">B) larger MTU</span><span class="t ar">B) MTU أكبر</span></li><li><span class="t en">C) shorter cables</span><span class="t ar">C) كابلات أقصر</span></li><li><span class="t en">D) removing TLS</span><span class="t ar">D) إزالة TLS</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q30')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q30" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) nonces or timestamps in protocols</span><span class="t ar">الصحيح: A) NONCE أو طوابع زمنية في البروتوكولات</span></div>
+<p><span class="t en">Fresh values ensure old captured messages are rejected.</span><span class="t ar">القيم الجديدة تضمن رفض الرسائل الملتقطة القديمة.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">31. H(password) stored in a database supports which property when login succeeds only if hash matches?</span><span class="t ar">31. H(password) المخزن في قاعدة بيانات يدعم أي خاصية عند نجاح الدخول فقط إذا تطابق الهاش؟</span></div>
+<ul class="options"><li><span class="t en">A) Verification without storing plaintext password</span><span class="t ar">A) التحقق دون تخزين كلمة المرور صريحة</span></li><li><span class="t en">B) Perfect forward secrecy alone</span><span class="t ar">B) السرية الأمامية الكاملة وحدها</span></li><li><span class="t en">C) ARP resolution</span><span class="t ar">C) حل ARP</span></li><li><span class="t en">D) IPv6 transition</span><span class="t ar">D) انتقال IPv6</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q31')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q31" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Verification without storing plaintext password</span><span class="t ar">الصحيح: A) التحقق دون تخزين كلمة المرور صريحة</span></div>
+<p><span class="t en">Hashes verify credentials; salts defend rainbow tables.</span><span class="t ar">الهاش يتحقق من الاعتماديات؛ الملح يدافع عن جداول قوس قزح.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">32. Collision resistance of a hash means it is hard to find ___ with same hash.</span><span class="t ar">32. مقاومة التصادم للهاش تعني صعوبة إيجاد ___ لهما نفس الهاش.</span></div>
+<ul class="options"><li><span class="t en">A) two distinct inputs</span><span class="t ar">A) مدخلان مختلفان</span></li><li><span class="t en">B) two identical inputs</span><span class="t ar">B) مدخلان متطابقان</span></li><li><span class="t en">C) one input twice</span><span class="t ar">C) مدخل واحد مرتين</span></li><li><span class="t en">D) only null input</span><span class="t ar">D) مدخل فارغ فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q32')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q32" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) two distinct inputs</span><span class="t ar">الصحيح: A) مدخلان مختلفان</span></div>
+<p><span class="t en">Collision → break integrity of hash-based commitments.</span><span class="t ar">التصادم يكسر تكامل الالتزامات المعتمدة على الهاش.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">33. Diffie–Hellman is a security ___ for key agreement, not a hash.</span><span class="t ar">33. ديفي-هيلمان ___ أمنية لاتفاق المفاتيح وليست هاشاً.</span></div>
+<ul class="options"><li><span class="t en">A) mechanism</span><span class="t ar">A) آلية</span></li><li><span class="t en">B) passive attack</span><span class="t ar">B) هجوم سلبي</span></li><li><span class="t en">C) availability outage</span><span class="t ar">C) انقطاع توفر</span></li><li><span class="t en">D) routing table</span><span class="t ar">D) جدول توجيه</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q33')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q33" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) mechanism</span><span class="t ar">الصحيح: A) آلية</span></div>
+<p><span class="t en">Mechanism provides shared secret over public channel.</span><span class="t ar">الآلية توفر سراً مشتركاً عبر قناة عامة.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">34. Certificate in PKI contains a ___ and is signed by a CA.</span><span class="t ar">34. الشهادة في PKI تحتوي على ___ وموقعة من جهة مصدرة.</span></div>
+<ul class="options"><li><span class="t en">A) subject public key + identity</span><span class="t ar">A) مفتاح عام للموضوع + هوية</span></li><li><span class="t en">B) private key of user</span><span class="t ar">B) المفتاح الخاص للمستخدم</span></li><li><span class="t en">C) symmetric session key only</span><span class="t ar">C) مفتاح جلسة متماثل فقط</span></li><li><span class="t en">D) Wi-Fi SSID only</span><span class="t ar">D) SSID فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q34')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q34" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) subject public key + identity</span><span class="t ar">الصحيح: A) مفتاح عام للموضوع + هوية</span></div>
+<p><span class="t en">Never embed private keys in certificates.</span><span class="t ar">لا تضمّن المفاتيح الخاصة في الشهادات أبداً.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">35. During TLS handshake, parties negotiate ___ and authenticate via certificates.</span><span class="t ar">35. أثناء مصافحة TLS يتفاوض الطرفان على ___ ويصادقان عبر الشهادات.</span></div>
+<ul class="options"><li><span class="t en">A) cipher suite & keys</span><span class="t ar">A) مجموعة تشفير ومفاتيح</span></li><li><span class="t en">B) Ethernet MTU only</span><span class="t ar">B) MTU Ethernet فقط</span></li><li><span class="t en">C) ARP entries</span><span class="t ar">C) إدخالات ARP</span></li><li><span class="t en">D) DHCP options only</span><span class="t ar">D) خيارات DHCP فقط</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q35')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q35" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) cipher suite & keys</span><span class="t ar">الصحيح: A) مجموعة تشفير ومفاتيح</span></div>
+<p><span class="t en">Handshake establishes keys + algorithms for record layer.</span><span class="t ar">المصافحة تؤسس مفاتيح وخوارزميات لطبقة السجلات.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">36. Which is symmetric?</span><span class="t ar">36. أي من التالي متماثل؟</span></div>
+<ul class="options"><li><span class="t en">A) AES-128</span><span class="t ar">A) AES-128</span></li><li><span class="t en">B) RSA-2048</span><span class="t ar">B) RSA-2048</span></li><li><span class="t en">C) ECDSA verify</span><span class="t ar">C) تحقق ECDSA</span></li><li><span class="t en">D) X.509 cert issuance</span><span class="t ar">D) إصدار شهادة X.509</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q36')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q36" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) AES-128</span><span class="t ar">الصحيح: A) AES-128</span></div>
+<p><span class="t en">AES uses one shared secret; RSA/ECDSA are asymmetric.</span><span class="t ar">AES يستخدم سراً مشتركاً واحداً؛ RSA/ECDSA غير متماثلين.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">37. Stream ciphers are often faster on ___ when implemented in hardware.</span><span class="t ar">37. تشفير التيار غالباً أسرع على ___ عند التنفيذ بالعتاد.</span></div>
+<ul class="options"><li><span class="t en">A) continuous telecom links</span><span class="t ar">A) روابط اتصال متواصلة</span></li><li><span class="t en">B) one-time pad backup tapes only</span><span class="t ar">B) أشرطة نسخ احتياطي فقط</span></li><li><span class="t en">C) paper mail</span><span class="t ar">C) بريد ورقي</span></li><li><span class="t en">D) manual XOR by hand</span><span class="t ar">D) XOR يدوي</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q37')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q37" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) continuous telecom links</span><span class="t ar">الصحيح: A) روابط اتصال متواصلة</span></div>
+<p><span class="t en">Low latency on bit streams; block ciphers dominate bulk storage standards.</span><span class="t ar">زمن انتقال منخفض على تدفقات البت؛ تشفير الكتل يهيمن على معايير التخزين.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">38. AddRoundKey in AES XORs the state with ___.</span><span class="t ar">38. AddRoundKey في AES يعمل XOR للحالة مع ___.</span></div>
+<ul class="options"><li><span class="t en">A) round key from key schedule</span><span class="t ar">A) مفتاح الجولة من جدولة المفتاح</span></li><li><span class="t en">B) previous ciphertext only</span><span class="t ar">B) النص المشفر السابق فقط</span></li><li><span class="t en">C) subnet mask</span><span class="t ar">C) قناع الشبكة</span></li><li><span class="t en">D) TLS certificate</span><span class="t ar">D) شهادة TLS</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q38')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q38" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) round key from key schedule</span><span class="t ar">الصحيح: A) مفتاح الجولة من جدولة المفتاح</span></div>
+<p><span class="t en">Key schedule expands user key into round keys.</span><span class="t ar">جدولة المفتاح توسّع مفتاح المستخدم إلى مفاتيح جولات.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">39. If subnet mask is 255.255.255.0, how many host bits?</span><span class="t ar">39. إذا كان القناع 255.255.255.0، كم بت للمضيف؟</span></div>
+<ul class="options"><li><span class="t en">A) 8</span><span class="t ar">A) 8</span></li><li><span class="t en">B) 16</span><span class="t ar">B) 16</span></li><li><span class="t en">C) 24</span><span class="t ar">C) 24</span></li><li><span class="t en">D) 4</span><span class="t ar">D) 4</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q39')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q39" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) 8</span><span class="t ar">الصحيح: A) 8</span></div>
+<p><span class="t en">/24 → 8 host bits (256 addresses, 254 usable classic).</span><span class="t ar">/24 → 8 بتات مضيف (256 عنواناً، 254 قابلة للاستخدام تقريباً).</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">40. Malware that records keystrokes is a ___ attack affecting confidentiality.</span><span class="t ar">40. برمجيات تسجل ضغطات المفاتيح هجوم ___ يؤثر على السرية.</span></div>
+<ul class="options"><li><span class="t en">A) active</span><span class="t ar">A) نشط</span></li><li><span class="t en">B) purely passive on the wire</span><span class="t ar">B) سلبي بحت على السلك</span></li><li><span class="t en">C) availability-only</span><span class="t ar">C) للتوفر فقط</span></li><li><span class="t en">D) routing</span><span class="t ar">D) توجيه</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q40')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q40" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) active</span><span class="t ar">الصحيح: A) نشط</span></div>
+<p><span class="t en">Installing spyware changes/compromises the endpoint — active.</span><span class="t ar">تثبيت برمجيات التجسس يغيّر/يخترق الطرفية — نشط.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">41. Digital signature provides non-repudiation because only holder of ___ could sign.</span><span class="t ar">41. التوقيع الرقمي يوفر عدم إنكار لأن حامل ___ فقط يستطيع التوقيع.</span></div>
+<ul class="options"><li><span class="t en">A) private key</span><span class="t ar">A) المفتاح الخاص</span></li><li><span class="t en">B) public key</span><span class="t ar">B) المفتاح العام</span></li><li><span class="t en">C) CA root password</span><span class="t ar">C) كلمة جذر CA</span></li><li><span class="t en">D) nonce</span><span class="t ar">D) NONCE</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q41')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q41" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) private key</span><span class="t ar">الصحيح: A) المفتاح الخاص</span></div>
+<p><span class="t en">Private-key operation proves origin to verifiers with public key.</span><span class="t ar">عملية المفتاح الخاص تثبت المصدر للمتحققين بالمفتاح العام.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">42. HMAC needs ___ besides the hash function.</span><span class="t ar">42. HMAC يحتاج ___ بالإضافة إلى دالة الهاش.</span></div>
+<ul class="options"><li><span class="t en">A) a secret key</span><span class="t ar">A) مفتاحاً سرياً</span></li><li><span class="t en">B) a certificate chain</span><span class="t ar">B) سلسلة شهادات</span></li><li><span class="t en">C) an IPv6 address</span><span class="t ar">C) عنوان IPv6</span></li><li><span class="t en">D) a BGP ASN</span><span class="t ar">D) ASN لـ BGP</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q42')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q42" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) a secret key</span><span class="t ar">الصحيح: A) مفتاحاً سرياً</span></div>
+<p><span class="t en">Keyed hash — both parties know secret K.</span><span class="t ar">هاش مفتاح — كلا الطرفين يعرفان السر K.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">43. Which goal does a MITM breaking TLS without detection violate first?</span><span class="t ar">43. أي هدف يخترقه MITM يكسر TLS دون اكتشاف أولاً؟</span></div>
+<ul class="options"><li><span class="t en">A) Integrity and authenticity</span><span class="t ar">A) التكامل والأصالة</span></li><li><span class="t en">B) Only humidity control</span><span class="t ar">B) التحكم في الرطوبة فقط</span></li><li><span class="t en">C) Screen brightness</span><span class="t ar">C) سطوع الشاشة</span></li><li><span class="t en">D) CPU fan speed</span><span class="t ar">D) سرعة مروحة المعالج</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q43')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q43" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Integrity and authenticity</span><span class="t ar">الصحيح: A) التكامل والأصالة</span></div>
+<p><span class="t en">Altered or impersonated channel breaks trust in content and peer.</span><span class="t ar">قناة معدّلة أو منتحلة تكسر الثقة في المحتوى والطرف.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">44. PRNG differs from TRNG because PRNG is ___.</span><span class="t ar">44. PRNG يختلف عن TRNG لأن PRNG ___.</span></div>
+<ul class="options"><li><span class="t en">A) deterministic given a seed</span><span class="t ar">A) حتمي بمعامل بذرة</span></li><li><span class="t en">B) always slower than disk</span><span class="t ar">B) أبطأ دائماً من القرص</span></li><li><span class="t en">C) unable to produce bits</span><span class="t ar">C) غير قادر على إنتاج بتات</span></li><li><span class="t en">D) the same as SHA</span><span class="t ar">D) مماثل لـ SHA</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q44')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q44" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) deterministic given a seed</span><span class="t ar">الصحيح: A) حتمي بمعامل بذرة</span></div>
+<p><span class="t en">Pseudo-random is algorithmic; seed from TRNG/hardware when possible.</span><span class="t ar">العشوائي الزائف خوارزمي؛ البذرة من TRNG/عتاد عند الإمكان.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">45. In 192.168.1.0/24, the default directed broadcast is often ___.</span><span class="t ar">45. في 192.168.1.0/24، بث التوجيه الافتراضي غالباً ___.</span></div>
+<ul class="options"><li><span class="t en">A) 192.168.1.255</span><span class="t ar">A) 192.168.1.255</span></li><li><span class="t en">B) 192.168.0.0</span><span class="t ar">B) 192.168.0.0</span></li><li><span class="t en">C) 255.255.255.0</span><span class="t ar">C) 255.255.255.0</span></li><li><span class="t en">D) 0.0.0.0</span><span class="t ar">D) 0.0.0.0</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q45')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q45" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) 192.168.1.255</span><span class="t ar">الصحيح: A) 192.168.1.255</span></div>
+<p><span class="t en">Host bits all 1s in the network.</span><span class="t ar">بتات المضيف كلها 1 في الشبكة.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">46. SHA-256 is part of the ___ family.</span><span class="t ar">46. SHA-256 جزء من عائلة ___.</span></div>
+<ul class="options"><li><span class="t en">A) SHA-2</span><span class="t ar">A) SHA-2</span></li><li><span class="t en">B) MD5</span><span class="t ar">B) MD5</span></li><li><span class="t en">C) AES</span><span class="t ar">C) AES</span></li><li><span class="t en">D) RSA</span><span class="t ar">D) RSA</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q46')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q46" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) SHA-2</span><span class="t ar">الصحيح: A) SHA-2</span></div>
+<p><span class="t en">SHA-2 includes SHA-224, SHA-256, SHA-384, SHA-512.</span><span class="t ar">SHA-2 تشمل SHA-224 و SHA-256 و SHA-384 و SHA-512.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">47. Encrypt-then-MAC is preferred because MAC verifies ___</span><span class="t ar">47. Encrypt-then-MAC مفضل لأن MAC يتحقق من ___</span></div>
+<ul class="options"><li><span class="t en">A) ciphertext integrity before decryption</span><span class="t ar">A) تكامل النص المشفر قبل فك التشفير</span></li><li><span class="t en">B) IP routing tables</span><span class="t ar">B) جداول توجيه IP</span></li><li><span class="t en">C) CPU temperature</span><span class="t ar">C) حرارة المعالج</span></li><li><span class="t en">D) printer queue</span><span class="t ar">D) طابور الطابعة</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q47')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q47" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) ciphertext integrity before decryption</span><span class="t ar">الصحيح: A) تكامل النص المشفر قبل فك التشفير</span></div>
+<p><span class="t en">Prevents padding oracle style issues vs MAC-then-encrypt pitfalls.</span><span class="t ar">يمنع مشاكل oracle الحشو مقارنة بعيوب MAC-then-encrypt.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">48. Which is a security service enabled by digital certificates in TLS?</span><span class="t ar">48. أي خدمة أمنية تمكّنها الشهادات الرقمية في TLS؟</span></div>
+<ul class="options"><li><span class="t en">A) Peer authentication</span><span class="t ar">A) مصادقة الطرف</span></li><li><span class="t en">B) Physical layer cabling</span><span class="t ar">B) تمديدات الطبقة الفيزيائية</span></li><li><span class="t en">C) RAM size</span><span class="t ar">C) حجم RAM</span></li><li><span class="t en">D) Monitor refresh rate</span><span class="t ar">D) معدل تحديث الشاشة</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q48')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q48" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) Peer authentication</span><span class="t ar">الصحيح: A) مصادقة الطرف</span></div>
+<p><span class="t en">Server (and optionally client) authentication via PKI.</span><span class="t ar">مصادقة الخادم (واختيارياً العميل) عبر PKI.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">49. Private key must remain ___; public key can be ___.</span><span class="t ar">49. المفتاح الخاص يجب أن يبقى ___؛ المفتاح العام يمكن أن يكون ___.</span></div>
+<ul class="options"><li><span class="t en">A) secret; published</span><span class="t ar">A) سرياً؛ منشوراً</span></li><li><span class="t en">B) published; secret</span><span class="t ar">B) منشوراً؛ سرياً</span></li><li><span class="t en">C) deleted; deleted</span><span class="t ar">C) محذوفاً؛ محذوفاً</span></li><li><span class="t en">D) shared on social media; hidden</span><span class="t ar">D) مشاركاً على وسائل التواصل؛ مخفياً</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q49')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q49" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) secret; published</span><span class="t ar">الصحيح: A) سرياً؛ منشوراً</span></div>
+<p><span class="t en">Core rule of public-key cryptography.</span><span class="t ar">القاعدة الأساسية لتشفير المفتاح العام.</span></p>
+</div>
+</div>
+<div class="question-card">
+<div class="q-title"><span class="t en">50. Security attack taxonomy in coursework often contrasts ___ vs ___.</span><span class="t ar">50. تصنيف الهجوم في المقرر يقارن غالباً ___ مقابل ___.</span></div>
+<ul class="options"><li><span class="t en">A) passive; active</span><span class="t ar">A) سلبي؛ نشط</span></li><li><span class="t en">B) TCP; UDP</span><span class="t ar">B) TCP؛ UDP</span></li><li><span class="t en">C) IPv4; IPv6</span><span class="t ar">C) IPv4؛ IPv6</span></li><li><span class="t en">D) HTTP; FTP</span><span class="t ar">D) HTTP؛ FTP</span></li></ul>
+<button type="button" class="btn-toggle" onclick="toggleAnswer('q50')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
+<div id="q50" class="explanation">
+<div class="correct-label"><span class="t en">Correct: A) passive; active</span><span class="t ar">الصحيح: A) سلبي؛ نشط</span></div>
+<p><span class="t en">Foundational split for mechanisms you deploy.</span><span class="t ar">تقسيم أساسي للآليات التي تنشرها.</span></p>
+</div>
+</div>
+</section>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+(function () {
+  const body = document.body;
+  const btn = document.getElementById('langToggle');
+  const label = document.getElementById('langLabel');
+  const stored = localStorage.getItem('ns-lang');
+  if (stored === 'ar') body.classList.add('arabic');
+  function updateNav() {
+    document.querySelectorAll('.nav-en').forEach(e => e.style.display = body.classList.contains('arabic') ? 'none' : '');
+    document.querySelectorAll('.nav-ar').forEach(e => e.style.display = body.classList.contains('arabic') ? '' : 'none');
+  }
+  function updateLabel() {
+    label.textContent = body.classList.contains('arabic') ? 'English' : 'العربية';
+    document.documentElement.lang = body.classList.contains('arabic') ? 'ar' : 'en';
+  }
+  btn.addEventListener('click', function () {
+    body.classList.toggle('arabic');
+    localStorage.setItem('ns-lang', body.classList.contains('arabic') ? 'ar' : 'en');
+    updateLabel();
+    updateNav();
+  });
+  updateLabel();
+  updateNav();
+})();
+</script>
+</body>
+</html>
