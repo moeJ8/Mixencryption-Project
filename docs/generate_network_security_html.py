@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generate Network_Security_Study.html — one-file study guide + 50 MCQs."""
 
+from study_sections import STUDY_BODY, MCQ_EXAMPLE_EN, MCQ_EXAMPLE_AR
+
 OUTPUT = "/workspace/docs/Network_Security_Study.html"
 
 # 50 MCQs: (question_en, question_ar, options[(en,ar),...], correct_index, expl_en, expl_ar)
@@ -508,10 +510,7 @@ MCQS = [
 ]
 
 assert len(MCQS) == 50, len(MCQS)
-
-STUDY_SECTIONS = r"""
-<!-- sections injected -->
-"""
+assert len(MCQ_EXAMPLE_EN) == 50 and len(MCQ_EXAMPLE_AR) == 50
 
 HTML_TEMPLATE = r'''<!DOCTYPE html>
 <html lang="en">
@@ -648,6 +647,20 @@ section.topic h2 {
 .card ul { margin: 8px 0 12px 1.1rem; padding: 0; color: var(--muted); }
 .card li { margin-bottom: 6px; }
 .card strong { color: #fff; }
+.card code { background: #0f172a; padding: 2px 6px; border-radius: 4px; font-size: 0.88em; color: #93c5fd; }
+.fig-block { margin: 16px 0; text-align: center; }
+.fig-svg { max-width: 100%; height: auto; }
+.fig-block figcaption { color: var(--muted); font-size: 0.82rem; margin-top: 8px; line-height: 1.4; }
+.example-box {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px dashed #6ee7a0;
+  background: rgba(16, 185, 129, 0.06);
+}
+.example-box.mini { margin-top: 10px; padding: 10px 12px; font-size: 0.9rem; }
+.example-title { color: var(--green); font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.explanation .expl-detail { margin-top: 10px; line-height: 1.55; }
 .compare-table {
   width: 100%;
   border-collapse: collapse;
@@ -753,133 +766,22 @@ body.arabic .nav-scroll { direction: rtl; }
     <span class="t ar">أمن الشبكات — دليل شامل للموضوعات</span>
   </h1>
   <p class="lead">
-    <span class="t en">Based on your professor's topic list: definitions, comparisons, and exam-style practice. Tap <strong>العربية</strong> in the top bar to read everything in Arabic.</span>
-    <span class="t ar">مبني على قائمة الدكتور: تعريفات، مقارنات، وتدريب بأسلوب الامتحان. اضغط الزر في الشريط العلوي للعودة إلى الإنجليزية.</span>
+    <span class="t en">Deep explanations with <strong>worked examples</strong>, <strong>figures</strong>, and 50 MCQs. Tap <strong>العربية</strong> in the top bar for Arabic.</span>
+    <span class="t ar">شرح موسّع مع <strong>أمثلة</strong> و<strong>أشكال</strong> و50 سؤالاً. اضغط <strong>العربية</strong> للعربية.</span>
   </p>
   <div class="badges">
     <span class="t en">Confidentiality · Integrity · Availability</span>
     <span class="t ar">السرية · التكامل · التوفر</span>
     <span class="t en">Symmetric &amp; asymmetric crypto</span>
     <span class="t ar">تشفير متماثل وغير متماثل</span>
+    <span class="t en">Figures &amp; worked examples</span>
+    <span class="t ar">أشكال وأمثلة محسوبة</span>
     <span class="t en">50 scenario MCQs</span>
     <span class="t ar">50 سؤال اختيار من متعدد</span>
   </div>
 </header>
 
-<section class="topic" id="goals">
-<h2>
-  <span class="t en">1. Core security goals: confidentiality, integrity, availability, authenticity</span>
-  <span class="t ar">1. الأهداف الأمنية: السرية، التكامل، التوفر، الأصالة</span>
-</h2>
-<div class="card">
-  <p><span class="t en"><strong>Confidentiality</strong> keeps information secret from unauthorized parties. Mechanisms include encryption, access control, and steganography. Breaches include eavesdropping and stolen credentials.</span>
-  <span class="t ar"><strong>السرية</strong> تبقي المعلومات بعيدة عن غير المصرح لهم. تشمل الآليات التشفير والتحكم بالوصول والإخفاء. الانتهاكات تشمل التنصت وسرقة بيانات الدخول.</span></p>
-  <p><span class="t en"><strong>Integrity</strong> ensures data and systems are not altered without detection. Use hashes, MACs, and digital signatures. Attacks include tampering, malware that changes files, and MITM modification.</span>
-  <span class="t ar"><strong>التكامل</strong> يضمن عدم تغيير البيانات والأنظمة دون اكتشاف. استخدم الهاش و MAC والتوقيعات الرقمية. الهجمات تشمل التلاعب وبرمجيات تغيّر الملفات وتعديل رجل في الوسط.</span></p>
-  <p><span class="t en"><strong>Availability</strong> means authorized users can access services when needed. Protect with redundancy, filtering, and rate limits. DoS/DDoS and ransomware that locks systems target availability.</span>
-  <span class="t ar"><strong>التوفر</strong> يعني أن المستخدمين المصرح لهم يصلون للخدمات عند الحاجة. الحماية بالتكرار والفلترة وحدود المعدل. DoS/DDoS وبرمجيات الفدية تستهدف التوفر.</span></p>
-  <p><span class="t en"><strong>Authenticity</strong> (authentication) proves identity — who sent a message or who logged in. Passwords, MFA, certificates, and digital signatures support authenticity. Often paired with integrity (you trust both the sender and the content).</span>
-  <span class="t ar"><strong>الأصالة</strong> (المصادقة) تثبت الهوية — من أرسل الرسالة أو من سجّل الدخول. كلمات المرور والمصادقة متعددة العوامل والشهادات والتوقيعات تدعم الأصالة. غالباً تُقرن بالتكامل (تثق بالمرسل والمحتوى).</span></p>
-</div>
-</section>
-
-<section class="topic" id="attacks">
-<h2>
-  <span class="t en">2. Attacks vs security mechanisms vs security services</span>
-  <span class="t ar">2. الفرق بين الهجمات والآليات الأمنية والخدمات الأمنية</span>
-</h2>
-<div class="card">
-  <p><span class="t en"><strong>Security attack:</strong> Any action that compromises a security goal (read secret data, change data, block access, impersonate a user).</span>
-  <span class="t ar"><strong>هجوم أمني:</strong> أي فعل يخترق هدفاً أمنياً (قراءة سرية، تغيير بيانات، حجب وصول، انتحال مستخدم).</span></p>
-  <p><span class="t en"><strong>Security mechanism:</strong> A procedure or algorithm that enforces protection — encryption, hashing, digital signatures, access control lists, firewalls, nonces, MAC, TLS.</span>
-  <span class="t ar"><strong>آلية أمنية:</strong> إجراء أو خوارزمية تفرض الحماية — تشفير، هاش، توقيعات، قوائم تحكم، جدران نارية، NONCE، MAC، TLS.</span></p>
-  <p><span class="t en"><strong>Security service:</strong> The abstract benefit you want — confidentiality service, integrity service, authentication service, non-repudiation, access control. Mechanisms implement services.</span>
-  <span class="t ar"><strong>خدمة أمنية:</strong> المنفعة المجردة المطلوبة — سرية، تكامل، مصادقة، عدم إنكار، تحكم بالوصول. الآليات تحقق الخدمات.</span></p>
-  <table class="compare-table">
-    <tr><th><span class="t en">Passive attack</span><span class="t ar">هجوم سلبي</span></th><th><span class="t en">Active attack</span><span class="t ar">هجوم نشط</span></th></tr>
-    <tr>
-      <td><span class="t en">Eavesdrop, traffic analysis; no change to systems or bits in transit</span><span class="t ar">تنصت وتحليل حركة؛ دون تغيير الأنظمة أو البتات</span></td>
-      <td><span class="t en">Modify, delete, inject, replay, DoS, malware installation</span><span class="t ar">تعديل، حذف، حقن، إعادة تشغيل، حرمان خدمة، تثبيت برمجيات</span></td>
-    </tr>
-    <tr>
-      <td><span class="t en">Hard to detect (silent observation)</span><span class="t ar">صعب الكشف (مراقبة صامتة)</span></td>
-      <td><span class="t en">Often detectable via logs, IDS, integrity checks</span><span class="t ar">غالباً يُكتشف عبر السجلات و IDS وفحوص التكامل</span></td>
-    </tr>
-  </table>
-</div>
-</section>
-
-<section class="topic" id="crypto">
-<h2>
-  <span class="t en">3. Symmetric vs asymmetric encryption; public &amp; private keys</span>
-  <span class="t ar">3. التشفير المتماثل وغير المتماثل؛ المفتاح العام والخاص</span>
-</h2>
-<div class="card">
-  <p><span class="t en"><strong>Symmetric:</strong> One shared secret key K for encrypt and decrypt. Fast (AES). Challenge: secure key distribution.</span>
-  <span class="t ar"><strong>متماثل:</strong> مفتاح سري مشترك K للتشفير وفك التشفير. سريع (AES). التحدي: توزيع المفتاح بأمان.</span></p>
-  <p><span class="t en"><strong>Asymmetric (public-key):</strong> Key pair — <strong>public</strong> (publishable) and <strong>private</strong> (secret). Encrypt with recipient's public key; only their private key decrypts. Sign with sender's private key; anyone verifies with sender's public key.</span>
-  <span class="t ar"><strong>غير متماثل:</strong> زوج مفاتيح — <strong>عام</strong> (قابل للنشر) و <strong>خاص</strong> (سري). تشفّر بمفتاح المستلم العام؛ خاصه فقط يفك التشفير. توقّع بخاص المرسل؛ الجميع يتحقق بالعام.</span></p>
-  <p><span class="t en"><strong>Block cipher</strong> (AES): encrypts fixed-size blocks (128 bits for AES) with modes (CBC, GCM). <strong>Stream cipher</strong> generates keystream XORed with data bit/byte-by-byte (legacy RC4; ChaCha20 today).</span>
-  <span class="t ar"><strong>تشفير الكتلة</strong> (AES): يشفّر كتلاً ثابتة (128 بت لـ AES) بأوضاع (CBC، GCM). <strong>تشفير التيار</strong> يولّد تيار مفتاح يُعمل معه XOR بت/بايت تلو الآخر.</span></p>
-  <p><span class="t en"><strong>NONCE</strong> (number used once): unpredictable value used once per session/message to stop replay attacks and to derive unique IVs/keys in protocols.</span>
-  <span class="t ar"><strong>NONCE</strong> (رقم يُستخدم مرة واحدة): قيمة غير متوقعة تُستخدم مرة لكل جلسة/رسالة لمنع إعادة التشغيل ولاشتقاق IV/مفاتيح فريدة.</span></p>
-</div>
-</section>
-
-<section class="topic" id="aes">
-<h2>
-  <span class="t en">4. AES, TRNG, hash functions, SHA, concatenation, RSA signatures, tag types, MAC</span>
-  <span class="t ar">4. AES و TRNG ودوال الهاش و SHA والربط وتوقيع RSA وأنواع العلامات و MAC</span>
-</h2>
-<div class="card">
-  <p><span class="t en"><strong>AES key sizes:</strong> 128, 192, or 256 bits. <strong>Rounds:</strong> 10 (128-bit key), 12 (192-bit), 14 (256-bit). Each round: <strong>SubBytes</strong> (S-box), <strong>ShiftRows</strong>, <strong>MixColumns</strong> (skipped last round), <strong>AddRoundKey</strong> (XOR round key). Initial AddRoundKey before rounds.</span>
-  <span class="t ar"><strong>أطوال مفاتيح AES:</strong> 128 أو 192 أو 256 بت. <strong>الجولات:</strong> 10 أو 12 أو 14. كل جولة: SubBytes، ShiftRows، MixColumns (ما عدا الأخيرة)، AddRoundKey. جولة AddRoundKey أولية قبل الجولات.</span></p>
-  <p><span class="t en"><strong>TRNG</strong> (True Random Number Generator): entropy from physical noise — used for keys, salts, nonces when prediction must be impossible. <strong>PRNG</strong> is deterministic from a seed (use seed from TRNG when possible).</span>
-  <span class="t ar"><strong>TRNG</strong>: عشوائية من ضوضاء فيزيائية — لمفاتيح وملح و NONCE عندما يجب ألا يُتوقع. <strong>PRNG</strong> حتمي من بذرة (يفضل بذرة من TRNG).</span></p>
-  <p><span class="t en"><strong>Hash output:</strong> Fixed-length digest; one-way; preimage and collision resistance. Used for integrity, password storage (with salt), and building MACs/signatures.</span>
-  <span class="t ar"><strong>مخرج الهاش:</strong> ملخص بطول ثابت؛ اتجاه واحد؛ مقاومة أصلية وتصادم. للتكامل وتخزين كلمات المرور (مع ملح) وبناء MAC والتوقيعات.</span></p>
-  <p><span class="t en"><strong>Concatenation (∥):</strong> H(M ∥ N) hashes message M followed by N — order matters; protocols specify exact layout to avoid ambiguity attacks.</span>
-  <span class="t ar"><strong>الربط (∥):</strong> H(M ∥ N) يهشِّر M ثم N — الترتيب مهم؛ البروتوكولات تحدد التنسيق لتجنب هجمات الغموض.</span></p>
-  <p><span class="t en"><strong>SHA:</strong> SHA-1 (160-bit, weak), SHA-2 family (SHA-256 widely used), SHA-3 (sponge). Prefer SHA-256 or stronger today.</span>
-  <span class="t ar"><strong>SHA:</strong> SHA-1 (160 بت، ضعيف)، عائلة SHA-2 (SHA-256 شائع)، SHA-3. يفضل SHA-256 أو أقوى اليوم.</span></p>
-  <p><span class="t en"><strong>RSA digital signature:</strong> Hash message → sign digest with sender's <em>private</em> key → verifier decrypts with sender's <em>public</em> key and compares. Provides integrity, authenticity, non-repudiation.</span>
-  <span class="t ar"><strong>توقيع RSA:</strong> هاش الرسالة → وقع الملخص بالمفتاح <em>الخاص</em> → المتحقق يفك بالمفتاح <em>العام</em> ويقارن. يوفر تكامل وأصالة وعدم إنكار.</span></p>
-  <p><span class="t en"><strong>Tag types:</strong> (1) <strong>MAC tag</strong> (e.g., HMAC) — symmetric keyed tag; (2) <strong>AEAD authentication tag</strong> (e.g., GCM) — verifies ciphertext integrity; (3) <strong>Digital signature</strong> — asymmetric tag on a hash.</span>
-  <span class="t ar"><strong>أنواع العلامات:</strong> (1) علامة MAC (مثل HMAC) — متماثلة بمفتاح؛ (2) علامة AEAD (مثل GCM) لتكامل النص المشفر؛ (3) توقيع رقمي — علامة غير متماثلة على الهاش.</span></p>
-  <p><span class="t en"><strong>MAC</strong> (Message Authentication Code): Keyed function ensuring message integrity + authenticity between parties sharing K (HMAC-SHA256). Different from network MAC address.</span>
-  <span class="t ar"><strong>MAC</strong>: دالة بمفتاح تضمن تكامل الرسالة وأصالتها بين طرفين يتشاركان K (HMAC-SHA256). مختلف عن عنوان MAC للشبكة.</span></p>
-</div>
-</section>
-
-<section class="topic" id="pki">
-<h2>
-  <span class="t en">5. PKI, TLS, and SSH</span>
-  <span class="t ar">5. PKI و TLS و SSH</span>
-</h2>
-<div class="card">
-  <p><span class="t en"><strong>PKI (Public Key Infrastructure):</strong> System of CAs, certificates (X.509), certificate revocation, and trust stores that bind names to public keys. Enables verifying TLS servers and signing emails/code.</span>
-  <span class="t ar"><strong>PKI:</strong> نظام جهات مصدرة وشهادات (X.509) وإبطال ومخازن ثقة تربط الأسماء بالمفاتيح العامة. يمكّن التحقق من خوادم TLS وتوقيع البريد والبرمجيات.</span></p>
-  <p><span class="t en"><strong>TLS (Transport Layer Security):</strong> Protocol that provides confidentiality and integrity on a transport connection (usually TCP). Handshake negotiates cipher suite, authenticates server (client optional), derives session keys. TLS 1.2/1.3 — successor to SSL. Used by HTTPS.</span>
-  <span class="t ar"><strong>TLS:</strong> بروتوكول يوفر سرية وتكامل على اتصال نقل (غالباً TCP). المصافحة تتفاوض على التشفير وتصادق الخادم وتشتق مفاتيح الجلسة. TLS 1.2/1.3 — خلف SSL. يُستخدم في HTTPS.</span></p>
-  <p><span class="t en"><strong>SSH (Secure Shell):</strong> Encrypts remote login, command execution, and file copy (SCP/SFTP) over insecure networks. Replaces telnet/rsh. Server authentication via host keys; user auth via password or public key.</span>
-  <span class="t ar"><strong>SSH:</strong> يشفّر الدخول البعيد وتنفيذ الأوامر ونسخ الملفات (SCP/SFTP) عبر شبكات غير آمنة. يحل محل telnet. مصادقة الخادم بمفاتيح مضيف؛ المستخدم بكلمة مرور أو مفتاح عام.</span></p>
-</div>
-</section>
-
-<section class="topic" id="ipv4">
-<h2>
-  <span class="t en">6. IPv4 address, network address, and subnet mask</span>
-  <span class="t ar">6. عنوان IPv4 وعنوان الشبكة وقناع الشبكة</span>
-</h2>
-<div class="card">
-  <p><span class="t en">An <strong>IPv4 address</strong> is 32 bits, often written dotted-decimal (e.g., 192.168.10.45). A <strong>subnet mask</strong> (or prefix length /n) separates network bits from host bits. Example mask 255.255.255.0 = /24 → first 24 bits are network, last 8 are host.</span>
-  <span class="t ar"><strong>عنوان IPv4</strong> 32 بت، يُكتب عادةً عشرياً مقطّعاً. <strong>قناع الشبكة</strong> (أو البادئة /n) يفصل بتات الشبكة عن المضيف. مثال 255.255.255.0 = /24 → أول 24 بت شبكة، آخر 8 مضيف.</span></p>
-  <p><span class="t en"><strong>Network address</strong> = IP bitwise AND mask (host bits all 0). <strong>Broadcast</strong> = host bits all 1. Usable hosts ≈ 2<sup>host bits</sup> − 2 (classic LAN, excluding network/broadcast).</span>
-  <span class="t ar"><strong>عنوان الشبكة</strong> = IP مع AND للقناع (بتات المضيف أصفار). <strong>البث</strong> = بتات المضيف كلها 1. المضيفات القابلة للاستخدام ≈ 2<sup>بتات المضيف</sup> − 2.</span></p>
-  <p><span class="t en">Security link: correct subnetting limits broadcast domains and supports firewall rules (allow/deny by network segment).</span>
-  <span class="t ar">الربط الأمني: التجزئة الصحيحة تحد من نطاقات البث وتدعم قواعد الجدار الناري (سماح/منع حسب الشبكة).</span></p>
-</div>
-</section>
+{study_body}
 
 <section id="quiz">
 <div class="quiz-header">
@@ -929,6 +831,8 @@ def mcq_html():
     blocks = []
     letters = "ABCD"
     for i, (q_en, q_ar, opts, correct, ex_en, ex_ar) in enumerate(MCQS, 1):
+        ex_ex_en = MCQ_EXAMPLE_EN[i - 1]
+        ex_ex_ar = MCQ_EXAMPLE_AR[i - 1]
         qid = f"q{i}"
         opt_lis = []
         for j, (oen, oar) in enumerate(opts):
@@ -946,7 +850,8 @@ def mcq_html():
 <button type="button" class="btn-toggle" onclick="toggleAnswer('{qid}')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="{qid}" class="explanation">
 <div class="correct-label"><span class="t en">Correct: {correct_letter}) {correct_text_en}</span><span class="t ar">الصحيح: {correct_letter}) {correct_text_ar}</span></div>
-<p><span class="t en">{ex_en}</span><span class="t ar">{ex_ar}</span></p>
+<p class="expl-detail"><span class="t en">{ex_en}</span><span class="t ar">{ex_ar}</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> {ex_ex_en}</span><span class="t ar"><strong>مثال:</strong> {ex_ex_ar}</span></div>
 </div>
 </div>'''
         )
@@ -954,7 +859,7 @@ def mcq_html():
 
 
 def main():
-    html = HTML_TEMPLATE.replace("{mcq_blocks}", mcq_html())
+    html = HTML_TEMPLATE.replace("{study_body}", STUDY_BODY).replace("{mcq_blocks}", mcq_html())
     with open(OUTPUT, "w", encoding="utf-8") as f:
         f.write(html)
     print("Wrote", OUTPUT, "bytes", len(html.encode("utf-8")))

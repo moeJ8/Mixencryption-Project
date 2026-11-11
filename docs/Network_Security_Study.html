@@ -133,6 +133,20 @@ section.topic h2 {
 .card ul { margin: 8px 0 12px 1.1rem; padding: 0; color: var(--muted); }
 .card li { margin-bottom: 6px; }
 .card strong { color: #fff; }
+.card code { background: #0f172a; padding: 2px 6px; border-radius: 4px; font-size: 0.88em; color: #93c5fd; }
+.fig-block { margin: 16px 0; text-align: center; }
+.fig-svg { max-width: 100%; height: auto; }
+.fig-block figcaption { color: var(--muted); font-size: 0.82rem; margin-top: 8px; line-height: 1.4; }
+.example-box {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px dashed #6ee7a0;
+  background: rgba(16, 185, 129, 0.06);
+}
+.example-box.mini { margin-top: 10px; padding: 10px 12px; font-size: 0.9rem; }
+.example-title { color: var(--green); font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.explanation .expl-detail { margin-top: 10px; line-height: 1.55; }
 .compare-table {
   width: 100%;
   border-collapse: collapse;
@@ -238,18 +252,21 @@ body.arabic .nav-scroll { direction: rtl; }
     <span class="t ar">أمن الشبكات — دليل شامل للموضوعات</span>
   </h1>
   <p class="lead">
-    <span class="t en">Based on your professor's topic list: definitions, comparisons, and exam-style practice. Tap <strong>العربية</strong> in the top bar to read everything in Arabic.</span>
-    <span class="t ar">مبني على قائمة الدكتور: تعريفات، مقارنات، وتدريب بأسلوب الامتحان. اضغط الزر في الشريط العلوي للعودة إلى الإنجليزية.</span>
+    <span class="t en">Deep explanations with <strong>worked examples</strong>, <strong>figures</strong>, and 50 MCQs. Tap <strong>العربية</strong> in the top bar for Arabic.</span>
+    <span class="t ar">شرح موسّع مع <strong>أمثلة</strong> و<strong>أشكال</strong> و50 سؤالاً. اضغط <strong>العربية</strong> للعربية.</span>
   </p>
   <div class="badges">
     <span class="t en">Confidentiality · Integrity · Availability</span>
     <span class="t ar">السرية · التكامل · التوفر</span>
     <span class="t en">Symmetric &amp; asymmetric crypto</span>
     <span class="t ar">تشفير متماثل وغير متماثل</span>
+    <span class="t en">Figures &amp; worked examples</span>
+    <span class="t ar">أشكال وأمثلة محسوبة</span>
     <span class="t en">50 scenario MCQs</span>
     <span class="t ar">50 سؤال اختيار من متعدد</span>
   </div>
 </header>
+
 
 <section class="topic" id="goals">
 <h2>
@@ -257,14 +274,46 @@ body.arabic .nav-scroll { direction: rtl; }
   <span class="t ar">1. الأهداف الأمنية: السرية، التكامل، التوفر، الأصالة</span>
 </h2>
 <div class="card">
-  <p><span class="t en"><strong>Confidentiality</strong> keeps information secret from unauthorized parties. Mechanisms include encryption, access control, and steganography. Breaches include eavesdropping and stolen credentials.</span>
-  <span class="t ar"><strong>السرية</strong> تبقي المعلومات بعيدة عن غير المصرح لهم. تشمل الآليات التشفير والتحكم بالوصول والإخفاء. الانتهاكات تشمل التنصت وسرقة بيانات الدخول.</span></p>
-  <p><span class="t en"><strong>Integrity</strong> ensures data and systems are not altered without detection. Use hashes, MACs, and digital signatures. Attacks include tampering, malware that changes files, and MITM modification.</span>
-  <span class="t ar"><strong>التكامل</strong> يضمن عدم تغيير البيانات والأنظمة دون اكتشاف. استخدم الهاش و MAC والتوقيعات الرقمية. الهجمات تشمل التلاعب وبرمجيات تغيّر الملفات وتعديل رجل في الوسط.</span></p>
-  <p><span class="t en"><strong>Availability</strong> means authorized users can access services when needed. Protect with redundancy, filtering, and rate limits. DoS/DDoS and ransomware that locks systems target availability.</span>
-  <span class="t ar"><strong>التوفر</strong> يعني أن المستخدمين المصرح لهم يصلون للخدمات عند الحاجة. الحماية بالتكرار والفلترة وحدود المعدل. DoS/DDoS وبرمجيات الفدية تستهدف التوفر.</span></p>
-  <p><span class="t en"><strong>Authenticity</strong> (authentication) proves identity — who sent a message or who logged in. Passwords, MFA, certificates, and digital signatures support authenticity. Often paired with integrity (you trust both the sender and the content).</span>
-  <span class="t ar"><strong>الأصالة</strong> (المصادقة) تثبت الهوية — من أرسل الرسالة أو من سجّل الدخول. كلمات المرور والمصادقة متعددة العوامل والشهادات والتوقيعات تدعم الأصالة. غالباً تُقرن بالتكامل (تثق بالمرسل والمحتوى).</span></p>
+  <figure class="fig-block" aria-hidden="true">
+    <svg viewBox="0 0 420 200" class="fig-svg" role="img">
+      <rect x="10" y="20" width="120" height="70" rx="12" fill="#1e3a5f" stroke="#5eb3ff" stroke-width="2"/>
+      <text x="70" y="58" text-anchor="middle" fill="#e8edf5" font-size="13" font-family="sans-serif">Confidentiality</text>
+      <rect x="150" y="20" width="120" height="70" rx="12" fill="#1e3a5f" stroke="#f4a261" stroke-width="2"/>
+      <text x="210" y="58" text-anchor="middle" fill="#e8edf5" font-size="13" font-family="sans-serif">Integrity</text>
+      <rect x="290" y="20" width="120" height="70" rx="12" fill="#1e3a5f" stroke="#6ee7a0" stroke-width="2"/>
+      <text x="350" y="58" text-anchor="middle" fill="#e8edf5" font-size="13" font-family="sans-serif">Availability</text>
+      <rect x="80" y="120" width="260" height="70" rx="12" fill="#1e3a5f" stroke="#c4b5fd" stroke-width="2"/>
+      <text x="210" y="158" text-anchor="middle" fill="#e8edf5" font-size="13" font-family="sans-serif">Authenticity (who is this?)</text>
+      <path d="M70 90 L210 120 M210 90 L210 120 M350 90 L210 120" stroke="#334155" fill="none" stroke-width="2"/>
+    </svg>
+    <figcaption><span class="t en">Figure 1 — Four goals every mechanism maps to at least one goal.</span><span class="t ar">شكل 1 — أربعة أهداف؛ كل آلية أمنية تخدم هدفاً واحداً على الأقل.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>Confidentiality</strong> = only authorized people read the data. <em>Real example:</em> You log into online banking. TLS encrypts the page so someone on the same café Wi‑Fi cannot read your balance. Without confidentiality, an attacker runs Wireshark and sees plaintext HTTP.</span>
+  <span class="t ar"><strong>السرية</strong> = المصرح لهم فقط يقرؤون البيانات. <em>مثال:</em> دخول البنك عبر الإنترنت؛ TLS يشفّر الصفحة فلا يرى شخص على نفس شبكة المقهى رصيدك. بدون سرية، يشغّل المهاجم Wireshark ويرى HTTP صريحاً.</span></p>
+
+  <p><span class="t en"><strong>Integrity</strong> = data is not changed without you noticing. <em>Real example:</em> You download exam.pdf (hash SHA-256 on the website). After download you re-hash the file; if it matches, nobody tampered. If an attacker changed one byte, the hash changes completely.</span>
+  <span class="t ar"><strong>التكامل</strong> = لا يتغيّر المحتوى دون أن تلاحظ. <em>مثال:</em> تنزيل exam.pdf وهاش SHA-256 من الموقع؛ بعد التنزيل تعيد حساب الهاش؛ إن تطابق فلم يُلاعب. تغيير بايت واحد يغيّر الهاش بالكامل.</span></p>
+
+  <p><span class="t en"><strong>Availability</strong> = the system works when users need it. <em>Real example:</em> A student tries to submit homework at 11:59 PM but the server is down because of a SYN flood (DoS). Confidentiality and integrity might still be fine on disk, but the service fails — that is an availability problem.</span>
+  <span class="t ar"><strong>التوفر</strong> = النظام يعمل عند الحاجة. <em>مثال:</em> طالب يرسل واجباً والخادم معطّل بسبب SYN flood. السرية والتكامل قد يكونان سليمين على القرص لكن الخدمة فشلت — هذا توفر.</span></p>
+
+  <p><span class="t en"><strong>Authenticity</strong> = you know <em>who</em> you are talking to. <em>Real example:</em> Email claims to be from the registrar but the From address is forged. A digital signature or TLS certificate on the real university portal proves you reached the true server, not a phishing clone.</span>
+  <span class="t ar"><strong>الأصالة</strong> = تعرف <em>من</em> تتحدث معه. <em>مثال:</em> بريد يدّعي أنه من الجامعة لكن المرسل مزوّر. التوقيع الرقمي أو شهادة TLS على البوابة الحقيقية تثبت أنك وصلت للخادم الصحيح لا موقع تصيّد.</span></p>
+
+  <div class="example-box">
+    <div class="example-title"><span class="t en">Worked scenario</span><span class="t ar">سيناريو تطبيقي</span></div>
+    <p><span class="t en">Hospital shares MRI scans between two sites over the Internet.<br/>
+    • <strong>Confidentiality:</strong> AES/TLS so scans are not public.<br/>
+    • <strong>Integrity:</strong> HMAC or signed manifest so a bit flip is detected.<br/>
+    • <strong>Availability:</strong> redundant links + DDoS filtering so ER can always fetch scans.<br/>
+    • <strong>Authenticity:</strong> mutual TLS so each site proves its hospital identity.</span>
+    <span class="t ar">مستشفى يشارك صور MRI بين موقعين عبر الإنترنت.<br/>
+    • <strong>السرية:</strong> AES/TLS.<br/>
+    • <strong>التكامل:</strong> HMAC أو قائمة موقّعة.<br/>
+    • <strong>التوفر:</strong> روابط احتياطية + فلترة DDoS.<br/>
+    • <strong>الأصالة:</strong> TLS متبادل لإثبات هوية المستشفى.</span></p>
+  </div>
 </div>
 </section>
 
@@ -274,97 +323,239 @@ body.arabic .nav-scroll { direction: rtl; }
   <span class="t ar">2. الفرق بين الهجمات والآليات الأمنية والخدمات الأمنية</span>
 </h2>
 <div class="card">
-  <p><span class="t en"><strong>Security attack:</strong> Any action that compromises a security goal (read secret data, change data, block access, impersonate a user).</span>
-  <span class="t ar"><strong>هجوم أمني:</strong> أي فعل يخترق هدفاً أمنياً (قراءة سرية، تغيير بيانات، حجب وصول، انتحال مستخدم).</span></p>
-  <p><span class="t en"><strong>Security mechanism:</strong> A procedure or algorithm that enforces protection — encryption, hashing, digital signatures, access control lists, firewalls, nonces, MAC, TLS.</span>
-  <span class="t ar"><strong>آلية أمنية:</strong> إجراء أو خوارزمية تفرض الحماية — تشفير، هاش، توقيعات، قوائم تحكم، جدران نارية، NONCE، MAC، TLS.</span></p>
-  <p><span class="t en"><strong>Security service:</strong> The abstract benefit you want — confidentiality service, integrity service, authentication service, non-repudiation, access control. Mechanisms implement services.</span>
-  <span class="t ar"><strong>خدمة أمنية:</strong> المنفعة المجردة المطلوبة — سرية، تكامل، مصادقة، عدم إنكار، تحكم بالوصول. الآليات تحقق الخدمات.</span></p>
+  <figure class="fig-block">
+    <svg viewBox="0 0 440 160" class="fig-svg">
+      <text x="70" y="25" fill="#f4a261" font-size="12" font-weight="bold">ATTACK</text>
+      <text x="200" y="25" fill="#5eb3ff" font-size="12" font-weight="bold">MECHANISM</text>
+      <text x="340" y="25" fill="#6ee7a0" font-size="12" font-weight="bold">SERVICE</text>
+      <rect x="20" y="40" width="100" height="50" rx="8" fill="#3b1f1f" stroke="#f87171"/>
+      <text x="70" y="70" text-anchor="middle" fill="#fecaca" font-size="11">Threat</text>
+      <path d="M120 65 L175 65" stroke="#94a3b8" marker-end="url(#arr)"/>
+      <rect x="175" y="40" width="110" height="50" rx="8" fill="#1e3a5f" stroke="#5eb3ff"/>
+      <text x="230" y="70" text-anchor="middle" fill="#dbeafe" font-size="10">AES, hash,</text>
+      <text x="230" y="82" text-anchor="middle" fill="#dbeafe" font-size="10">TLS, MAC…</text>
+      <path d="M285 65 L340 65" stroke="#94a3b8"/>
+      <rect x="340" y="40" width="80" height="50" rx="8" fill="#14532d" stroke="#6ee7a0"/>
+      <text x="380" y="70" text-anchor="middle" fill="#bbf7d0" font-size="10">CIA+</text>
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#94a3b8"/></marker></defs>
+    </svg>
+    <figcaption><span class="t en">Figure 2 — Mechanisms are tools; services are what you gain; attacks threaten services.</span><span class="t ar">شكل 2 — الآليات أدوات؛ الخدمات مكاسب؛ الهجمات تهدد الخدمات.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>Attack</strong> — concrete hostile action. Example: attacker records your login cookies on unencrypted HTTP (threatens confidentiality).</span>
+  <span class="t ar"><strong>هجوم</strong> — فعل عدائي ملموس. مثال: تسجيل كوكيز الدخول على HTTP غير مشفر (يهدد السرية).</span></p>
+  <p><span class="t en"><strong>Mechanism</strong> — how you defend. Same example: deploy HTTPS (TLS) + HttpOnly cookies — that is the mechanism.</span>
+  <span class="t ar"><strong>آلية</strong> — كيف تدافع. نفس المثال: HTTPS (TLS) + كوكيز HttpOnly.</span></p>
+  <p><span class="t en"><strong>Service</strong> — the property you wanted. Outcome: <em>confidentiality service</em> for the session.</span>
+  <span class="t ar"><strong>خدمة</strong> — الخاصية المطلوبة. النتيجة: <em>خدمة سرية</em> للجلسة.</span></p>
+
   <table class="compare-table">
     <tr><th><span class="t en">Passive attack</span><span class="t ar">هجوم سلبي</span></th><th><span class="t en">Active attack</span><span class="t ar">هجوم نشط</span></th></tr>
     <tr>
-      <td><span class="t en">Eavesdrop, traffic analysis; no change to systems or bits in transit</span><span class="t ar">تنصت وتحليل حركة؛ دون تغيير الأنظمة أو البتات</span></td>
-      <td><span class="t en">Modify, delete, inject, replay, DoS, malware installation</span><span class="t ar">تعديل، حذف، حقن، إعادة تشغيل، حرمان خدمة، تثبيت برمجيات</span></td>
-    </tr>
-    <tr>
-      <td><span class="t en">Hard to detect (silent observation)</span><span class="t ar">صعب الكشف (مراقبة صامتة)</span></td>
-      <td><span class="t en">Often detectable via logs, IDS, integrity checks</span><span class="t ar">غالباً يُكتشف عبر السجلات و IDS وفحوص التكامل</span></td>
+      <td><span class="t en">Eavesdrop, traffic analysis; bits unchanged</span><span class="t ar">تنصت؛ البتات دون تغيير</span></td>
+      <td><span class="t en">Modify, inject, delete, replay, DoS</span><span class="t ar">تعديل، حقن، حذف، إعادة، حرمان</span></td>
     </tr>
   </table>
+
+  <figure class="fig-block">
+    <svg viewBox="0 0 440 120" class="fig-svg">
+      <text x="100" y="20" fill="#94a3b8" font-size="11">PASSIVE</text>
+      <circle cx="60" cy="65" r="22" fill="#1e293b" stroke="#94a3b8"/>
+      <text x="60" y="70" text-anchor="middle" fill="#e2e8f0" font-size="10">👁</text>
+      <line x1="90" y1="65" x2="200" y2="65" stroke="#64748b" stroke-dasharray="4"/>
+      <rect x="200" y="50" width="60" height="30" rx="4" fill="#334155"/>
+      <text x="230" y="70" text-anchor="middle" fill="#fff" font-size="9">data</text>
+      <line x1="260" y1="65" x2="370" y2="65" stroke="#64748b"/>
+      <circle cx="400" cy="65" r="22" fill="#1e3a5f" stroke="#5eb3ff"/>
+      <text x="400" y="70" text-anchor="middle" fill="#fff" font-size="10">B</text>
+      <text x="100" y="105" fill="#94a3b8" font-size="11">ACTIVE: attacker in the middle can change the box</text>
+    </svg>
+    <figcaption><span class="t en">Figure 3 — Passive = listen on the dashed path; active = sit in the path and alter traffic.</span><span class="t ar">شكل 3 — سلبي = استماع؛ نشط = في المسار وتغيير الحركة.</span></figcaption>
+  </figure>
+
+  <div class="example-box">
+    <div class="example-title"><span class="t en">Examples to remember for the exam</span><span class="t ar">أمثلة للامتحان</span></div>
+    <ul>
+      <li><span class="t en"><strong>Passive:</strong> competitor counts packet sizes to guess when payroll runs (traffic analysis).</span><span class="t ar"><strong>سلبي:</strong> تحليل أحجام الحزم لتخمين موعد الرواتب.</span></li>
+      <li><span class="t en"><strong>Active:</strong> attacker changes a bank transfer amount in a message without TLS/MAC.</span><span class="t ar"><strong>نشط:</strong> تغيير مبلغ تحويل دون TLS/MAC.</span></li>
+      <li><span class="t en"><strong>Replay (active):</strong> capture “transfer $10” and send it again — stopped by <strong>nonce</strong> or timestamp.</span><span class="t ar"><strong>إعادة تشغيل:</strong> إرسال نفس أمر التحويل مرة أخرى — يُوقف بـ NONCE أو وقت.</span></li>
+    </ul>
+  </div>
 </div>
 </section>
 
 <section class="topic" id="crypto">
 <h2>
-  <span class="t en">3. Symmetric vs asymmetric encryption; public &amp; private keys</span>
-  <span class="t ar">3. التشفير المتماثل وغير المتماثل؛ المفتاح العام والخاص</span>
+  <span class="t en">3. Symmetric vs asymmetric encryption; public &amp; private keys; block vs stream; NONCE</span>
+  <span class="t ar">3. التشفير المتماثل وغير المتماثل؛ المفتاح العام والخاص؛ الكتلة والتيار؛ NONCE</span>
 </h2>
 <div class="card">
-  <p><span class="t en"><strong>Symmetric:</strong> One shared secret key K for encrypt and decrypt. Fast (AES). Challenge: secure key distribution.</span>
-  <span class="t ar"><strong>متماثل:</strong> مفتاح سري مشترك K للتشفير وفك التشفير. سريع (AES). التحدي: توزيع المفتاح بأمان.</span></p>
-  <p><span class="t en"><strong>Asymmetric (public-key):</strong> Key pair — <strong>public</strong> (publishable) and <strong>private</strong> (secret). Encrypt with recipient's public key; only their private key decrypts. Sign with sender's private key; anyone verifies with sender's public key.</span>
-  <span class="t ar"><strong>غير متماثل:</strong> زوج مفاتيح — <strong>عام</strong> (قابل للنشر) و <strong>خاص</strong> (سري). تشفّر بمفتاح المستلم العام؛ خاصه فقط يفك التشفير. توقّع بخاص المرسل؛ الجميع يتحقق بالعام.</span></p>
-  <p><span class="t en"><strong>Block cipher</strong> (AES): encrypts fixed-size blocks (128 bits for AES) with modes (CBC, GCM). <strong>Stream cipher</strong> generates keystream XORed with data bit/byte-by-byte (legacy RC4; ChaCha20 today).</span>
-  <span class="t ar"><strong>تشفير الكتلة</strong> (AES): يشفّر كتلاً ثابتة (128 بت لـ AES) بأوضاع (CBC، GCM). <strong>تشفير التيار</strong> يولّد تيار مفتاح يُعمل معه XOR بت/بايت تلو الآخر.</span></p>
-  <p><span class="t en"><strong>NONCE</strong> (number used once): unpredictable value used once per session/message to stop replay attacks and to derive unique IVs/keys in protocols.</span>
-  <span class="t ar"><strong>NONCE</strong> (رقم يُستخدم مرة واحدة): قيمة غير متوقعة تُستخدم مرة لكل جلسة/رسالة لمنع إعادة التشغيل ولاشتقاق IV/مفاتيح فريدة.</span></p>
+  <figure class="fig-block">
+    <svg viewBox="0 0 420 140" class="fig-svg">
+      <text x="30" y="22" fill="#5eb3ff" font-size="11">SYMMETRIC — same key K</text>
+      <rect x="20" y="35" width="50" height="35" fill="#334155"/><text x="45" y="57" text-anchor="middle" fill="#fff" font-size="10">Alice</text>
+      <rect x="160" y="40" width="80" height="28" rx="6" fill="#1e3a5f" stroke="#fbbf24"/><text x="200" y="58" text-anchor="middle" fill="#fde68a" font-size="11">K</text>
+      <rect x="350" y="35" width="50" height="35" fill="#334155"/><text x="375" y="57" text-anchor="middle" fill="#fff" font-size="10">Bob</text>
+      <path d="M70 52 L160 54 M280 54 L350 52" stroke="#64748b"/>
+      <text x="30" y="95" fill="#c4b5fd" font-size="11">ASYMMETRIC — Bob's public encrypts, Bob's private decrypts</text>
+      <text x="60" y="120" fill="#94a3b8" font-size="10">Alice uses PK_Bob → ciphertext → only SK_Bob opens</text>
+    </svg>
+    <figcaption><span class="t en">Figure 4 — Symmetric shares one secret; asymmetric uses a key pair per person.</span><span class="t ar">شكل 4 — المتماثل سر مشترك؛ غير المتماثل زوج مفاتيح لكل شخص.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>Symmetric example:</strong> WhatsApp-style session after setup uses AES with a session key both phones know. Encrypt message M: C = AES<sub>K</sub>(M). Decrypt: M = AES<sub>K</sub><sup>−1</sup>(C). Problem: how did both phones get K safely first time? Often solved with asymmetric handshake (like TLS).</span>
+  <span class="t ar"><strong>مثال متماثل:</strong> بعد الإعداد يستخدم AES بمفتاح جلسة يعرفه الطرفان. المشكلة: كيف وصل K بأمان أول مرة؟ غالباً بمصافحة غير متماثلة مثل TLS.</span></p>
+
+  <p><span class="t en"><strong>Asymmetric example:</strong> Bob publishes PK<sub>Bob</sub>. Alice sends confidential grade: C = RSA_Encrypt(PK<sub>Bob</sub>, M). Only SK<sub>Bob</sub> decrypts. For <strong>signature</strong>, Alice signs with SK<sub>Alice</sub>; professor verifies with PK<sub>Alice</sub>.</span>
+  <span class="t ar"><strong>مثال غير متماثل:</strong> بوب ينشر مفتاحه العام. أليس تشفّر بـ PK<sub>Bob</sub>؛ SK<sub>Bob</sub> فقط يفك. للتوقيع: SK<sub>Alice</sub> للتوقيع و PK<sub>Alice</sub> للتحقق.</span></p>
+
+  <table class="compare-table">
+    <tr><th></th><th><span class="t en">Block cipher (AES)</span><span class="t ar">كتلة (AES)</span></th><th><span class="t en">Stream cipher</span><span class="t ar">تيار</span></th></tr>
+    <tr><td><span class="t en">Unit</span><span class="t ar">الوحدة</span></td><td><span class="t en">128-bit blocks</span><span class="t ar">كتل 128 بت</span></td><td><span class="t en">keystream XOR 1 byte at a time</span><span class="t ar">تيار مفتاح XOR بايتاً بايت</span></td></tr>
+    <tr><td><span class="t en">Example</span><span class="t ar">مثال</span></td><td><span class="t en">AES-GCM on a file</span><span class="t ar">AES-GCM على ملف</span></td><td><span class="t en">ChaCha20 on a live video</span><span class="t ar">ChaCha20 على بث حي</span></td></tr>
+  </table>
+
+  <p><span class="t en"><strong>NONCE example:</strong> Login request includes nonce N=48291. Server stores “last accepted N”. Attacker replays yesterday’s packet with old N → server rejects. Fresh nonce makes every request unique.</span>
+  <span class="t ar"><strong>مثال NONCE:</strong> طلب دخول يتضمن N=48291. الخادم يرفض إعادة إرسال نفس N القديم.</span></p>
 </div>
 </section>
 
 <section class="topic" id="aes">
 <h2>
-  <span class="t en">4. AES, TRNG, hash functions, SHA, concatenation, RSA signatures, tag types, MAC</span>
-  <span class="t ar">4. AES و TRNG ودوال الهاش و SHA والربط وتوقيع RSA وأنواع العلامات و MAC</span>
+  <span class="t en">4. AES, TRNG, hashes, SHA, concatenation, RSA signatures, tags, MAC</span>
+  <span class="t ar">4. AES و TRNG ودوال الهاش و SHA والربط وتوقيع RSA والعلامات و MAC</span>
 </h2>
 <div class="card">
-  <p><span class="t en"><strong>AES key sizes:</strong> 128, 192, or 256 bits. <strong>Rounds:</strong> 10 (128-bit key), 12 (192-bit), 14 (256-bit). Each round: <strong>SubBytes</strong> (S-box), <strong>ShiftRows</strong>, <strong>MixColumns</strong> (skipped last round), <strong>AddRoundKey</strong> (XOR round key). Initial AddRoundKey before rounds.</span>
-  <span class="t ar"><strong>أطوال مفاتيح AES:</strong> 128 أو 192 أو 256 بت. <strong>الجولات:</strong> 10 أو 12 أو 14. كل جولة: SubBytes، ShiftRows، MixColumns (ما عدا الأخيرة)، AddRoundKey. جولة AddRoundKey أولية قبل الجولات.</span></p>
-  <p><span class="t en"><strong>TRNG</strong> (True Random Number Generator): entropy from physical noise — used for keys, salts, nonces when prediction must be impossible. <strong>PRNG</strong> is deterministic from a seed (use seed from TRNG when possible).</span>
-  <span class="t ar"><strong>TRNG</strong>: عشوائية من ضوضاء فيزيائية — لمفاتيح وملح و NONCE عندما يجب ألا يُتوقع. <strong>PRNG</strong> حتمي من بذرة (يفضل بذرة من TRNG).</span></p>
-  <p><span class="t en"><strong>Hash output:</strong> Fixed-length digest; one-way; preimage and collision resistance. Used for integrity, password storage (with salt), and building MACs/signatures.</span>
-  <span class="t ar"><strong>مخرج الهاش:</strong> ملخص بطول ثابت؛ اتجاه واحد؛ مقاومة أصلية وتصادم. للتكامل وتخزين كلمات المرور (مع ملح) وبناء MAC والتوقيعات.</span></p>
-  <p><span class="t en"><strong>Concatenation (∥):</strong> H(M ∥ N) hashes message M followed by N — order matters; protocols specify exact layout to avoid ambiguity attacks.</span>
-  <span class="t ar"><strong>الربط (∥):</strong> H(M ∥ N) يهشِّر M ثم N — الترتيب مهم؛ البروتوكولات تحدد التنسيق لتجنب هجمات الغموض.</span></p>
-  <p><span class="t en"><strong>SHA:</strong> SHA-1 (160-bit, weak), SHA-2 family (SHA-256 widely used), SHA-3 (sponge). Prefer SHA-256 or stronger today.</span>
-  <span class="t ar"><strong>SHA:</strong> SHA-1 (160 بت، ضعيف)، عائلة SHA-2 (SHA-256 شائع)، SHA-3. يفضل SHA-256 أو أقوى اليوم.</span></p>
-  <p><span class="t en"><strong>RSA digital signature:</strong> Hash message → sign digest with sender's <em>private</em> key → verifier decrypts with sender's <em>public</em> key and compares. Provides integrity, authenticity, non-repudiation.</span>
-  <span class="t ar"><strong>توقيع RSA:</strong> هاش الرسالة → وقع الملخص بالمفتاح <em>الخاص</em> → المتحقق يفك بالمفتاح <em>العام</em> ويقارن. يوفر تكامل وأصالة وعدم إنكار.</span></p>
-  <p><span class="t en"><strong>Tag types:</strong> (1) <strong>MAC tag</strong> (e.g., HMAC) — symmetric keyed tag; (2) <strong>AEAD authentication tag</strong> (e.g., GCM) — verifies ciphertext integrity; (3) <strong>Digital signature</strong> — asymmetric tag on a hash.</span>
-  <span class="t ar"><strong>أنواع العلامات:</strong> (1) علامة MAC (مثل HMAC) — متماثلة بمفتاح؛ (2) علامة AEAD (مثل GCM) لتكامل النص المشفر؛ (3) توقيع رقمي — علامة غير متماثلة على الهاش.</span></p>
-  <p><span class="t en"><strong>MAC</strong> (Message Authentication Code): Keyed function ensuring message integrity + authenticity between parties sharing K (HMAC-SHA256). Different from network MAC address.</span>
-  <span class="t ar"><strong>MAC</strong>: دالة بمفتاح تضمن تكامل الرسالة وأصالتها بين طرفين يتشاركان K (HMAC-SHA256). مختلف عن عنوان MAC للشبكة.</span></p>
+  <figure class="fig-block">
+    <svg viewBox="0 0 460 100" class="fig-svg">
+      <text x="20" y="18" fill="#94a3b8" font-size="10">One AES round (simplified)</text>
+      <rect x="10" y="28" width="70" height="36" rx="6" fill="#1e3a5f" stroke="#5eb3ff"/><text x="45" y="50" text-anchor="middle" fill="#fff" font-size="9">SubBytes</text>
+      <text x="88" y="50" fill="#64748b">→</text>
+      <rect x="95" y="28" width="70" height="36" rx="6" fill="#1e3a5f" stroke="#5eb3ff"/><text x="130" y="50" text-anchor="middle" fill="#fff" font-size="9">ShiftRows</text>
+      <text x="173" y="50" fill="#64748b">→</text>
+      <rect x="180" y="28" width="78" height="36" rx="6" fill="#1e3a5f" stroke="#5eb3ff"/><text x="219" y="50" text-anchor="middle" fill="#fff" font-size="9">MixColumns</text>
+      <text x="266" y="50" fill="#64748b">→</text>
+      <rect x="273" y="28" width="82" height="36" rx="6" fill="#1e3a5f" stroke="#fbbf24"/><text x="314" y="50" text-anchor="middle" fill="#fff" font-size="9">AddRoundKey</text>
+      <text x="20" y="85" fill="#6ee7a0" font-size="10">128-bit key → 10 rounds | 192-bit → 12 | 256-bit → 14</text>
+    </svg>
+    <figcaption><span class="t en">Figure 5 — AES round transformations (MixColumns omitted in the final round).</span><span class="t ar">شكل 5 — تحويلات جولة AES (بدون MixColumns في الجولة الأخيرة).</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>AES walkthrough (exam level):</strong> Plaintext block 128 bits → add initial round key → repeat rounds. <strong>SubBytes</strong> substitutes each byte via S-box (non-linearity). <strong>ShiftRows</strong> permutes rows. <strong>MixColumns</strong> mixes columns (last round skips it). <strong>AddRoundKey</strong> XORs with round key from key schedule.</span>
+  <span class="t ar"><strong>مستوى امتحان AES:</strong> كتلة 128 بت → AddRoundKey أولي → جولات متكررة. SubBytes استبدال؛ ShiftRows إزاحة؛ MixColumns خلط (تُحذف أخيراً)؛ AddRoundKey XOR مع مفتاح الجولة.</span></p>
+
+  <figure class="fig-block">
+    <svg viewBox="0 0 400 90" class="fig-svg">
+      <text x="20" y="20" fill="#94a3b8" font-size="10">HASH — any length in, fixed digest out</text>
+      <rect x="10" y="30" width="120" height="40" rx="6" fill="#334155"/><text x="70" y="55" text-anchor="middle" fill="#fff" font-size="10">"Hello" (5 B)</text>
+      <text x="140" y="55" fill="#64748b">→ SHA-256 →</text>
+      <rect x="230" y="30" width="160" height="40" rx="6" fill="#14532d" stroke="#6ee7a0"/><text x="310" y="48" text-anchor="middle" fill="#bbf7d0" font-size="8">2cf24dba5f...</text>
+      <text x="310" y="62" text-anchor="middle" fill="#86efac" font-size="8">always 256 bits</text>
+    </svg>
+    <figcaption><span class="t en">Figure 6 — Output length fixed; tiny input change → avalanche in digest.</span><span class="t ar">شكل 6 — طول المخرج ثابت؛ تغيير بسيط يسبب تغييراً كبيراً في الهاش.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>TRNG vs PRNG:</strong> Need a crypto key? Use TRNG from hardware noise (e.g., /dev/random). PRNG like Mersenne Twister is fine for simulations but predictable if attacker learns seed — so seed PRNG from TRNG.</span>
+  <span class="t ar"><strong>TRNG مقابل PRNG:</strong> للمفاتيح استخدم TRNG من ضوضاء عتاد؛ PRNG قابل للتنبؤ إن عُرفت البذرة.</span></p>
+
+  <p><span class="t en"><strong>Concatenation example:</strong> Protocol says signature is on H("PAY" ∥ amount ∥ account). If you swap order to H(amount ∥ "PAY" ∥ account) you get a different hash — attackers cannot reuse signatures on reordered fields.</span>
+  <span class="t ar"><strong>مثال الربط:</strong> H("PAY" ∥ amount ∥ account) — تغيير الترتيب يغيّر الهاش ويمنع إعادة استخدام توقيع خاطئ.</span></p>
+
+  <figure class="fig-block">
+    <svg viewBox="0 0 420 110" class="fig-svg">
+      <text x="20" y="18" fill="#f4a261" font-size="10">RSA SIGNATURE</text>
+      <rect x="10" y="28" width="55" height="30" fill="#334155"/><text x="37" y="47" text-anchor="middle" fill="#fff" font-size="9">Msg</text>
+      <text x="72" y="47" fill="#94a3b8">hash→</text>
+      <rect x="95" y="28" width="50" height="30" fill="#334155"/><text x="120" y="47" text-anchor="middle" fill="#fff" font-size="9">digest</text>
+      <text x="150" y="47" fill="#94a3b8">sign SK→</text>
+      <rect x="195" y="28" width="60" height="30" fill="#1e3a5f" stroke="#fbbf24"/><text x="225" y="47" text-anchor="middle" fill="#fff" font-size="9">sig</text>
+      <text x="20" y="85" fill="#94a3b8" font-size="10">Verify: apply PK → compare to hash(msg)</text>
+    </svg>
+    <figcaption><span class="t en">Figure 7 — Sign hash with private key; verify with public key (never reverse).</span><span class="t ar">شكل 7 — وقّع الهاش بالخاص؛ تحقق بالعام.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>Tag types:</strong> (1) <strong>HMAC tag</strong> — 32-byte tag on a bank API message using shared secret; (2) <strong>GCM tag</strong> — 16-byte tag on ciphertext proving AEAD integrity; (3) <strong>Digital signature</strong> — RSA/ECDSA signature anyone can verify with public cert.</span>
+  <span class="t ar"><strong>أنواع العلامات:</strong> HMAC بسر مشترك؛ علامة GCM على النص المشفر؛ توقيع رقمي يتحقق منه الجميع بالشهادة.</span></p>
+
+  <div class="example-box">
+    <div class="example-title"><span class="t en">MAC vs digital signature</span><span class="t ar">MAC مقابل التوقيع الرقمي</span></div>
+    <p><span class="t en">Two roommates share Wi‑Fi password K. They HMAC-SHA256(login requests) so only someone with K can forge valid tags — but either roommate could deny later (no non-repudiation). A university registrar signs PDFs with SK<sub>uni</sub>; anyone with PK<sub>uni</sub> can prove the registrar signed — <strong>non-repudiation</strong>.</span>
+    <span class="t ar">شريكان يتشاركان K ويستخدمان HMAC — لا إنكار قوي. الجامعة توقّع PDF بمفتاحها الخاص — <strong>عدم إنكار</strong>.</span></p>
+  </div>
 </div>
 </section>
 
 <section class="topic" id="pki">
 <h2>
-  <span class="t en">5. PKI, TLS, and SSH</span>
-  <span class="t ar">5. PKI و TLS و SSH</span>
+  <span class="t en">5. PKI, TLS, and SSH — how they fit together</span>
+  <span class="t ar">5. PKI و TLS و SSH — كيف تترابط</span>
 </h2>
 <div class="card">
-  <p><span class="t en"><strong>PKI (Public Key Infrastructure):</strong> System of CAs, certificates (X.509), certificate revocation, and trust stores that bind names to public keys. Enables verifying TLS servers and signing emails/code.</span>
-  <span class="t ar"><strong>PKI:</strong> نظام جهات مصدرة وشهادات (X.509) وإبطال ومخازن ثقة تربط الأسماء بالمفاتيح العامة. يمكّن التحقق من خوادم TLS وتوقيع البريد والبرمجيات.</span></p>
-  <p><span class="t en"><strong>TLS (Transport Layer Security):</strong> Protocol that provides confidentiality and integrity on a transport connection (usually TCP). Handshake negotiates cipher suite, authenticates server (client optional), derives session keys. TLS 1.2/1.3 — successor to SSL. Used by HTTPS.</span>
-  <span class="t ar"><strong>TLS:</strong> بروتوكول يوفر سرية وتكامل على اتصال نقل (غالباً TCP). المصافحة تتفاوض على التشفير وتصادق الخادم وتشتق مفاتيح الجلسة. TLS 1.2/1.3 — خلف SSL. يُستخدم في HTTPS.</span></p>
-  <p><span class="t en"><strong>SSH (Secure Shell):</strong> Encrypts remote login, command execution, and file copy (SCP/SFTP) over insecure networks. Replaces telnet/rsh. Server authentication via host keys; user auth via password or public key.</span>
-  <span class="t ar"><strong>SSH:</strong> يشفّر الدخول البعيد وتنفيذ الأوامر ونسخ الملفات (SCP/SFTP) عبر شبكات غير آمنة. يحل محل telnet. مصادقة الخادم بمفاتيح مضيف؛ المستخدم بكلمة مرور أو مفتاح عام.</span></p>
+  <figure class="fig-block">
+    <svg viewBox="0 0 440 130" class="fig-svg">
+      <rect x="180" y="10" width="80" height="40" rx="6" fill="#14532d" stroke="#6ee7a0"/><text x="220" y="35" text-anchor="middle" fill="#fff" font-size="10">Root CA</text>
+      <rect x="60" y="80" width="100" height="40" rx="6" fill="#1e3a5f" stroke="#5eb3ff"/><text x="110" y="105" text-anchor="middle" fill="#fff" font-size="9">Intermediate CA</text>
+      <rect x="280" y="80" width="120" height="40" rx="6" fill="#334155" stroke="#94a3b8"/><text x="340" y="105" text-anchor="middle" fill="#fff" font-size="9">server cert</text>
+      <path d="M220 50 L110 80 M220 50 L340 80" stroke="#64748b"/>
+    </svg>
+    <figcaption><span class="t en">Figure 8 — PKI chain: browser trusts root → intermediate → site certificate.</span><span class="t ar">شكل 8 — سلسلة PKI: جذر → وسيط → شهادة الموقع.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>PKI example:</strong> You visit https://google.com. Browser has root CA certs preinstalled. Server sends its cert chain; browser verifies signature up to trusted root and checks hostname matches CN/SAN. If OK → authentic Google server (authenticity) before any data.</span>
+  <span class="t ar"><strong>مثال PKI:</strong> المتصفح يتحقق من سلسلة الشهادات حتى جذر موثوق ويطابق اسم المضيف.</span></p>
+
+  <figure class="fig-block">
+    <svg viewBox="0 0 420 85" class="fig-svg">
+      <text x="15" y="20" fill="#5eb3ff" font-size="10">TLS over TCP (HTTPS)</text>
+      <rect x="10" y="28" width="70" height="45" fill="#334155"/><text x="45" y="55" text-anchor="middle" fill="#fff" font-size="9">App</text>
+      <rect x="90" y="28" width="70" height="45" fill="#1e3a5f" stroke="#5eb3ff"/><text x="125" y="55" text-anchor="middle" fill="#fff" font-size="9">TLS</text>
+      <rect x="170" y="28" width="70" height="45" fill="#334155"/><text x="205" y="55" text-anchor="middle" fill="#fff" font-size="9">TCP</text>
+      <text x="260" y="55" fill="#94a3b8">→ encrypted tunnel →</text>
+    </svg>
+    <figcaption><span class="t en">Figure 9 — TLS sits between application and TCP; provides cipher + integrity.</span><span class="t ar">شكل 9 — TLS بين التطبيق و TCP.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>TLS handshake (concept):</strong> ClientHello → ServerHello + certificate → key agreement → both derive AES session keys → Application Data encrypted. Achieves confidentiality + integrity + server authentication.</span>
+  <span class="t ar"><strong>مصافحة TLS:</strong> تفاوض → شهادة → اتفاق مفاتيح → بيانات مشفّرة.</span></p>
+
+  <p><span class="t en"><strong>SSH example:</strong> <code>ssh student@lab.university.edu</code> on port 22. Replaces cleartext telnet. First connection: verify host key fingerprint (prevent MITM). Then password or private key authenticates you. All keystrokes encrypted inside SSH tunnel.</span>
+  <span class="t ar"><strong>مثال SSH:</strong> يستبدل telnet؛ تحقق من بصمة المضيف؛ كل ضغطات المفاتيح داخل نفق مشفّر.</span></p>
 </div>
 </section>
 
 <section class="topic" id="ipv4">
 <h2>
-  <span class="t en">6. IPv4 address, network address, and subnet mask</span>
-  <span class="t ar">6. عنوان IPv4 وعنوان الشبكة وقناع الشبكة</span>
+  <span class="t en">6. IPv4 address, network address, subnet mask (with worked example)</span>
+  <span class="t ar">6. عنوان IPv4 وعنوان الشبكة وقناع الشبكة (مثال محسوب)</span>
 </h2>
 <div class="card">
-  <p><span class="t en">An <strong>IPv4 address</strong> is 32 bits, often written dotted-decimal (e.g., 192.168.10.45). A <strong>subnet mask</strong> (or prefix length /n) separates network bits from host bits. Example mask 255.255.255.0 = /24 → first 24 bits are network, last 8 are host.</span>
-  <span class="t ar"><strong>عنوان IPv4</strong> 32 بت، يُكتب عادةً عشرياً مقطّعاً. <strong>قناع الشبكة</strong> (أو البادئة /n) يفصل بتات الشبكة عن المضيف. مثال 255.255.255.0 = /24 → أول 24 بت شبكة، آخر 8 مضيف.</span></p>
-  <p><span class="t en"><strong>Network address</strong> = IP bitwise AND mask (host bits all 0). <strong>Broadcast</strong> = host bits all 1. Usable hosts ≈ 2<sup>host bits</sup> − 2 (classic LAN, excluding network/broadcast).</span>
-  <span class="t ar"><strong>عنوان الشبكة</strong> = IP مع AND للقناع (بتات المضيف أصفار). <strong>البث</strong> = بتات المضيف كلها 1. المضيفات القابلة للاستخدام ≈ 2<sup>بتات المضيف</sup> − 2.</span></p>
-  <p><span class="t en">Security link: correct subnetting limits broadcast domains and supports firewall rules (allow/deny by network segment).</span>
-  <span class="t ar">الربط الأمني: التجزئة الصحيحة تحد من نطاقات البث وتدعم قواعد الجدار الناري (سماح/منع حسب الشبكة).</span></p>
+  <figure class="fig-block">
+    <svg viewBox="0 0 440 70" class="fig-svg">
+      <text x="10" y="18" fill="#94a3b8" font-size="10">192.168.5.102 /24 — bits</text>
+      <rect x="10" y="25" width="260" height="22" fill="#1e3a5f"/><text x="140" y="40" text-anchor="middle" fill="#5eb3ff" font-size="10">24 bits NETWORK</text>
+      <rect x="270" y="25" width="80" height="22" fill="#3b2f1f"/><text x="310" y="40" text-anchor="middle" fill="#f4a261" font-size="10">8 HOST</text>
+      <text x="10" y="65" fill="#6ee7a0" font-size="9">Mask 255.255.255.0 = /24</text>
+    </svg>
+    <figcaption><span class="t en">Figure 10 — Mask separates network prefix from host suffix.</span><span class="t ar">شكل 10 — القناع يفصل بادئة الشبكة عن المضيف.</span></figcaption>
+  </figure>
+
+  <p><span class="t en"><strong>Given:</strong> IP = 192.168.5.102, mask = 255.255.255.0 (/24).<br/>
+  • Network = 192.168.5.102 AND 255.255.255.0 = <strong>192.168.5.0</strong><br/>
+  • Broadcast = host bits all 1 → <strong>192.168.5.255</strong><br/>
+  • Usable hosts: 192.168.5.1 – 192.168.5.254 (2<sup>8</sup> − 2 = 254)</span>
+  <span class="t ar"><strong>معطى:</strong> IP = 192.168.5.102، القناع /24.<br/>
+  • الشبكة = <strong>192.168.5.0</strong><br/>
+  • البث = <strong>192.168.5.255</strong><br/>
+  • المضيفات: .1 – .254 (254 مضيفاً)</span></p>
+
+  <div class="example-box">
+    <div class="example-title"><span class="t en">Security use of subnetting</span><span class="t ar">الأمن وتجزئة الشبكة</span></div>
+    <p><span class="t en">Put student lab PCs on 10.10.20.0/24 and payment servers on 10.10.30.0/24. Firewall rule: deny all from 10.10.20.0/24 → 10.10.30.0/24. Even if a lab PC is compromised, it cannot reach the payment VLAN — defense in depth using addresses + ACLs.</span>
+    <span class="t ar">معاملات الطلاب في شبكة ومخدمات الدفع في أخرى؛ الجدار الناري يمنع الوصول بينهما حتى لو اُخترق جهاز معمل.</span></p>
+  </div>
 </div>
 </section>
+
 
 <section id="quiz">
 <div class="quiz-header">
@@ -378,7 +569,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q1')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q1" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Confidentiality</span><span class="t ar">الصحيح: A) السرية</span></div>
-<p><span class="t en">Confidentiality protects data from unauthorized disclosure (e.g., encryption).</span><span class="t ar">السرية تحمي البيانات من الكشف غير المصرح به (مثل التشفير).</span></p>
+<p class="expl-detail"><span class="t en">Confidentiality protects data from unauthorized disclosure (e.g., encryption).</span><span class="t ar">السرية تحمي البيانات من الكشف غير المصرح به (مثل التشفير).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Someone on public Wi-Fi captures your HTTP login — that violates confidentiality; HTTPS fixes it.</span><span class="t ar"><strong>مثال:</strong> التقاط دخول HTTP على شبكة عامة يخالف السرية؛ HTTPS يعالج ذلك.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -387,7 +579,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q2')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q2" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) Denial-of-service that blocks legitimate access</span><span class="t ar">الصحيح: B) حرمان الخدمة الذي يمنع الوصول الشرعي</span></div>
-<p><span class="t en">DoS/DDoS attacks target availability by making resources unreachable.</span><span class="t ar">هجمات DoS/DDoS تستهدف التوفر بجعل الموارد غير قابلة للوصول.</span></p>
+<p class="expl-detail"><span class="t en">DoS/DDoS attacks target availability by making resources unreachable.</span><span class="t ar">هجمات DoS/DDoS تستهدف التوفر بجعل الموارد غير قابلة للوصول.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> A registrar site times out during registration week while pings work — classic availability hit from overload/DoS.</span><span class="t ar"><strong>مثال:</strong> موقع التسجيل لا يستجيب أثناء الذروة — مشكلة توفر.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -396,7 +589,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q3')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q3" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) modify</span><span class="t ar">الصحيح: B) تعديل</span></div>
-<p><span class="t en">Integrity ensures data is not altered undetectably (hashes, MACs help).</span><span class="t ar">التكامل يضمن عدم تغيير البيانات دون اكتشاف (الهاش و MAC يساعدان).</span></p>
+<p class="expl-detail"><span class="t en">Integrity ensures data is not altered undetectably (hashes, MACs help).</span><span class="t ar">التكامل يضمن عدم تغيير البيانات دون اكتشاف (الهاش و MAC يساعدان).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> You change 'grade=90' to 'grade=99' in a file; SHA-256 before/after mismatch proves integrity failure.</span><span class="t ar"><strong>مثال:</strong> تغيير علامة في ملف يغيّر SHA-256 — كسر تكامل.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -405,7 +599,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q4')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q4" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) who they claim to be</span><span class="t ar">الصحيح: B) من يدعون أنهم</span></div>
-<p><span class="t en">Authentication binds identity to entities (passwords, certs, signatures).</span><span class="t ar">المصادقة تربط الهوية بالكيانات (كلمات المرور، الشهادات، التوقيعات).</span></p>
+<p class="expl-detail"><span class="t en">Authentication binds identity to entities (passwords, certs, signatures).</span><span class="t ar">المصادقة تربط الهوية بالكيانات (كلمات المرور، الشهادات، التوقيعات).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> A fake 'university.edu' site asks for your password — certificates on the real site prove authenticity.</span><span class="t ar"><strong>مثال:</strong> موقع مزيف للجامعة — الشهادة الحقيقية تثبت الأصالة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -414,7 +609,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q5')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q5" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) 6</span><span class="t ar">الصحيح: B) 6</span></div>
-<p><span class="t en">/26 leaves 32−26 = 6 host bits (62 usable hosts with classic formula).</span><span class="t ar">/26 تترك 32−26 = 6 بتات للمضيف (62 مضيفاً قابلاً للاستخدام بالصيغة الكلاسيكية).</span></p>
+<p class="expl-detail"><span class="t en">/26 leaves 32−26 = 6 host bits (62 usable hosts with classic formula).</span><span class="t ar">/26 تترك 32−26 = 6 بتات للمضيف (62 مضيفاً قابلاً للاستخدام بالصيغة الكلاسيكية).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Network 172.16.4.0/26: 32−26=6 host bits → 2⁶−2=62 usable addresses.</span><span class="t ar"><strong>مثال:</strong> /26 تعني 6 بتات مضيف.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -423,7 +619,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q6')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q6" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) Network address</span><span class="t ar">الصحيح: B) عنوان الشبكة</span></div>
-<p><span class="t en">IP ∧ mask identifies the network portion (network ID).</span><span class="t ar">IP ∧ القناع يحدد جزء الشبكة (معرّف الشبكة).</span></p>
+<p class="expl-detail"><span class="t en">IP ∧ mask identifies the network portion (network ID).</span><span class="t ar">IP ∧ القناع يحدد جزء الشبكة (معرّف الشبكة).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> 192.168.2.17 AND 255.255.255.240 → network 192.168.2.16 (not broadcast 31).</span><span class="t ar"><strong>مثال:</strong> AND مع القناع يعطي عنوان الشبكة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -432,7 +629,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q7')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q7" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) Prevent replay of an old protocol message</span><span class="t ar">الصحيح: B) منع إعادة تشغيل رسالة بروتوكول قديمة</span></div>
-<p><span class="t en">Nonces are fresh one-time values tied to a session or request.</span><span class="t ar">NONCE قيم جديدة لمرة واحدة مرتبطة بجلسة أو طلب.</span></p>
+<p class="expl-detail"><span class="t en">Nonces are fresh one-time values tied to a session or request.</span><span class="t ar">NONCE قيم جديدة لمرة واحدة مرتبطة بجلسة أو طلب.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> ATM dispense: server sends nonce=8832; replay of yesterday's withdraw message rejected.</span><span class="t ar"><strong>مثال:</strong> رفض إعادة رسالة سحب قديمة بفضل NONCE.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -441,7 +639,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q8')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q8" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) No modification of system resources or data in transit</span><span class="t ar">الصحيح: A) عدم تعديل موارد النظام أو البيانات أثناء النقل</span></div>
-<p><span class="t en">Eavesdropping/traffic analysis are passive — observation without alteration.</span><span class="t ar">التنصت/تحليل الحركة سلبي — مراقبة دون تغيير.</span></p>
+<p class="expl-detail"><span class="t en">Eavesdropping/traffic analysis are passive — observation without alteration.</span><span class="t ar">التنصت/تحليل الحركة سلبي — مراقبة دون تغيير.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Wireshark on promiscuous mode reads frames but does not modify them — passive.</span><span class="t ar"><strong>مثال:</strong> Wireshark للقراءة فقط — سلبي.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -450,7 +649,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q9')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q9" class="explanation">
 <div class="correct-label"><span class="t en">Correct: C) Man-in-the-middle altering packets</span><span class="t ar">الصحيح: C) رجل في الوسط يعدّل الحزم</span></div>
-<p><span class="t en">Active attacks change data or systems (MITM, spoofing, malware).</span><span class="t ar">الهجمات النشطة تغيّر البيانات أو الأنظمة (MITM، انتحال، برمجيات خبيثة).</span></p>
+<p class="expl-detail"><span class="t en">Active attacks change data or systems (MITM, spoofing, malware).</span><span class="t ar">الهجمات النشطة تغيّر البيانات أو الأنظمة (MITM، انتحال، برمجيات خبيثة).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Attacker changes DNS answer to point bank.com to evil IP — active MITM.</span><span class="t ar"><strong>مثال:</strong> تغيير إجابة DNS — نشط.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -459,7 +659,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q10')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q10" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) services; mechanisms</span><span class="t ar">الصحيح: B) خدمات؛ آليات</span></div>
-<p><span class="t en">Services = what you want; mechanisms = how you achieve it; attacks threaten services.</span><span class="t ar">الخدمات = ما تريد؛ الآليات = كيف تحققه؛ الهجمات تهدد الخدمات.</span></p>
+<p class="expl-detail"><span class="t en">Services = what you want; mechanisms = how you achieve it; attacks threaten services.</span><span class="t ar">الخدمات = ما تريد؛ الآليات = كيف تحققه؛ الهجمات تهدد الخدمات.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> You want integrity → use SHA/HMAC (mechanism); integrity is the service delivered.</span><span class="t ar"><strong>مثال:</strong> الهاش آلية؛ التكامل خدمة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -468,7 +669,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q11')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q11" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) One shared secret key for both directions</span><span class="t ar">الصحيح: A) مفتاح سري مشترك واحد للاتجاهين</span></div>
-<p><span class="t en">Alice and Bob share K; fast for bulk data (AES).</span><span class="t ar">أليس وبوب يتشاركان K؛ سريع للبيانات الكبيرة (AES).</span></p>
+<p class="expl-detail"><span class="t en">Alice and Bob share K; fast for bulk data (AES).</span><span class="t ar">أليس وبوب يتشاركان K؛ سريع للبيانات الكبيرة (AES).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Two apps share AES key in a config file — symmetric setup for bulk lecture videos.</span><span class="t ar"><strong>مثال:</strong> مفتاح AES مشترك في ملف إعداد — متماثل.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -477,7 +679,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q12')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q12" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) A public key for encrypt/verify and private key for decrypt/sign</span><span class="t ar">الصحيح: B) مفتاح عام للتشفير/التحقق ومفتاح خاص لفك التشفير/التوقيع</span></div>
-<p><span class="t en">Public encrypts; only private holder decrypts (RSA, ECC).</span><span class="t ar">العام يشفّر؛ صاحب الخاص فقط يفك التشفير (RSA، ECC).</span></p>
+<p class="expl-detail"><span class="t en">Public encrypts; only private holder decrypts (RSA, ECC).</span><span class="t ar">العام يشفّر؛ صاحب الخاص فقط يفك التشفير (RSA، ECC).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Bob posts PK on website; Alice encrypts transcript without meeting — asymmetric distribution.</span><span class="t ar"><strong>مثال:</strong> نشر المفتاح العام لتوزيع آمن — غير متماثل.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -486,7 +689,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q13')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q13" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Bob's public; Bob's private</span><span class="t ar">الصحيح: A) عام بوب؛ خاص بوب</span></div>
-<p><span class="t en">Anyone uses Bob's public to encrypt; only Bob's private decrypts.</span><span class="t ar">الجميع يستخدم عام بوب للتشفير؛ خاص بوب فقط يفك التشفير.</span></p>
+<p class="expl-detail"><span class="t en">Anyone uses Bob's public to encrypt; only Bob's private decrypts.</span><span class="t ar">الجميع يستخدم عام بوب للتشفير؛ خاص بوب فقط يفك التشفير.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Email to Bob: encrypt with PK_Bob; Bob decrypts with SK_Bob only he owns.</span><span class="t ar"><strong>مثال:</strong> تشفير بعام بوب وفك بخاصه.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -495,7 +699,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q14')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q14" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) block</span><span class="t ar">الصحيح: B) كتلة</span></div>
-<p><span class="t en">AES block size is 128 bits regardless of key length.</span><span class="t ar">حجم كتلة AES 128 بت بغض النظر عن طول المفتاح.</span></p>
+<p class="expl-detail"><span class="t en">AES block size is 128 bits regardless of key length.</span><span class="t ar">حجم كتلة AES 128 بت بغض النظر عن طول المفتاح.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> AES-128-GCM on a 10 MB zip — block cipher with 128-bit blocks.</span><span class="t ar"><strong>مثال:</strong> AES على ملف كبير — كتلة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -504,7 +709,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q15')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q15" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) stream</span><span class="t ar">الصحيح: B) تيار</span></div>
-<p><span class="t en">Stream ciphers encrypt one bit/byte at a time with keystream.</span><span class="t ar">تشفير التيار يشفّر بت/بايت واحد في كل مرة بتيار مفتاح.</span></p>
+<p class="expl-detail"><span class="t en">Stream ciphers encrypt one bit/byte at a time with keystream.</span><span class="t ar">تشفير التيار يشفّر بت/بايت واحد في كل مرة بتيار مفتاح.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> RC4/ChaCha20 XOR on live chat stream — stream cipher pattern.</span><span class="t ar"><strong>مثال:</strong> ChaCha20 على بث — تيار.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -513,7 +719,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q16')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q16" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) 128, 192, 256</span><span class="t ar">الصحيح: B) 128، 192، 256</span></div>
-<p><span class="t en">AES supports 128-, 192-, and 256-bit keys.</span><span class="t ar">AES يدعم مفاتيح 128 و 192 و 256 بت.</span></p>
+<p class="expl-detail"><span class="t en">AES supports 128-, 192-, and 256-bit keys.</span><span class="t ar">AES يدعم مفاتيح 128 و 192 و 256 بت.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Exam fact: only 128, 192, 256 are valid AES key lengths (not 64).</span><span class="t ar"><strong>مثال:</strong> أطوال AES: 128 و192 و256 فقط.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -522,7 +729,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q17')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q17" class="explanation">
 <div class="correct-label"><span class="t en">Correct: C) 14</span><span class="t ar">الصحيح: C) 14</span></div>
-<p><span class="t en">Rounds: 10 (128-bit key), 12 (192-bit), 14 (256-bit).</span><span class="t ar">الجولات: 10 (مفتاح 128)، 12 (192)، 14 (256).</span></p>
+<p class="expl-detail"><span class="t en">Rounds: 10 (128-bit key), 12 (192-bit), 14 (256-bit).</span><span class="t ar">الجولات: 10 (مفتاح 128)، 12 (192)، 14 (256).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Exam fact: longer key → more AES rounds (256-bit → 14 rounds).</span><span class="t ar"><strong>مثال:</strong> مفتاح 256 بت → 14 جولة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -531,7 +739,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q18')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q18" class="explanation">
 <div class="correct-label"><span class="t en">Correct: D) HammingCode</span><span class="t ar">الصحيح: D) HammingCode</span></div>
-<p><span class="t en">AES uses SubBytes, ShiftRows, MixColumns, AddRoundKey each round.</span><span class="t ar">AES يستخدم SubBytes و ShiftRows و MixColumns و AddRoundKey كل جولة.</span></p>
+<p class="expl-detail"><span class="t en">AES uses SubBytes, ShiftRows, MixColumns, AddRoundKey each round.</span><span class="t ar">AES يستخدم SubBytes و ShiftRows و MixColumns و AddRoundKey كل جولة.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> If 'HammingCode' appears, it is error correction — not an AES round step.</span><span class="t ar"><strong>مثال:</strong> Hamming ليس من AES.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -540,7 +749,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q19')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q19" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) Physical entropy (noise, timing jitter)</span><span class="t ar">الصحيح: B) إنتروبيا فيزيائية (ضوضاء، اضطراب التوقيت)</span></div>
-<p><span class="t en">True Random Number Generators sample unpredictable physical events.</span><span class="t ar">مولدات الأرقام العشوائية الحقيقية تعتمد أحداثاً فيزيائية غير متوقعة.</span></p>
+<p class="expl-detail"><span class="t en">True Random Number Generators sample unpredictable physical events.</span><span class="t ar">مولدات الأرقام العشوائية الحقيقية تعتمد أحداثاً فيزيائية غير متوقعة.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Crypto keys from /dev/random (hardware) vs rand() with fixed seed — TRNG vs weak PRNG.</span><span class="t ar"><strong>مثال:</strong> /dev/random عتاد مقابل بذرة ثابتة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -549,7 +759,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q20')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q20" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) Fixed-length digest</span><span class="t ar">الصحيح: B) ملخص بطول ثابت</span></div>
-<p><span class="t en">SHA-256 always outputs 256 bits regardless of input size.</span><span class="t ar">SHA-256 تخرج دائماً 256 بت بغض النظر عن حجم المدخل.</span></p>
+<p class="expl-detail"><span class="t en">SHA-256 always outputs 256 bits regardless of input size.</span><span class="t ar">SHA-256 تخرج دائماً 256 بت بغض النظر عن حجم المدخل.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Password 'cat' and 'catastrophe' both map to 256-bit SHA-256 digests (fixed output size).</span><span class="t ar"><strong>مثال:</strong> مخرج هاش بطول ثابت دائماً.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -558,7 +769,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q21')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q21" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) Hash the juxtaposition of m₁ followed by m₂</span><span class="t ar">الصحيح: B) هاش وصل m₁ ثم m₂</span></div>
-<p><span class="t en">∥ denotes string concatenation — order matters in protocols.</span><span class="t ar">∥ يعني ربط السلاسل — الترتيب مهم في البروتوكولات.</span></p>
+<p class="expl-detail"><span class="t en">∥ denotes string concatenation — order matters in protocols.</span><span class="t ar">∥ يعني ربط السلاسل — الترتيب مهم في البروتوكولات.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Signing H('pay'||'50') differs from H('50'||'pay') — concatenation order changes digest.</span><span class="t ar"><strong>مثال:</strong> ترتيب الربط يغيّر الهاش.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -567,7 +779,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q22')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q22" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) 160</span><span class="t ar">الصحيح: B) 160</span></div>
-<p><span class="t en">SHA-256 outputs 256 bits; SHA-1 outputs 160 bits.</span><span class="t ar">SHA-256 تخرج 256 بت؛ SHA-1 تخرج 160 بت.</span></p>
+<p class="expl-detail"><span class="t en">SHA-256 outputs 256 bits; SHA-1 outputs 160 bits.</span><span class="t ar">SHA-256 تخرج 256 بت؛ SHA-1 تخرج 160 بت.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Legacy Git used SHA-1 commits; collision attacks motivated SHA-256 migration.</span><span class="t ar"><strong>مثال:</strong> SHA-1 ضعيف؛ SHA-256 أفضل.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -576,7 +789,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q23')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q23" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Private key; sender's public key</span><span class="t ar">الصحيح: A) المفتاح الخاص؛ المفتاح العام للمرسل</span></div>
-<p><span class="t en">Sign = encrypt hash with private key; verify with matching public key.</span><span class="t ar">التوقيع = تشفير الهاش بالمفتاح الخاص؛ التحقق بالمفتاح العام المقابل.</span></p>
+<p class="expl-detail"><span class="t en">Sign = encrypt hash with private key; verify with matching public key.</span><span class="t ar">التوقيع = تشفير الهاش بالمفتاح الخاص؛ التحقق بالمفتاح العام المقابل.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Contract PDF: hash file, sign digest with SK_lawyer, verify with PK_lawyer.</span><span class="t ar"><strong>مثال:</strong> توقيع محامٍ على هاش العقد.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -585,7 +799,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q24')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q24" class="explanation">
 <div class="correct-label"><span class="t en">Correct: B) integrity/authentication</span><span class="t ar">الصحيح: B) تكامل/مصادقة</span></div>
-<p><span class="t en">AEAD modes output ciphertext plus an authentication tag verifying integrity.</span><span class="t ar">أوضاع AEAD تخرج نصاً مشفراً مع علامة مصادقة تتحقق من التكامل.</span></p>
+<p class="expl-detail"><span class="t en">AEAD modes output ciphertext plus an authentication tag verifying integrity.</span><span class="t ar">أوضاع AEAD تخرج نصاً مشفراً مع علامة مصادقة تتحقق من التكامل.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> TLS 1.3 record ends with 16-byte GCM authentication tag — AEAD tag type.</span><span class="t ar"><strong>مثال:</strong> علامة GCM في TLS.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -594,7 +809,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q25')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q25" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) A framework to bind public keys to identities via certificates & CAs</span><span class="t ar">الصحيح: A) إطاراً لربط المفاتيح العامة بالهويات عبر الشهادات والجهات المصدرة</span></div>
-<p><span class="t en">Public Key Infrastructure manages trust chains (roots, intermediates).</span><span class="t ar">البنية التحتية للمفتاح العام تدير سلاسل الثقة (جذور، وسيطة).</span></p>
+<p class="expl-detail"><span class="t en">Public Key Infrastructure manages trust chains (roots, intermediates).</span><span class="t ar">البنية التحتية للمفتاح العام تدير سلاسل الثقة (جذور، وسيطة).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Browser padlock checks cert chain to DigiCert root — PKI trust.</span><span class="t ar"><strong>مثال:</strong> سلسلة شهادات المتصفح.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -603,7 +819,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q26')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q26" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) TCP</span><span class="t ar">الصحيح: A) TCP</span></div>
-<p><span class="t en">TLS typically runs over reliable transports (TCP); QUIC integrates differently.</span><span class="t ar">TLS يعمل عادةً فوق نقل موثوق (TCP); QUIC تكامل مختلف.</span></p>
+<p class="expl-detail"><span class="t en">TLS typically runs over reliable transports (TCP); QUIC integrates differently.</span><span class="t ar">TLS يعمل عادةً فوق نقل موثوق (TCP); QUIC تكامل مختلف.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> HTTPS: HTTP inside TLS inside TCP — TLS layer on top of TCP.</span><span class="t ar"><strong>مثال:</strong> HTTPS = TLS فوق TCP.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -612,7 +829,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q27')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q27" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Integrity and authenticity using a shared secret</span><span class="t ar">الصحيح: A) تكامل وأصالة باستخدام سر مشترك</span></div>
-<p><span class="t en">Message Authentication Code — HMAC-SHA256 is common.</span><span class="t ar">رمز مصادقة الرسالة — HMAC-SHA256 شائع.</span></p>
+<p class="expl-detail"><span class="t en">Message Authentication Code — HMAC-SHA256 is common.</span><span class="t ar">رمز مصادقة الرسالة — HMAC-SHA256 شائع.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> API partners share secret K; HMAC on JSON body detects tampering — MAC.</span><span class="t ar"><strong>مثال:</strong> HMAC على JSON بسر مشترك.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -621,7 +839,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q28')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q28" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Secure remote shell and tunneling over untrusted networks</span><span class="t ar">الصحيح: A) وصول طرفي آمن ونفق عبر شبكات غير موثوقة</span></div>
-<p><span class="t en">SSH encrypts terminal/file transfer (often port 22).</span><span class="t ar">SSH يشفّر الطرفية/نقل الملفات (غالباً المنفذ 22).</span></p>
+<p class="expl-detail"><span class="t en">SSH encrypts terminal/file transfer (often port 22).</span><span class="t ar">SSH يشفّر الطرفية/نقل الملفات (غالباً المنفذ 22).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Instead of telnet to router, network admin uses ssh admin@gw — encrypted shell.</span><span class="t ar"><strong>مثال:</strong> ssh بدل telnet.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -630,7 +849,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q29')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q29" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Traffic eavesdropping</span><span class="t ar">الصحيح: A) التنصت على الحركة</span></div>
-<p><span class="t en">Passive sniffing exposes plaintext or weakly protected data.</span><span class="t ar">الاستنشاق السلبي يكشف النص الصريح أو البيانات ضعيفة الحماية.</span></p>
+<p class="expl-detail"><span class="t en">Passive sniffing exposes plaintext or weakly protected data.</span><span class="t ar">الاستنشاق السلبي يكشف النص الصريح أو البيانات ضعيفة الحماية.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Reading SMS over the air with SDR without sending — threatens confidentiality.</span><span class="t ar"><strong>مثال:</strong> التنصت على الرسائل — سرية.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -639,7 +859,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q30')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q30" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) nonces or timestamps in protocols</span><span class="t ar">الصحيح: A) NONCE أو طوابع زمنية في البروتوكولات</span></div>
-<p><span class="t en">Fresh values ensure old captured messages are rejected.</span><span class="t ar">القيم الجديدة تضمن رفض الرسائل الملتقطة القديمة.</span></p>
+<p class="expl-detail"><span class="t en">Fresh values ensure old captured messages are rejected.</span><span class="t ar">القيم الجديدة تضمن رفض الرسائل الملتقطة القديمة.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Online banking adds request counter so 'pay bill' packet cannot be replayed tomorrow.</span><span class="t ar"><strong>مثال:</strong> عداد طلبات يمنع إعادة التشغيل.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -648,7 +869,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q31')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q31" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Verification without storing plaintext password</span><span class="t ar">الصحيح: A) التحقق دون تخزين كلمة المرور صريحة</span></div>
-<p><span class="t en">Hashes verify credentials; salts defend rainbow tables.</span><span class="t ar">الهاش يتحقق من الاعتماديات؛ الملح يدافع عن جداول قوس قزح.</span></p>
+<p class="expl-detail"><span class="t en">Hashes verify credentials; salts defend rainbow tables.</span><span class="t ar">الهاش يتحقق من الاعتماديات؛ الملح يدافع عن جداول قوس قزح.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> DB stores SHA256(salt||password) so leak does not reveal plaintext passwords.</span><span class="t ar"><strong>مثال:</strong> تخزين هاش كلمة المرور مع ملح.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -657,7 +879,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q32')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q32" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) two distinct inputs</span><span class="t ar">الصحيح: A) مدخلان مختلفان</span></div>
-<p><span class="t en">Collision → break integrity of hash-based commitments.</span><span class="t ar">التصادم يكسر تكامل الالتزامات المعتمدة على الهاش.</span></p>
+<p class="expl-detail"><span class="t en">Collision → break integrity of hash-based commitments.</span><span class="t ar">التصادم يكسر تكامل الالتزامات المعتمدة على الهاش.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Two different PDFs with same MD5 (historic attack) broke collision resistance demos.</span><span class="t ar"><strong>مثال:</strong> تصادم MD5 التاريخي.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -666,7 +889,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q33')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q33" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) mechanism</span><span class="t ar">الصحيح: A) آلية</span></div>
-<p><span class="t en">Mechanism provides shared secret over public channel.</span><span class="t ar">الآلية توفر سراً مشتركاً عبر قناة عامة.</span></p>
+<p class="expl-detail"><span class="t en">Mechanism provides shared secret over public channel.</span><span class="t ar">الآلية توفر سراً مشتركاً عبر قناة عامة.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> TLS uses Ephemeral DH — Diffie-Hellman mechanism for session keys.</span><span class="t ar"><strong>مثال:</strong> DH آلية لاتفاق مفتاح الجلسة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -675,7 +899,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q34')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q34" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) subject public key + identity</span><span class="t ar">الصحيح: A) مفتاح عام للموضوع + هوية</span></div>
-<p><span class="t en">Never embed private keys in certificates.</span><span class="t ar">لا تضمّن المفاتيح الخاصة في الشهادات أبداً.</span></p>
+<p class="expl-detail"><span class="t en">Never embed private keys in certificates.</span><span class="t ar">لا تضمّن المفاتيح الخاصة في الشهادات أبداً.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Cert shows CN=www.university.edu and embeds server's public key — not private key.</span><span class="t ar"><strong>مثال:</strong> الشهادة تحوي المفتاح العام لا الخاص.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -684,7 +909,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q35')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q35" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) cipher suite & keys</span><span class="t ar">الصحيح: A) مجموعة تشفير ومفاتيح</span></div>
-<p><span class="t en">Handshake establishes keys + algorithms for record layer.</span><span class="t ar">المصافحة تؤسس مفاتيح وخوارزميات لطبقة السجلات.</span></p>
+<p class="expl-detail"><span class="t en">Handshake establishes keys + algorithms for record layer.</span><span class="t ar">المصافحة تؤسس مفاتيح وخوارزميات لطبقة السجلات.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> ClientHello lists ciphers; server picks TLS_AES_256_GCM_SHA384 — handshake negotiation.</span><span class="t ar"><strong>مثال:</strong> مصافحة TLS تختار مجموعة تشفير.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -693,7 +919,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q36')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q36" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) AES-128</span><span class="t ar">الصحيح: A) AES-128</span></div>
-<p><span class="t en">AES uses one shared secret; RSA/ECDSA are asymmetric.</span><span class="t ar">AES يستخدم سراً مشتركاً واحداً؛ RSA/ECDSA غير متماثلين.</span></p>
+<p class="expl-detail"><span class="t en">AES uses one shared secret; RSA/ECDSA are asymmetric.</span><span class="t ar">AES يستخدم سراً مشتركاً واحداً؛ RSA/ECDSA غير متماثلين.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Encrypting disk with AES-128 uses symmetric cipher; RSA-2048 on cert is asymmetric.</span><span class="t ar"><strong>مثال:</strong> AES متماثل؛ RSA غير متماثل.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -702,7 +929,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q37')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q37" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) continuous telecom links</span><span class="t ar">الصحيح: A) روابط اتصال متواصلة</span></div>
-<p><span class="t en">Low latency on bit streams; block ciphers dominate bulk storage standards.</span><span class="t ar">زمن انتقال منخفض على تدفقات البت؛ تشفير الكتل يهيمن على معايير التخزين.</span></p>
+<p class="expl-detail"><span class="t en">Low latency on bit streams; block ciphers dominate bulk storage standards.</span><span class="t ar">زمن انتقال منخفض على تدفقات البت؛ تشفير الكتل يهيمن على معايير التخزين.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Cellular voice links historically liked stream ciphers for low latency.</span><span class="t ar"><strong>مثال:</strong> تيار منخفض التأخير للاتصالات.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -711,7 +939,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q38')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q38" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) round key from key schedule</span><span class="t ar">الصحيح: A) مفتاح الجولة من جدولة المفتاح</span></div>
-<p><span class="t en">Key schedule expands user key into round keys.</span><span class="t ar">جدولة المفتاح توسّع مفتاح المستخدم إلى مفاتيح جولات.</span></p>
+<p class="expl-detail"><span class="t en">Key schedule expands user key into round keys.</span><span class="t ar">جدولة المفتاح توسّع مفتاح المستخدم إلى مفاتيح جولات.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Round key XOR mixes key material into state — ties SubBytes output to secret key.</span><span class="t ar"><strong>مثال:</strong> AddRoundKey يدمج مفتاح الجولة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -720,7 +949,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q39')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q39" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) 8</span><span class="t ar">الصحيح: A) 8</span></div>
-<p><span class="t en">/24 → 8 host bits (256 addresses, 254 usable classic).</span><span class="t ar">/24 → 8 بتات مضيف (256 عنواناً، 254 قابلة للاستخدام تقريباً).</span></p>
+<p class="expl-detail"><span class="t en">/24 → 8 host bits (256 addresses, 254 usable classic).</span><span class="t ar">/24 → 8 بتات مضيف (256 عنواناً، 254 قابلة للاستخدام تقريباً).</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Mask 255.255.255.0 leaves last octet for hosts — 8 host bits.</span><span class="t ar"><strong>مثال:</strong> قناع /24 = 8 بت مضيف.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -729,7 +959,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q40')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q40" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) active</span><span class="t ar">الصحيح: A) نشط</span></div>
-<p><span class="t en">Installing spyware changes/compromises the endpoint — active.</span><span class="t ar">تثبيت برمجيات التجسس يغيّر/يخترق الطرفية — نشط.</span></p>
+<p class="expl-detail"><span class="t en">Installing spyware changes/compromises the endpoint — active.</span><span class="t ar">تثبيت برمجيات التجسس يغيّر/يخترق الطرفية — نشط.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Keylogger installs software — active attack even though wiretap alone is passive.</span><span class="t ar"><strong>مثال:</strong> برمجيات تسجيل — نشط.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -738,7 +969,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q41')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q41" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) private key</span><span class="t ar">الصحيح: A) المفتاح الخاص</span></div>
-<p><span class="t en">Private-key operation proves origin to verifiers with public key.</span><span class="t ar">عملية المفتاح الخاص تثبت المصدر للمتحققين بالمفتاح العام.</span></p>
+<p class="expl-detail"><span class="t en">Private-key operation proves origin to verifiers with public key.</span><span class="t ar">عملية المفتاح الخاص تثبت المصدر للمتحققين بالمفتاح العام.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> CEO cannot deny sending signed email if only her SK could produce signature.</span><span class="t ar"><strong>مثال:</strong> التوقيع بالخاص — عدم إنكار.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -747,7 +979,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q42')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q42" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) a secret key</span><span class="t ar">الصحيح: A) مفتاحاً سرياً</span></div>
-<p><span class="t en">Keyed hash — both parties know secret K.</span><span class="t ar">هاش مفتاح — كلا الطرفين يعرفان السر K.</span></p>
+<p class="expl-detail"><span class="t en">Keyed hash — both parties know secret K.</span><span class="t ar">هاش مفتاح — كلا الطرفين يعرفان السر K.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> HMAC-SHA256(message, K) needs secret K in addition to hash function.</span><span class="t ar"><strong>مثال:</strong> HMAC يحتاج سراً.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -756,7 +989,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q43')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q43" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Integrity and authenticity</span><span class="t ar">الصحيح: A) التكامل والأصالة</span></div>
-<p><span class="t en">Altered or impersonated channel breaks trust in content and peer.</span><span class="t ar">قناة معدّلة أو منتحلة تكسر الثقة في المحتوى والطرف.</span></p>
+<p class="expl-detail"><span class="t en">Altered or impersonated channel breaks trust in content and peer.</span><span class="t ar">قناة معدّلة أو منتحلة تكسر الثقة في المحتوى والطرف.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Fake access point presents wrong cert — breaks authenticity and integrity of channel.</span><span class="t ar"><strong>مثال:</strong> نقطة وصول مزيفة تكسر الأصالة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -765,7 +999,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q44')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q44" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) deterministic given a seed</span><span class="t ar">الصحيح: A) حتمي بمعامل بذرة</span></div>
-<p><span class="t en">Pseudo-random is algorithmic; seed from TRNG/hardware when possible.</span><span class="t ar">العشوائي الزائف خوارزمي؛ البذرة من TRNG/عتاد عند الإمكان.</span></p>
+<p class="expl-detail"><span class="t en">Pseudo-random is algorithmic; seed from TRNG/hardware when possible.</span><span class="t ar">العشوائي الزائف خوارزمي؛ البذرة من TRNG/عتاد عند الإمكان.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Video game uses Mersenne Twister with known seed — predictable (PRNG), bad for keys.</span><span class="t ar"><strong>مثال:</strong> PRNG متوقع ببذرة معروفة.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -774,7 +1009,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q45')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q45" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) 192.168.1.255</span><span class="t ar">الصحيح: A) 192.168.1.255</span></div>
-<p><span class="t en">Host bits all 1s in the network.</span><span class="t ar">بتات المضيف كلها 1 في الشبكة.</span></p>
+<p class="expl-detail"><span class="t en">Host bits all 1s in the network.</span><span class="t ar">بتات المضيف كلها 1 في الشبكة.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Last host in 192.168.1.0/24 is .255 broadcast — ping sweep often skips .0 and .255.</span><span class="t ar"><strong>مثال:</strong> البث .255 في /24.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -783,7 +1019,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q46')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q46" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) SHA-2</span><span class="t ar">الصحيح: A) SHA-2</span></div>
-<p><span class="t en">SHA-2 includes SHA-224, SHA-256, SHA-384, SHA-512.</span><span class="t ar">SHA-2 تشمل SHA-224 و SHA-256 و SHA-384 و SHA-512.</span></p>
+<p class="expl-detail"><span class="t en">SHA-2 includes SHA-224, SHA-256, SHA-384, SHA-512.</span><span class="t ar">SHA-2 تشمل SHA-224 و SHA-256 و SHA-384 و SHA-512.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> When a site says SHA-256 fingerprint, expect SHA-2 family member.</span><span class="t ar"><strong>مثال:</strong> SHA-256 من عائلة SHA-2.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -792,7 +1029,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q47')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q47" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) ciphertext integrity before decryption</span><span class="t ar">الصحيح: A) تكامل النص المشفر قبل فك التشفير</span></div>
-<p><span class="t en">Prevents padding oracle style issues vs MAC-then-encrypt pitfalls.</span><span class="t ar">يمنع مشاكل oracle الحشو مقارنة بعيوب MAC-then-encrypt.</span></p>
+<p class="expl-detail"><span class="t en">Prevents padding oracle style issues vs MAC-then-encrypt pitfalls.</span><span class="t ar">يمنع مشاكل oracle الحشو مقارنة بعيوب MAC-then-encrypt.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Encrypt-then-MAC: verify tag on ciphertext before decrypting — safer ordering.</span><span class="t ar"><strong>مثال:</strong> تحقق MAC قبل فك التشفير.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -801,7 +1039,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q48')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q48" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) Peer authentication</span><span class="t ar">الصحيح: A) مصادقة الطرف</span></div>
-<p><span class="t en">Server (and optionally client) authentication via PKI.</span><span class="t ar">مصادقة الخادم (واختيارياً العميل) عبر PKI.</span></p>
+<p class="expl-detail"><span class="t en">Server (and optionally client) authentication via PKI.</span><span class="t ar">مصادقة الخادم (واختيارياً العميل) عبر PKI.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> padlock icon means server cert authenticated domain — peer authentication service.</span><span class="t ar"><strong>مثال:</strong> القفل = مصادقة الخادم.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -810,7 +1049,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q49')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q49" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) secret; published</span><span class="t ar">الصحيح: A) سرياً؛ منشوراً</span></div>
-<p><span class="t en">Core rule of public-key cryptography.</span><span class="t ar">القاعدة الأساسية لتشفير المفتاح العام.</span></p>
+<p class="expl-detail"><span class="t en">Core rule of public-key cryptography.</span><span class="t ar">القاعدة الأساسية لتشفير المفتاح العام.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Publishing SK on GitHub breaks all signatures; PK belongs on key server.</span><span class="t ar"><strong>مثال:</strong> الخاص سري؛ العام منشور.</span></div>
 </div>
 </div>
 <div class="question-card">
@@ -819,7 +1059,8 @@ body.arabic .nav-scroll { direction: rtl; }
 <button type="button" class="btn-toggle" onclick="toggleAnswer('q50')"><span class="t en">Show Answer &amp; Explanation</span><span class="t ar">إظهار الإجابة والشرح</span></button>
 <div id="q50" class="explanation">
 <div class="correct-label"><span class="t en">Correct: A) passive; active</span><span class="t ar">الصحيح: A) سلبي؛ نشط</span></div>
-<p><span class="t en">Foundational split for mechanisms you deploy.</span><span class="t ar">تقسيم أساسي للآليات التي تنشرها.</span></p>
+<p class="expl-detail"><span class="t en">Foundational split for mechanisms you deploy.</span><span class="t ar">تقسيم أساسي للآليات التي تنشرها.</span></p>
+<div class="example-box mini"><span class="t en"><strong>Example:</strong> Listening only vs cutting cable vs spoofing — passive vs active taxonomy.</span><span class="t ar"><strong>مثال:</strong> سلبي مراقبة؛ نشط تغيير.</span></div>
 </div>
 </div>
 </section>
